@@ -1,0 +1,89 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://MorseParser.gd" type="Script" id=1]
+[ext_resource path="res://Testbench.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Player.png" type="Texture" id=3]
+[ext_resource path="res://Assets/PlayerArm.png" type="Texture" id=4]
+[ext_resource path="res://Assets/MorseChart.png" type="Texture" id=5]
+[ext_resource path="res://Theme.tres" type="Theme" id=6]
+[ext_resource path="res://MessageReceiver.gd" type="Script" id=7]
+[ext_resource path="res://Assets/Map1.png" type="Texture" id=8]
+[ext_resource path="res://Scenes/Bunker/Bunker.tscn" type="PackedScene" id=9]
+
+[node name="Testbench" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="MorseParser" type="Node" parent="."]
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 450.0
+margin_bottom = 720.0
+
+[node name="Player" type="Sprite" parent="."]
+position = Vector2( 228, 616 )
+texture = ExtResource( 3 )
+
+[node name="PlayerArm" type="Sprite" parent="."]
+position = Vector2( 187, 591 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="MorseChart" type="Sprite" parent="."]
+position = Vector2( 594, 544 )
+scale = Vector2( 0.305727, 0.305728 )
+texture = ExtResource( 5 )
+
+[node name="Map1" type="Sprite" parent="MorseChart"]
+position = Vector2( 1717.22, 58.8759 )
+scale = Vector2( 3.792, 3.792 )
+texture = ExtResource( 8 )
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_left = 667.0
+margin_top = 329.0
+margin_right = 1004.0
+margin_bottom = 389.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 330.0
+margin_bottom = 53.0
+theme = ExtResource( 6 )
+bbcode_enabled = true
+
+[node name="ReceivedMessages" type="PanelContainer" parent="."]
+margin_left = 1341.0
+margin_top = 40.0
+margin_right = 2139.0
+margin_bottom = 338.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ReceivedMessages"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 791.0
+margin_bottom = 291.0
+theme = ExtResource( 6 )
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+script = ExtResource( 7 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+margin_left = 537.0
+margin_top = -2.0
+margin_right = 1177.0
+margin_bottom = 318.0
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 640, 320 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Bunker" parent="ViewportContainer/Viewport" instance=ExtResource( 9 )]
+
+[connection signal="new_part" from="MorseParser" to="." method="_on_Node_new_part"]
+[connection signal="press" from="MorseParser" to="." method="_on_Node_press"]
+[connection signal="release" from="MorseParser" to="." method="_on_Node_release"]
+[connection signal="send_letter" from="MorseParser" to="." method="_on_Node_send_letter"]

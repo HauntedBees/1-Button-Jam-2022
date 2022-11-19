@@ -1,0 +1,66 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Area",
+"class": "AutoTurnArea",
+"language": "GDScript",
+"path": "res://Scenes/Bunker/AutoTurnArea.gd"
+}, {
+"base": "Spatial",
+"class": "Bunker",
+"language": "GDScript",
+"path": "res://Scenes/Bunker/Bunker.gd"
+}, {
+"base": "Node",
+"class": "MorseParser",
+"language": "GDScript",
+"path": "res://MorseParser.gd"
+}, {
+"base": "Spatial",
+"class": "Troop",
+"language": "GDScript",
+"path": "res://Scenes/Bunker/Troop.gd"
+}, {
+"base": "Area",
+"class": "TurnArea",
+"language": "GDScript",
+"path": "res://Scenes/Bunker/TurnArea.gd"
+} ]
+_global_script_class_icons={
+"AutoTurnArea": "",
+"Bunker": "",
+"MorseParser": "",
+"Troop": "",
+"TurnArea": ""
+}
+
+[application]
+
+config/name="OneButtonJam"
+run/main_scene="res://Testbench.tscn"
+config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

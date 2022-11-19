@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Bunker/AutoTurnArea.gd" type="Script" id=1]
+
+[sub_resource type="CylinderShape" id=1]
+height = 10.0
+radius = 0.2
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.219608, 0.905882, 0.996078, 1 )
+
+[sub_resource type="CylinderMesh" id=2]
+material = SubResource( 3 )
+top_radius = 0.2
+bottom_radius = 0.2
+
+[node name="AutoTurnArea" type="Area"]
+monitoring = false
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+layers = 2
+mesh = SubResource( 2 )
