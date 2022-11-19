@@ -29,15 +29,16 @@ position = Vector2( 187, 591 )
 texture = ExtResource( 4 )
 centered = false
 
-[node name="MorseChart" type="Sprite" parent="."]
-position = Vector2( 594, 544 )
-scale = Vector2( 0.305727, 0.305728 )
-texture = ExtResource( 5 )
-
-[node name="Map1" type="Sprite" parent="MorseChart"]
-position = Vector2( 1717.22, 58.8759 )
-scale = Vector2( 3.792, 3.792 )
+[node name="Map1" type="Sprite" parent="."]
+position = Vector2( 1168, 525 )
+scale = Vector2( 0.666795, 0.666797 )
 texture = ExtResource( 8 )
+
+[node name="MorseChart" type="Sprite" parent="."]
+position = Vector2( 618, 643 )
+rotation = 0.0698132
+scale = Vector2( 0.145006, 0.145006 )
+texture = ExtResource( 5 )
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 margin_left = 667.0
