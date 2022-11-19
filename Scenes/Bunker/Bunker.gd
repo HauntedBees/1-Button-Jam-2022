@@ -7,8 +7,8 @@ func _on_letter_sent(letter: String) -> void:
 	match letter:
 		"U":
 			troop.reverse()
-		"Q":
-			if troop.move_speed == 1:
+		"Q", "G":
+			if troop.move_speed == 0:
 				troop.move_speed = 3
 			else:
 				troop.move_speed = 6
@@ -16,6 +16,6 @@ func _on_letter_sent(letter: String) -> void:
 			if troop.move_speed == 6:
 				troop.move_speed = 3
 			else:
-				troop.move_speed = 1
+				troop.move_speed = 0
 		_:
 			troop.next_instruction = letter
