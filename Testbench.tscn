@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://MorseParser.gd" type="Script" id=1]
 [ext_resource path="res://Testbench.gd" type="Script" id=2]
@@ -7,11 +7,12 @@
 [ext_resource path="res://Scenes/MorseChart.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Theme.tres" type="Theme" id=6]
 [ext_resource path="res://MessageReceiver.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/Bunker/GameBunker.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Messages/Messages.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Main/Main.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Main/Underground.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Desk/wood-rotten.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/Main/Buble.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Assets/Main/PrintInfo.png" type="Texture" id=13]
 
 [node name="Testbench" type="Control"]
 anchor_right = 1.0
@@ -76,7 +77,7 @@ position = Vector2( 266.333, 558.25 )
 scale = Vector2( 0.450695, 0.450694 )
 texture = ExtResource( 10 )
 
-[node name="ColorRect" type="ColorRect" parent="Room/Background"]
+[node name="Border" type="ColorRect" parent="Room/Background"]
 anchor_right = 1.0
 margin_top = 396.0
 margin_bottom = 400.0
@@ -118,18 +119,36 @@ rect_rotation = -2.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="GameBunker" parent="Table/Modes" instance=ExtResource( 8 )]
-margin_right = 0.0
+[node name="Messages" parent="Table/Modes" instance=ExtResource( 8 )]
 
-[node name="ColorRect" type="ColorRect" parent="Table"]
+[node name="Border" type="ColorRect" parent="Table"]
 anchor_bottom = 1.0
 margin_right = 12.0
 color = Color( 0, 0, 0, 1 )
 
+[node name="PrintInfo" type="Sprite" parent="Table"]
+position = Vector2( -190, 393 )
+scale = Vector2( 0.381, 0.127266 )
+texture = ExtResource( 13 )
+
+[node name="PlayerType" type="RichTextLabel" parent="Table"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -370.0
+margin_top = 375.0
+margin_right = -908.0
+margin_bottom = -310.0
+theme = ExtResource( 6 )
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+
 [node name="Buble" parent="." instance=ExtResource( 12 )]
-margin_left = 238.0
+visible = true
+margin_left = 262.0
 margin_top = 442.0
-margin_right = 298.0
+margin_right = 322.0
 margin_bottom = 488.0
 
 [connection signal="current_val" from="MorseParser" to="Table/MorseChart" method="show_part"]
@@ -138,5 +157,5 @@ margin_bottom = 488.0
 [connection signal="press" from="MorseParser" to="." method="_on_Node_press"]
 [connection signal="release" from="MorseParser" to="." method="_on_Node_release"]
 [connection signal="send_letter" from="MorseParser" to="." method="_on_Node_send_letter"]
-[connection signal="send_letter" from="MorseParser" to="Buble" method="_on_MorseParser_send_letter"]
 [connection signal="send_letter" from="MorseParser" to="Table/MorseChart" method="hide_all"]
+[connection signal="send_letter" from="MorseParser" to="Buble" method="_on_MorseParser_send_letter"]

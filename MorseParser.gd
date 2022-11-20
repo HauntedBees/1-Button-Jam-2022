@@ -66,6 +66,9 @@ func _input(event: InputEvent) -> void:
 		_event_time = 0.0
 		_current_input = _get_input_key(event)
 		emit_signal("press")
+		var next := _current_stack + "."
+		emit_signal("current_val", next)
+		emit_signal("current_val_string", _current_selection(next))
 	elif _current_input == "":
 		return
 	else:
@@ -100,7 +103,7 @@ func _current_selection(stack: String) -> String:
 	if MORSE.has(stack):
 		return MORSE[stack]
 	else:
-		return "???"
+		return "?"
 
 func _get_input_key(event: InputEvent) -> String:
 	if event is InputEventMouseButton:

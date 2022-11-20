@@ -5,6 +5,7 @@
 [ext_resource path="res://Scenes/Main/Buble.gd" type="Script" id=3]
 
 [node name="Buble" type="MarginContainer"]
+visible = false
 margin_right = 50.0
 margin_bottom = 33.0
 grow_horizontal = 2

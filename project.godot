@@ -25,6 +25,11 @@ _global_script_classes=[ {
 "path": "res://Scenes/Bunker/Bunker.gd"
 }, {
 "base": "Control",
+"class": "GameBase",
+"language": "GDScript",
+"path": "res://Scenes/GameBase.gd"
+}, {
+"base": "Control",
 "class": "MorseChat",
 "language": "GDScript",
 "path": "res://Scenes/MorseChart.gd"
@@ -48,6 +53,7 @@ _global_script_class_icons={
 "AutoTurnArea": "",
 "Buble": "",
 "Bunker": "",
+"GameBase": "",
 "MorseChat": "",
 "MorseParser": "",
 "Troop": "",
@@ -59,6 +65,10 @@ _global_script_class_icons={
 config/name="OneButtonJam"
 run/main_scene="res://Testbench.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+MessageInfo="*res://Scenes/Messages/MessageInfo.gd"
 
 [display]
 
