@@ -7,4 +7,7 @@ size = 32
 font_data = ExtResource( 1 )
 
 [resource]
+Label/colors/font_color = Color( 0, 0, 0, 1 )
+Label/fonts/font = SubResource( 1 )
+RichTextLabel/colors/default_color = Color( 0, 0, 0, 1 )
 RichTextLabel/fonts/normal_font = SubResource( 1 )

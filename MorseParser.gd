@@ -6,6 +6,9 @@ signal send_letter(s)
 signal press()
 signal release()
 
+signal current_val(s)
+signal current_val_string(s)
+
 const MORSE := {
 	".-": "A",
 	"-...": "B",
@@ -76,18 +79,26 @@ func _input(event: InputEvent) -> void:
 			_current_stack += "."
 		_current_input = ""
 		_event_time = 0.0
-		emit_signal("new_part", _current_selection())
+		emit_signal("new_part", _current_selection(_current_stack))
 		emit_signal("release")
 
 func _process(delta: float) -> void:
 	_event_time += delta
 	if _current_input == "" && _event_time > pause_threshold && _current_stack != "":
-		emit_signal("send_letter", _current_selection())
+		emit_signal("send_letter", _current_selection(_current_stack))
 		_current_stack = ""
+	elif _current_input != "":
+		var next := _current_stack
+		if _event_time > dash_threshold:
+			next += "-"
+		else:
+			next += "."
+		emit_signal("current_val", next)
+		emit_signal("current_val_string", _current_selection(next))
 
-func _current_selection() -> String:
-	if MORSE.has(_current_stack):
-		return MORSE[_current_stack]
+func _current_selection(stack: String) -> String:
+	if MORSE.has(stack):
+		return MORSE[stack]
 	else:
 		return "???"
 

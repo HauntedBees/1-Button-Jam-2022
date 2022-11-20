@@ -1,11 +1,11 @@
-extends Node2D
+extends Control
 
 enum GAME { BUNKER }
 
-onready var arm: Sprite = $PlayerArm
+onready var arm: Sprite = $Room/PlayerArm
 onready var label: RichTextLabel = $PanelContainer/RichTextLabel
 
-onready var bunker: Bunker = $ViewportContainer/Viewport/Bunker
+onready var bunker: Bunker = $Table/Modes/GameBunker/ViewportContainer/Viewport/Bunker
 onready var parser: MorseParser = $MorseParser
 
 var _current_mission = GAME.BUNKER
