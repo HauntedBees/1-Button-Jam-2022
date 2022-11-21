@@ -40,7 +40,7 @@ var messages := {
 		})
 	]),
 	
-	"LV1_MISSION1": MessageData.new(".... .... .... They suspect someone in the northern bloc is a spy; somebody is sneaking out towards the docks at night to talk to police officers. We have access to a camera near those docks. Let's keep an eye on them; let's switch to the dock camera and try to figure out who it is. Type out their name when you figure it out.", [
+	"LV1_MISSION1": MessageData.new(".... .... .... They suspect someone in the northern bloc is a spy; somebody is sneaking out towards the docks at night to talk to police officers. We have access to a camera near those docks. Let's keep an eye on them; let's switch to the dock camera and try to figure out who it is. Pay attention to their movements and body shape to figure out who it is, then type their name!", [
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "DOCK" })
 	]),
 	"LV1_MISSION1_FAIL": MessageData.new("Well, that doesn't help us... I guess whoever that was will get away scot-free.", [
