@@ -28,14 +28,21 @@ func add_message(s: String) -> void:
 func _on_letter_sent(s: String) -> void:
 	if _waiting:
 		return
-	_current_input += s
-	var mi: MessageData = MessageInfo.messages[_current_idx]
-	var res: MessageResponse = mi.evaluate(_current_input)
-	if res.type == MessageResponse.TYPE.NOT_LONG_ENOUGH:
-		return
-	emit_signal("add_space")
-	_current_idx = res.val
-	_start_message()
+	if s != "5":
+		_current_input += s
+	else:
+		var mi: MessageData = MessageInfo.messages[_current_idx]
+		var res: MessageResponse = mi.evaluate(_current_input)
+		match res.type:
+			MessageResponse.TYPE.DONE:
+				emit_signal("add_space")
+				_current_idx = res.val
+				_start_message()
+			MessageResponse.TYPE.SWITCH_SCENE:
+				emit_signal("add_space")
+				match res.val:
+					"DOCK":
+						emit_signal("choice_made", "DOCK")
 
 func _on_timer() -> void:
 	if _current_message == "":

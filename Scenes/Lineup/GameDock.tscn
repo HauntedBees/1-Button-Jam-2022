@@ -310,10 +310,6 @@ rotation = -0.120428
 position = Vector2( 501, 560 )
 rotation = 0.109956
 
-[node name="WaitTimer" type="Timer" parent="."]
-wait_time = 45.0
-autostart = true
-
 [node name="Paper2" type="Sprite" parent="."]
 position = Vector2( 613.649, 407.353 )
 rotation = 0.0349066
@@ -328,5 +324,3 @@ margin_bottom = 414.0
 rect_rotation = 2.0
 theme = ExtResource( 4 )
 text = "Type 5 to submit your guess."
-
-[connection signal="timeout" from="WaitTimer" to="." method="_on_WaitTimer_timeout"]

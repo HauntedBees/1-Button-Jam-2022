@@ -23,10 +23,7 @@ func evaluate(input: String) -> MessageResponse:
 				InputData.SPECIAL.DIFFICULTY_BRANCH:
 					return MessageResponse.new(MessageResponse.TYPE.DONE, id.special_info[GameData.difficulty])
 				InputData.SPECIAL.SWITCH_MISSION:
-					pass
+					return MessageResponse.new(MessageResponse.TYPE.SWITCH_SCENE, id.special_info["type"])
 		else:
 			fail = id.fail_next
-	if fail == "": # message still too short
-		return MessageResponse.new(MessageResponse.TYPE.NOT_LONG_ENOUGH)
-	else: # message fully failed
-		return MessageResponse.new(MessageResponse.TYPE.DONE, fail)
+	return MessageResponse.new(MessageResponse.TYPE.DONE, fail)

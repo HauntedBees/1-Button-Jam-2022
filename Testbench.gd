@@ -17,7 +17,7 @@ onready var parser: MorseParser = $MorseParser
 onready var game_holder: Control = $"%GameHolder"
 onready var current_game: GameBase = $Table/GameHolder/Messages
 
-var current_mode = GAME.DOCK
+var current_mode = GAME.MESSAGES
 var current_message := ""
 
 func _ready() -> void:
@@ -37,6 +37,11 @@ func _initialize_game() -> void:
 func _on_choice_made(choice: String) -> void:
 	_on_add_space()
 	match current_mode:
+		GAME.MESSAGES:
+			match choice:
+				"DOCK":
+					current_mode = GAME.DOCK
+					_initialize_game()
 		GAME.DOCK:
 			current_mode = GAME.MESSAGES
 			_initialize_game()

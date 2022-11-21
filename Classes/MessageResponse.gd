@@ -1,7 +1,7 @@
 class_name MessageResponse
 extends Node
 
-enum TYPE { NOT_LONG_ENOUGH, DONE }
+enum TYPE { DONE, SWITCH_SCENE }
 
 var type: int
 var val: String
