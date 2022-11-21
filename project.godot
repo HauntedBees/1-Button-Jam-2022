@@ -29,6 +29,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/GameBase.gd"
 }, {
+"base": "Node",
+"class": "InputData",
+"language": "GDScript",
+"path": "res://Classes/InputData.gd"
+}, {
+"base": "Node",
+"class": "MessageData",
+"language": "GDScript",
+"path": "res://Classes/MessageData.gd"
+}, {
+"base": "Node",
+"class": "MessageResponse",
+"language": "GDScript",
+"path": "res://Classes/MessageResponse.gd"
+}, {
 "base": "Control",
 "class": "MorseChat",
 "language": "GDScript",
@@ -54,6 +69,9 @@ _global_script_class_icons={
 "Buble": "",
 "Bunker": "",
 "GameBase": "",
+"InputData": "",
+"MessageData": "",
+"MessageResponse": "",
 "MorseChat": "",
 "MorseParser": "",
 "Troop": "",
@@ -68,6 +86,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+GameData="*res://GameData.gd"
 MessageInfo="*res://Scenes/Messages/MessageInfo.gd"
 
 [display]

@@ -7,11 +7,14 @@ var _message_stack := ""
 var _current_message := ""
 var _current_letters := 0
 
-var _current_idx := 0
+var _current_idx := "START"
 var _current_input := ""
 var _waiting := false
 
 func _ready() -> void:
+	_start_message()
+
+func _start_message() -> void:
 	add_message(MessageInfo.messages[_current_idx].message)
 
 func add_message(s: String) -> void:
@@ -25,17 +28,13 @@ func _on_letter_sent(s: String) -> void:
 	if _waiting:
 		return
 	_current_input += s
-	var mi: Dictionary = MessageInfo.messages[_current_idx]
-	var req: String = mi.requirement
-	if _current_input.length() >= req.length():
-		input_matters = false
-		if _current_input.similarity(req) >= mi.min_score:
-			add_message("cool beans")
-		elif mi.repeat:
-			add_message(mi.fail)
-		else:
-			add_message("you FUCKED UP")
-		emit_signal("add_space")
+	var mi: MessageData = MessageInfo.messages[_current_idx]
+	var res: MessageResponse = mi.evaluate(_current_input)
+	if res.type == MessageResponse.TYPE.NOT_LONG_ENOUGH:
+		return
+	emit_signal("add_space")
+	_current_idx = res.val
+	_start_message()
 
 func _on_timer() -> void:
 	if _current_message == "":

@@ -1,26 +1,35 @@
 extends Control
 
-const GAME_BUNKER := preload("res://Scenes/Bunker/GameBunker.tscn")
-const GAME_MESSAGE := preload("res://Scenes/Messages/Messages.tscn")
-enum GAME { BUNKER, MESSAGE }
+const GAMES := {
+	"BUNKER": preload("res://Scenes/Bunker/GameBunker.tscn"),
+	"DOCK": preload("res://Scenes/Lineup/GameDock.tscn"),
+	"MESSAGES": preload("res://Scenes/Messages/Messages.tscn")
+}
+enum GAME { BUNKER, MESSAGES, DOCK }
 
 const LABEL_FORMAT_STRING := "[right]%s[/right]"
 const INVALID_FORMAT_STRING := "[color=#666666]%s[/color]"
 
-onready var mode_container: Control = $Table/Modes
 onready var arm: Sprite = $Room/PlayerArm
 onready var label: RichTextLabel = $"%PlayerType"
 
 onready var parser: MorseParser = $MorseParser
-onready var current_game: GameBase = $Table/Modes/Messages
+onready var game_holder: Control = $"%GameHolder"
+onready var current_game: GameBase = $Table/GameHolder/Messages
 
-var current_mode = GAME.MESSAGE
+var current_mode = GAME.DOCK
 var current_message := ""
 
 func _ready() -> void:
-	_connect_game()
+	_initialize_game()
 
-func _connect_game() -> void:
+func _initialize_game() -> void:
+	if current_game:
+		game_holder.remove_child(current_game)
+		current_game.queue_free()
+	var key_str: String = GAME.keys()[current_mode]
+	current_game = GAMES[key_str].instance()
+	game_holder.add_child(current_game)
 	parser.connect("send_letter", current_game, "_on_letter_sent")
 	current_game.connect("add_space", self, "_on_add_space")
 
@@ -38,6 +47,8 @@ func _on_Node_send_letter(s: String) -> void:
 
 func _on_add_space() -> void:
 	current_message += "  "
+	if current_message.length() > 100:
+		current_message = current_message.substr(60)
 	label.bbcode_text = LABEL_FORMAT_STRING % current_message
 
 func _on_Node_press() -> void:

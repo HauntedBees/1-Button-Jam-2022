@@ -115,11 +115,12 @@ margin_right = 446.0
 margin_bottom = 978.0
 rect_rotation = -2.0
 
-[node name="Modes" type="Control" parent="Table"]
+[node name="GameHolder" type="Control" parent="Table"]
+unique_name_in_owner = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Messages" parent="Table/Modes" instance=ExtResource( 8 )]
+[node name="Messages" parent="Table/GameHolder" instance=ExtResource( 8 )]
 
 [node name="Border" type="ColorRect" parent="Table"]
 anchor_bottom = 1.0
@@ -145,7 +146,6 @@ scroll_active = false
 scroll_following = true
 
 [node name="Buble" parent="." instance=ExtResource( 12 )]
-visible = true
 margin_left = 262.0
 margin_top = 442.0
 margin_right = 322.0
