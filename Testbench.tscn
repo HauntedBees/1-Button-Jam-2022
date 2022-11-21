@@ -8,7 +8,7 @@
 [ext_resource path="res://Theme.tres" type="Theme" id=6]
 [ext_resource path="res://MessageReceiver.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Messages/Messages.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Assets/Main/Main.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/Main/SoldierArea.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Assets/Main/Underground.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Desk/wood-rotten.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/Main/Buble.tscn" type="PackedScene" id=12]
@@ -65,11 +65,7 @@ margin_bottom = 720.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Main" type="Sprite" parent="Room/Background"]
-modulate = Color( 0.411765, 0.45098, 0.466667, 1 )
-position = Vector2( 222, 111 )
-scale = Vector2( 0.613861, 0.613861 )
-texture = ExtResource( 9 )
+[node name="SoldierArea" parent="Room/Background" instance=ExtResource( 9 )]
 
 [node name="Underground" type="Sprite" parent="Room/Background"]
 modulate = Color( 0.243137, 0.243137, 0.243137, 1 )

@@ -3,20 +3,29 @@ extends GameBase
 
 onready var speech: RichTextLabel = $"%Speech"
 onready var _timer := $Timer
+onready var press_to_advance: AnimationPlayer = $"%AnimationPlayer"
 
 var _message_stack := ""
 var _current_message := ""
 var _current_letters := 0
+var _quick_advance_open := false
 
-var _current_idx := "START"
+var _current_idx := "LV1_MISSION1"#"START"
 var _current_input := ""
 var _waiting := false
 
 func _ready() -> void:
 	_start_message()
 
-func _start_message() -> void:
-	add_message(MessageInfo.messages[_current_idx].message)
+func set_state(state: String, args: Array = []) -> void:
+	_current_idx = state
+	_start_message(args)
+
+func _start_message(args: Array = []) -> void:
+	if args.size() > 0:
+		add_message(MessageInfo.messages[_current_idx].message)
+	else:
+		add_message(MessageInfo.messages[_current_idx].message % args)
 
 func add_message(s: String) -> void:
 	input_matters = false
@@ -31,15 +40,21 @@ func _on_letter_sent(s: String) -> void:
 	if s != "5":
 		_current_input += s
 	else:
+		if _quick_advance_open:
+			_quick_advance_open = false
+			press_to_advance.play("MoveOut")
 		var mi: MessageData = MessageInfo.messages[_current_idx]
 		var res: MessageResponse = mi.evaluate(_current_input)
 		match res.type:
 			MessageResponse.TYPE.DONE:
 				emit_signal("add_space")
+				if GameData.active_troops:
+					print("Start Troops")
 				_current_idx = res.val
 				_start_message()
 			MessageResponse.TYPE.SWITCH_SCENE:
 				emit_signal("add_space")
+				GameData.last_state = _current_idx
 				match res.val:
 					"DOCK":
 						emit_signal("choice_made", "DOCK")
@@ -55,6 +70,9 @@ func _on_timer() -> void:
 		input_matters = true
 		_waiting = false
 		emit_signal("add_space")
+		if MessageInfo.messages[_current_idx].is_quick_advance():
+			press_to_advance.play("MoveIn")
+			_quick_advance_open = true
 	elif _current_message[_current_letters] == " ": # end of word
 		var word := _current_message.split(" ")[0]
 		_current_message = _current_message.substr(_current_letters + 1)

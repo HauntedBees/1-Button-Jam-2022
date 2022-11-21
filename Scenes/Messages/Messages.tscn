@@ -1,10 +1,55 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Theme.tres" type="Theme" id=1]
 [ext_resource path="res://Assets/Desk/Paper2.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Main/BubleLeft.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Messages/Messages.gd" type="Script" id=4]
 [ext_resource path="res://SpeechTheme.tres" type="Theme" id=5]
+
+[sub_resource type="Animation" id=3]
+resource_name = "MoveIn"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 40.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "MoveOut"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 40.0 ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 40.0 ]
+}
 
 [node name="Messages" type="Control"]
 anchor_right = 1.0
@@ -34,12 +79,14 @@ NOPQRSTUVWXYZABCDEFGHIJKLM"
 scroll_active = false
 
 [node name="Paper3" type="Sprite" parent="."]
+visible = false
 position = Vector2( 634.999, 677.063 )
 rotation = 3.14059
 scale = Vector2( 0.39826, 0.262612 )
 texture = ExtResource( 2 )
 
 [node name="ReverseCipher" type="RichTextLabel" parent="."]
+visible = false
 margin_left = 380.0
 margin_top = 619.0
 margin_right = 883.0
@@ -53,9 +100,9 @@ Signal each letter in reverse (-. instead of .- for \"A\")"
 
 [node name="SpeechBuble" type="NinePatchRect" parent="."]
 margin_left = 20.0
-margin_top = 11.0
+margin_top = 166.0
 margin_right = 887.0
-margin_bottom = 246.0
+margin_bottom = 401.0
 texture = ExtResource( 3 )
 patch_margin_left = 20
 patch_margin_top = 5
@@ -86,5 +133,33 @@ scroll_following = true
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.05
 autostart = true
+
+[node name="PressAdvance" type="Control" parent="."]
+margin_left = 756.0
+margin_top = 2.0
+margin_right = 796.0
+margin_bottom = 42.0
+rect_rotation = 40.0
+rect_pivot_offset = Vector2( 200, 0 )
+
+[node name="Paper4" type="Sprite" parent="PressAdvance"]
+position = Vector2( 0, -7 )
+rotation = 3.05433
+scale = Vector2( 0.39826, 0.262612 )
+texture = ExtResource( 2 )
+
+[node name="ReverseCipher2" type="RichTextLabel" parent="PressAdvance"]
+margin_left = -257.0
+margin_top = 7.0
+margin_right = 135.0
+margin_bottom = 60.0
+theme = ExtResource( 1 )
+text = "Type \"5\" to advance."
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PressAdvance"]
+unique_name_in_owner = true
+anims/MoveIn = SubResource( 3 )
+anims/MoveOut = SubResource( 1 )
+anims/RESET = SubResource( 2 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer"]

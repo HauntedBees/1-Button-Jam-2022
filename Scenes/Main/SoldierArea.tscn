@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/Main/Main.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Main/Soldier.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Main/SoldierArea.gd" type="Script" id=3]
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 192, 0, 96, 128 )
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 96, 128 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 96, 0, 96, 128 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ SubResource( 4 ) ],
+"loop": true,
+"name": "Aware",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "Passive",
+"speed": 5.0
+} ]
+
+[node name="SoldierArea" type="Sprite"]
+modulate = Color( 0.411765, 0.45098, 0.466667, 1 )
+position = Vector2( 222, 111 )
+scale = Vector2( 0.613861, 0.613861 )
+texture = ExtResource( 1 )
+script = ExtResource( 3 )
+
+[node name="Soldier1" type="AnimatedSprite" parent="."]
+position = Vector2( -330.694, 128.694 )
+scale = Vector2( 1.31452, 1.31452 )
+frames = SubResource( 3 )
+animation = "Passive"
+playing = true

@@ -39,7 +39,17 @@ var messages := {
 			2: "LV2_MISSION1"
 		})
 	]),
-	"LV1_MISSION1": MessageData.new(".... .... .... They suspect someone in the northern bloc is a spy, someone is sneaking out towards the docks at night to talk to someone. We have access to a camera near those docks. Let's keep an eye on them; type \"5\" when you're ready to switch to the dock camera. Then, type the name of the person you suspect, and then type \"5\" when you're done.", [
+	
+	"LV1_MISSION1": MessageData.new(".... .... .... They suspect someone in the northern bloc is a spy; somebody is sneaking out towards the docks at night to talk to police officers. We have access to a camera near those docks. Let's keep an eye on them; let's switch to the dock camera and try to figure out who it is. Type out their name when you figure it out.", [
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "DOCK" })
+	]),
+	"LV1_MISSION1_FAIL": MessageData.new("Well, that doesn't help us... I guess whoever that was will get away scot-free.", [
+		InputData.new("", 0.0, "LV1_UH_OH")
+	]),
+	"LV1_MISSION1_SUCCESS": MessageData.new("%s? %s %s? Wow... I never would have expected %s to be a spy... Well, it looks like we'll put a stop to that now, at least.", [
+		InputData.new("", 0.0, "LV1_UH_OH", "", InputData.SPECIAL.START_TROOPS)
+	]),
+	"LV1_UH_OH": MessageData.new("Uh-oh!", [
+		InputData.new("", 0.0, "START")
 	])
 }

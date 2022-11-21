@@ -7,6 +7,9 @@ func _init(m: String, c: Array) -> void:
 	message = m
 	choices = c
 
+func is_quick_advance() -> bool:
+	return choices.size() == 1 && (choices[0] as InputData).input == ""
+
 func evaluate(input: String) -> MessageResponse:
 	var fail := ""
 	for c in choices:
@@ -24,6 +27,9 @@ func evaluate(input: String) -> MessageResponse:
 					return MessageResponse.new(MessageResponse.TYPE.DONE, id.special_info[GameData.difficulty])
 				InputData.SPECIAL.SWITCH_MISSION:
 					return MessageResponse.new(MessageResponse.TYPE.SWITCH_SCENE, id.special_info["type"])
+				InputData.SPECIAL.START_TROOPS:
+					GameData.active_troops = true
+					return MessageResponse.new(MessageResponse.TYPE.DONE, id.success_next)
 		else:
 			fail = id.fail_next
 	return MessageResponse.new(MessageResponse.TYPE.DONE, fail)
