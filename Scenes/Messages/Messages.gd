@@ -1,3 +1,4 @@
+class_name MessagesGame
 extends GameBase
 
 onready var speech: RichTextLabel = $"%Speech"

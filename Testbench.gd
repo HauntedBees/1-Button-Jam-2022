@@ -32,6 +32,20 @@ func _initialize_game() -> void:
 	game_holder.add_child(current_game)
 	parser.connect("send_letter", current_game, "_on_letter_sent")
 	current_game.connect("add_space", self, "_on_add_space")
+	current_game.connect("choice_made", self, "_on_choice_made")
+
+func _on_choice_made(choice: String) -> void:
+	_on_add_space()
+	match current_mode:
+		GAME.DOCK:
+			current_mode = GAME.MESSAGES
+			_initialize_game()
+			var m := current_game as MessagesGame
+			if choice == "":
+				m.add_message("Well, that doesn't help us... I guess whoever that was will get away scot-free.")
+			else:
+				var person_info: Dictionary = MessageInfo.CHAR_INFO[choice]
+				m.add_message("%s? %s %s? Wow... I never would have expected %s to be a spy... Well, it looks like we'll put a stop to that now, at least." % [choice, person_info["name"], choice, person_info["pronoun"]])
 
 func _on_Node_new_part(s: String) -> void:
 	var msg := s if current_game.input_matters else (INVALID_FORMAT_STRING % s)
@@ -47,8 +61,8 @@ func _on_Node_send_letter(s: String) -> void:
 
 func _on_add_space() -> void:
 	current_message += "  "
-	if current_message.length() > 100:
-		current_message = current_message.substr(60)
+	#if current_message.length() > 100:
+	#	current_message = current_message.substr(60)
 	label.bbcode_text = LABEL_FORMAT_STRING % current_message
 
 func _on_Node_press() -> void:

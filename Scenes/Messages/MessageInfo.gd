@@ -2,6 +2,15 @@ extends Node
 
 var placeholder := MessageData.new("", [])
 
+const CHAR_INFO := {
+	"Siarland": { "name": "Jiongeo", "pronoun": "him" },
+	"Inguing": { "name": "Manatar", "pronoun": "her" },
+	"Sipoam": { "name": "Alafo", "pronoun": "him" },
+	"Mastong": { "name": "Teng", "pronoun": "them" },
+	"Xunhuinam": { "name": "Li", "pronoun": "her" },
+	"Masomai": { "name": "Mingal", "pronoun": "him" }
+}
+
 var messages := {
 	"START": MessageData.new("Okay, I think the coast is clear. We need to send a message out and see if we can get a response. Send out a \"CQ\" and we'll get this show on the road.", [
 		InputData.new("CQ", 1.0, "CIPHER_TEST", "START_FAIL")

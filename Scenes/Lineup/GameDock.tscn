@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Assets/Desk/tv.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Lineup/Lineup.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Lineup/GameDock.gd" type="Script" id=3]
+[ext_resource path="res://Theme.tres" type="Theme" id=4]
+[ext_resource path="res://Assets/Desk/Paper2.png" type="Texture" id=5]
 
 [sub_resource type="Shader" id=1]
 code = "/*
@@ -283,6 +285,7 @@ handle_input_locally = false
 render_target_update_mode = 3
 
 [node name="Lineup" parent="ViewportContainer/Viewport" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 position = Vector2( 320, 150 )
 scale = Vector2( 0.8, 0.8 )
 
@@ -306,3 +309,24 @@ rotation = -0.120428
 [node name="Photo3" type="Node2D" parent="."]
 position = Vector2( 501, 560 )
 rotation = 0.109956
+
+[node name="WaitTimer" type="Timer" parent="."]
+wait_time = 45.0
+autostart = true
+
+[node name="Paper2" type="Sprite" parent="."]
+position = Vector2( 613.649, 407.353 )
+rotation = 0.0349066
+scale = Vector2( 0.326214, 0.0789474 )
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 392.0
+margin_top = 381.0
+margin_right = 840.0
+margin_bottom = 414.0
+rect_rotation = 2.0
+theme = ExtResource( 4 )
+text = "Type 5 to submit your guess."
+
+[connection signal="timeout" from="WaitTimer" to="." method="_on_WaitTimer_timeout"]

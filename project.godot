@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Classes/InputData.gd"
 }, {
+"base": "Node2D",
+"class": "Lineup",
+"language": "GDScript",
+"path": "res://Scenes/Lineup/Lineup.gd"
+}, {
 "base": "Node",
 "class": "MessageData",
 "language": "GDScript",
@@ -43,6 +48,11 @@ _global_script_classes=[ {
 "class": "MessageResponse",
 "language": "GDScript",
 "path": "res://Classes/MessageResponse.gd"
+}, {
+"base": "GameBase",
+"class": "MessagesGame",
+"language": "GDScript",
+"path": "res://Scenes/Messages/Messages.gd"
 }, {
 "base": "Control",
 "class": "MorseChat",
@@ -70,8 +80,10 @@ _global_script_class_icons={
 "Bunker": "",
 "GameBase": "",
 "InputData": "",
+"Lineup": "",
 "MessageData": "",
 "MessageResponse": "",
+"MessagesGame": "",
 "MorseChat": "",
 "MorseParser": "",
 "Troop": "",

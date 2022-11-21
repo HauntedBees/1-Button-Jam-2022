@@ -13,8 +13,10 @@ func evaluate(input: String) -> MessageResponse:
 		var id := c as InputData
 		if input.length() < id.input.length():
 			continue
-		if input.similarity(id.input) >= id.min_score:
-			# TODO: support hard mode branching or some shit
+		var similarity := input.similarity(id.input)
+		if similarity >= id.min_score:
+			GameData.typing_score += similarity
+			GameData.story_score += 10
 			match id.special:
 				InputData.SPECIAL.NONE:
 					return MessageResponse.new(MessageResponse.TYPE.DONE, id.success_next)
