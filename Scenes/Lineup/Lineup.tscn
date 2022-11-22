@@ -434,6 +434,7 @@ unique_name_in_owner = true
 position = Vector2( -231, -24 )
 frames = SubResource( 112 )
 animation = "WalkSiarland"
+frame = 1
 playing = true
 
 [node name="CharAnim" type="AnimationPlayer" parent="Character"]

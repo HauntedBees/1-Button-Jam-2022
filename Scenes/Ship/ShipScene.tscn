@@ -1,0 +1,389 @@
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://realistic_water_shader/art/ground/Ground.material" type="Material" id=1]
+[ext_resource path="res://realistic_water_shader/art/rock/Rock.material" type="Material" id=2]
+[ext_resource path="res://realistic_water_shader/art/rock/Rock.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://realistic_water_shader/art/seaweed/Seaweed.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://Assets/Ship/Enemy.png" type="Texture" id=5]
+[ext_resource path="res://realistic_water_shader/art/seaweed/Seaweed.material" type="Material" id=6]
+[ext_resource path="res://realistic_water_shader/art/seaweed/Seaweed_Process.material" type="Material" id=7]
+[ext_resource path="res://realistic_water_shader/art/water/Water.material" type="Material" id=8]
+[ext_resource path="res://Scenes/Ship/ShipScene.gd" type="Script" id=9]
+
+[sub_resource type="PlaneMesh" id=1]
+material = ExtResource( 1 )
+size = Vector2( 128, 128 )
+
+[sub_resource type="PlaneMesh" id=2]
+material = ExtResource( 8 )
+size = Vector2( 128, 128 )
+subdivide_width = 256
+subdivide_depth = 256
+
+[sub_resource type="Animation" id=9]
+resource_name = "CameraShake"
+length = 10.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 2.45211, -0.562533, 21.6801 ), Vector3( 2.45211, -0.789492, 21.6801 ), Vector3( 2.45211, -0.562533, 21.6801 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -11.8103, 1.91009, -0.416145 ), Vector3( -12.0314, 2.01987, -0.947556 ), Vector3( -11.8103, 1.91009, -0.416145 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 2.45211, -0.562533, 21.6801 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -11.8103, 1.91009, -0.416145 ) ]
+}
+
+[sub_resource type="ProceduralSky" id=3]
+sky_top_color = Color( 0, 0.14902, 0.27451, 1 )
+sky_horizon_color = Color( 0.164706, 0.231373, 0.286275, 1 )
+sky_energy = 0.5
+ground_bottom_color = Color( 0.0823529, 0.0862745, 0.0901961, 1 )
+ground_horizon_color = Color( 0.101961, 0.164706, 0.211765, 1 )
+sun_color = Color( 0.25098, 0.0941176, 0.333333, 1 )
+
+[sub_resource type="Environment" id=4]
+background_mode = 2
+background_sky = SubResource( 3 )
+fog_enabled = true
+fog_color = Color( 0.188235, 0.141176, 0.192157, 1 )
+fog_depth_end = 252.4
+fog_depth_curve = 0.435275
+
+[sub_resource type="Animation" id=13]
+resource_name = "Fire"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 3.0, 16.0, 4.0, 3.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:light_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.882353, 0.423529, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../EnemyBackup:omni_range")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 2.803, 87.832, 5.0 ]
+}
+
+[sub_resource type="Animation" id=14]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 3.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:light_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../EnemyBackup:omni_range")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 2.803 ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "Fire"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 16.0, 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="QuadMesh" id=5]
+size = Vector2( 10, 5 )
+
+[sub_resource type="SpatialMaterial" id=6]
+flags_transparent = true
+params_cull_mode = 2
+albedo_texture = ExtResource( 5 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "Idle"
+length = 10.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -30, 0.741, 22 ), Vector3( -30, 0.413, 22 ), Vector3( -30, 0.741, 22 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2.5, 7.5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 3 ), Vector3( 0, 0, -1 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -11.208, 0.741066, 4.97102 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+
+[node name="ShipScene" type="Spatial"]
+script = ExtResource( 9 )
+
+[node name="Ground" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.92602, 0 )
+mesh = SubResource( 1 )
+
+[node name="Rocks" type="Spatial" parent="."]
+
+[node name="Rock1" type="MeshInstance" parent="Rocks"]
+transform = Transform( -8.45299, 0, -5.58266, 2.97955, 3.42473, -4.51149, 1.88735, -5.40659, -2.85774, -90.1278, -3.45089, 29.7887 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Rock2" type="MeshInstance" parent="Rocks"]
+transform = Transform( 3.22044, 5.65199, 3.78025, -1.81075, 6.86413, -3.69354, -5.22589, 1.10464, 3.60936, 0.32616, -4.63299, -10.4137 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Rock3" type="MeshInstance" parent="Rocks"]
+transform = Transform( 5.03286, 4.74675, 2.03339, -3.8662, 6.87239, 1.3841, -0.82637, -3.2435, 5.90844, 4.94674, -4.56572, -18.388 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Rock4" type="MeshInstance" parent="Rocks"]
+transform = Transform( 4.66895, -6.12027, 0.223132, 2.07828, 3.50138, 5.51233, -3.85248, -5.52849, 3.24413, 5.82676, -4.66432, 0.29593 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Rock5" type="MeshInstance" parent="Rocks"]
+transform = Transform( 5.23414, -5.01891, 0.843787, -3.27192, -7.27928, -1.79441, 1.69064, 1.45062, -6.08507, 4.00962, -2.81604, 0.482225 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Rock6" type="MeshInstance" parent="Rocks"]
+transform = Transform( 3.43575, 13.907, -10.6975, 5.90904, -3.61487, 20.2069, 11.3021, -8.72794, 1.17681, 20.9328, -4.59778, -10.906 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Rock7" type="MeshInstance" parent="Rocks"]
+transform = Transform( 11.0718, -14.3148, 1.33504, -7.79142, -8.05962, -3.145, 2.59114, 2.22326, -9.32619, 11.4108, -5.03868, -24.0951 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Rock8" type="MeshInstance" parent="Rocks"]
+transform = Transform( -2.04565, -13.8528, 2.07388, -1.40415, -1.85515, -9.70419, 13.5591, -8.91484, 0.423051, 9.61903, -3.68703, 42.7235 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Water" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.10169, 0 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 8 )
+
+[node name="Player" type="Spatial" parent="."]
+transform = Transform( -0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, -0.906308, 10.5587, 0, -5.10309 )
+
+[node name="Camera" type="Camera" parent="Player"]
+transform = Transform( 0.999467, 0.000437188, 0.0326256, -0.00710927, 0.978805, 0.204673, -0.0318446, -0.204796, 0.978286, 2.45211, -0.562533, 21.6801 )
+fov = 60.0
+far = 512.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Camera"]
+autoplay = "CameraShake"
+anims/CameraShake = SubResource( 9 )
+anims/RESET = SubResource( 10 )
+
+[node name="Seaweed" type="Particles" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 1.25 )
+material_override = ExtResource( 6 )
+amount = 10000
+explosiveness = 1.0
+visibility_aabb = AABB( -16, -16, -16, 32, 32, 32 )
+local_coords = false
+draw_order = 2
+process_material = ExtResource( 7 )
+draw_pass_1 = ExtResource( 4 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 4 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="WorldEnvironment"]
+transform = Transform( 1, 0, 0, 0, 0.999324, -0.0367658, 0, 0.0367658, 0.999324, 0, 12.525, 0 )
+light_color = Color( 0.996078, 1, 0.882353, 1 )
+light_energy = 5.257
+
+[node name="EnemyBackup" type="OmniLight" parent="WorldEnvironment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.00488, -10.8618 )
+omni_range = 2.803
+
+[node name="TheirLight" type="SpotLight" parent="WorldEnvironment"]
+transform = Transform( 0.548687, 0.286034, -0.785574, 0, 0.939651, 0.342135, 0.836028, -0.187725, 0.515575, -38.3361, 5.71574, 32.6482 )
+light_energy = 3.0
+spot_range = 81.577
+spot_angle = 20.9918
+
+[node name="EnemyCannon" type="AnimationPlayer" parent="WorldEnvironment/TheirLight"]
+unique_name_in_owner = true
+anims/Fire = SubResource( 13 )
+anims/RESET = SubResource( 14 )
+
+[node name="CannonLight" type="SpotLight" parent="WorldEnvironment"]
+transform = Transform( -1, -4.44089e-16, -8.74228e-08, -4.9014e-09, 0.998427, 0.0560655, 8.72853e-08, 0.0560655, -0.998427, 7.13778, -1.5419, -118.502 )
+light_energy = 0.0
+spot_range = 348.046
+spot_angle = 35.3746
+
+[node name="PlayerCannon" type="AnimationPlayer" parent="WorldEnvironment/CannonLight"]
+unique_name_in_owner = true
+anims/Fire = SubResource( 11 )
+anims/RESET = SubResource( 12 )
+
+[node name="EnemyShip" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.208, 0.741066, 4.97102 )
+mesh = SubResource( 5 )
+material/0 = SubResource( 6 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyShip"]
+autoplay = "Idle"
+anims/Idle = SubResource( 7 )
+anims/RESET = SubResource( 8 )
