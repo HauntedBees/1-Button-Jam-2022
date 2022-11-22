@@ -44,8 +44,12 @@ func _on_letter_sent(letter: String) -> void:
 				break
 		if guess == _suspect: # guessing the right person
 			GameData.story_score += 10
+			GameData.milestones.append("FOUND_SPY")
 		elif guess != "": # sentencing an innocent person to death
 			GameData.story_score -= 5
+			GameData.milestones.append("INNOCENT_KILL")
+		else:
+			GameData.milestones.append("NO_SPY_KILL")
 		emit_signal("choice_made", guess)
 	else:
 		_current_guess += letter

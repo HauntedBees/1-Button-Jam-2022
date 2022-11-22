@@ -23,9 +23,9 @@ func set_state(state: String, args: Array = []) -> void:
 
 func _start_message(args: Array = []) -> void:
 	if args.size() > 0:
-		add_message(MessageInfo.messages[_current_idx].message)
-	else:
 		add_message(MessageInfo.messages[_current_idx].message % args)
+	else:
+		add_message(MessageInfo.messages[_current_idx].message)
 
 func add_message(s: String) -> void:
 	input_matters = false
@@ -49,7 +49,7 @@ func _on_letter_sent(s: String) -> void:
 			MessageResponse.TYPE.DONE:
 				emit_signal("add_space")
 				if GameData.active_troops:
-					print("Start Troops")
+					get_tree().call_group("troops", "_start_troops")
 				_current_idx = res.val
 				_start_message()
 			MessageResponse.TYPE.SWITCH_SCENE:

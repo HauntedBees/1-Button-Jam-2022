@@ -3,9 +3,11 @@ extends Node
 
 var message: String
 var choices: Array
-func _init(m: String, c: Array) -> void:
+var fail_story: String
+func _init(m: String, c: Array, fs := "") -> void:
 	message = m
 	choices = c
+	fail_story = fs
 
 func is_quick_advance() -> bool:
 	return choices.size() == 1 && (choices[0] as InputData).input == ""
@@ -32,4 +34,6 @@ func evaluate(input: String) -> MessageResponse:
 					return MessageResponse.new(MessageResponse.TYPE.DONE, id.success_next)
 		else:
 			fail = id.fail_next
+	if fail_story != "":
+		GameData.milestones.append(fail_story)
 	return MessageResponse.new(MessageResponse.TYPE.DONE, fail)

@@ -49,7 +49,23 @@ var messages := {
 	"LV1_MISSION1_SUCCESS": MessageData.new("%s? %s %s? Wow... I never would have expected %s to be a spy... Well, it looks like we'll put a stop to that now, at least.", [
 		InputData.new("", 0.0, "LV1_UH_OH", "", InputData.SPECIAL.START_TROOPS)
 	]),
-	"LV1_UH_OH": MessageData.new("Uh-oh!", [
-		InputData.new("", 0.0, "START")
+	"LV1_UH_OH": MessageData.new("Uh-oh! I think someone is upstairs. We'll need to be very quiet now... be careful when typing, pause often if you can to not attract their attention...", [
+		InputData.new("", 0.0, "LV1_NEXT")
+	]),
+	"LV1_NEXT": MessageData.new("We need to find out how else we can help. Send out a \"WAITING5\" and let's see what we get in response.", [
+		InputData.new("WAITING", 0.6, "LV1_WAITINGRESPONSE", "LV1_NEXTFAIL")
+	]),
+	"LV1_NEXTFAIL": MessageData.new("No response... let's try again. Send out \"WAITING5\" and let's see what happens.", [
+		InputData.new("WAITING", 0.4, "LV1_WAITINGRESPONSE", "LV1_NEXTFAIL")
+	]),
+	"LV1_WAITINGRESPONSE": MessageData.new("Uh-oh, we've got an SOS. \"SOS -- ERCYL JVGU EBTRE.\" I think that's ROT13 encoded. Decode it and reply back!", [
+		InputData.new("ROGER", 0.5, "LV1_SOS", "LV1_SOSFAIL"),
+		InputData.new("EBTRE", 0.5, "LV1_SOS", "LV1_SOSFAIL")
+	], "SOS_IGNORED"),
+	"LV1_SOSFAIL": MessageData.new("Hmm... They aren't responding back. You must not have replied right. Hopefully someone else will be able to help them.", [
+		InputData.new("", 0.0, "SOMETHING_GOES_HERE") # TODO
+	]),
+	"LV1_SOS": MessageData.new("Oh good, they're responding. This is a long one; let me decode it. .... .... .... .... Their ship is under attack and their cannon operator is incapacitated! They need someone to help direct their shots. I guess we'll have to help them out! You'll just need to type out grid coordinates and they'll fire there! Let's do this!", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
 	])
 }
