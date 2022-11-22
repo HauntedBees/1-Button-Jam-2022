@@ -2,8 +2,8 @@
 
 [ext_resource path="res://MorseParser.gd" type="Script" id=1]
 [ext_resource path="res://Testbench.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Player.png" type="Texture" id=3]
-[ext_resource path="res://Assets/PlayerArm.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Main/Player.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Main/PlayerArm.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/MorseChart.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Theme.tres" type="Theme" id=6]
 [ext_resource path="res://MessageReceiver.gd" type="Script" id=7]
@@ -80,11 +80,12 @@ margin_bottom = 400.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Player" type="Sprite" parent="Room"]
-position = Vector2( 278, 610 )
+position = Vector2( 300, 628 )
 texture = ExtResource( 3 )
 
 [node name="PlayerArm" type="Sprite" parent="Room"]
-position = Vector2( 237, 585 )
+unique_name_in_owner = true
+position = Vector2( 239, 611 )
 texture = ExtResource( 4 )
 centered = false
 
@@ -149,8 +150,10 @@ margin_bottom = 488.0
 
 [connection signal="current_val" from="MorseParser" to="Table/MorseChart" method="show_part"]
 [connection signal="current_val_string" from="MorseParser" to="Buble" method="_on_MorseParser_current_val_string"]
+[connection signal="hold" from="MorseParser" to="Room/Background/SoldierArea" method="_on_MorseParser_hold"]
 [connection signal="new_part" from="MorseParser" to="." method="_on_Node_new_part"]
 [connection signal="press" from="MorseParser" to="." method="_on_Node_press"]
+[connection signal="press" from="MorseParser" to="Room/Background/SoldierArea" method="_on_MorseParser_press"]
 [connection signal="release" from="MorseParser" to="." method="_on_Node_release"]
 [connection signal="send_letter" from="MorseParser" to="." method="_on_Node_send_letter"]
 [connection signal="send_letter" from="MorseParser" to="Table/MorseChart" method="hide_all"]

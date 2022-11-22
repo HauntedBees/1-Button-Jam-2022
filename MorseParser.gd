@@ -4,6 +4,7 @@ extends Node
 signal new_part(s)
 signal send_letter(s)
 signal press()
+signal hold(delta)
 signal release()
 
 signal current_val(s)
@@ -97,6 +98,7 @@ func _process(delta: float) -> void:
 		else:
 			next += "."
 		emit_signal("current_val", next)
+		emit_signal("hold", delta)
 		emit_signal("current_val_string", _current_selection(next))
 
 func _current_selection(stack: String) -> String:
