@@ -67,5 +67,14 @@ var messages := {
 	]),
 	"LV1_SOS": MessageData.new("Oh good, they're responding. This is a long one; let me decode it. .... .... .... .... Their ship is under attack and their cannon operator is incapacitated! They need someone to help direct their shots. I guess we'll have to help them out! You'll just need to type out grid coordinates and they'll fire there! Let's do this!", [
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
+	]),
+	"TEST": MessageData.new("A", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
+	]),
+	"TEST_FAIL": MessageData.new("LOSE", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
+	]),
+	"TEST_SUCCESS": MessageData.new("WIN", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
 	])
 }

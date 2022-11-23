@@ -3,9 +3,10 @@ extends Control
 const GAMES := {
 	"BUNKER": preload("res://Scenes/Bunker/GameBunker.tscn"),
 	"DOCK": preload("res://Scenes/Lineup/GameDock.tscn"),
-	"MESSAGES": preload("res://Scenes/Messages/Messages.tscn")
+	"MESSAGES": preload("res://Scenes/Messages/Messages.tscn"),
+	"SHIP": preload("res://Scenes/Ship/GameShip.tscn")
 }
-enum GAME { BUNKER, MESSAGES, DOCK }
+enum GAME { BUNKER, MESSAGES, DOCK, SHIP }
 
 const LABEL_FORMAT_STRING := "[right]%s[/right]"
 const INVALID_FORMAT_STRING := "[color=#666666]%s[/color]"
@@ -39,9 +40,17 @@ func _on_choice_made(choice: String) -> void:
 	match current_mode:
 		GAME.MESSAGES:
 			match choice:
-				"DOCK":
-					current_mode = GAME.DOCK
-					_initialize_game()
+				"DOCK": current_mode = GAME.DOCK
+				"SHIP": current_mode = GAME.SHIP
+			_initialize_game()
+		GAME.SHIP:
+			current_mode = GAME.MESSAGES
+			_initialize_game()
+			var m := current_game as MessagesGame
+			if choice == "won":
+				m.set_state("%s_%s" % [GameData.last_state, "SUCCESS"])
+			else:
+				m.set_state("%s_%s" % [GameData.last_state, "FAIL"])
 		GAME.DOCK:
 			current_mode = GAME.MESSAGES
 			_initialize_game()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://realistic_water_shader/art/ground/Ground.material" type="Material" id=1]
 [ext_resource path="res://realistic_water_shader/art/rock/Rock.material" type="Material" id=2]
@@ -9,6 +9,13 @@
 [ext_resource path="res://realistic_water_shader/art/seaweed/Seaweed_Process.material" type="Material" id=7]
 [ext_resource path="res://realistic_water_shader/art/water/Water.material" type="Material" id=8]
 [ext_resource path="res://Scenes/Ship/ShipScene.gd" type="Script" id=9]
+[ext_resource path="res://Assets/Ship/Explosion03.png" type="Texture" id=10]
+[ext_resource path="res://realistic_water_shader/art/water/Caustic.png" type="TextureArray" id=11]
+[ext_resource path="res://realistic_water_shader/art/water/Water.shader" type="Shader" id=12]
+[ext_resource path="res://realistic_water_shader/art/water/Water_N_A.png" type="Texture" id=13]
+[ext_resource path="res://realistic_water_shader/art/water/Foam.png" type="Texture" id=14]
+[ext_resource path="res://realistic_water_shader/art/water/Water_UV.png" type="Texture" id=15]
+[ext_resource path="res://realistic_water_shader/art/water/Water_N_B.png" type="Texture" id=16]
 
 [sub_resource type="PlaneMesh" id=1]
 material = ExtResource( 1 )
@@ -19,6 +26,29 @@ material = ExtResource( 8 )
 size = Vector2( 128, 128 )
 subdivide_width = 256
 subdivide_depth = 256
+
+[sub_resource type="ShaderMaterial" id=32]
+shader = ExtResource( 12 )
+shader_param/wave_speed = 0.5
+shader_param/wave_a = Plane( 1, 1, 0.35, 3 )
+shader_param/wave_b = Plane( 1, 0.6, 0.3, 1.55 )
+shader_param/wave_c = Plane( 1, 1.3, 0.25, 0.9 )
+shader_param/sampler_scale = Vector2( 0.2, 0.2 )
+shader_param/sampler_direction = Vector2( 0.05, 0.04 )
+shader_param/uv_sampler_scale = Vector2( 0.25, 0.25 )
+shader_param/uv_sampler_strength = 0.04
+shader_param/foam_level = 0.5
+shader_param/refraction = 0.075
+shader_param/color_deep = null
+shader_param/color_shallow = Color( 0, 0, 0, 1 )
+shader_param/beers_law = 1.3
+shader_param/depth_offset = 0.1
+shader_param/projector = null
+shader_param/uv_sampler = ExtResource( 15 )
+shader_param/normalmap_a_sampler = ExtResource( 13 )
+shader_param/normalmap_b_sampler = ExtResource( 16 )
+shader_param/foam_sampler = ExtResource( 14 )
+shader_param/caustic_sampler = ExtResource( 11 )
 
 [sub_resource type="Animation" id=9]
 resource_name = "CameraShake"
@@ -76,6 +106,77 @@ tracks/1/keys = {
 "values": [ Vector3( -11.8103, 1.91009, -0.416145 ) ]
 }
 
+[sub_resource type="Animation" id=39]
+resource_name = "Die"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 10.5587, 0, -5.10309 ), Vector3( 10.559, 3.72363, -5.103 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 155, 0 ), Vector3( 15.345, 154.008, -7.3518 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+resource_name = "Hurt"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 155, 0 ), Vector3( 0, 155, 5 ), Vector3( 0, 155, -5 ), Vector3( 0, 155, 0 ) ]
+}
+
+[sub_resource type="Animation" id=41]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 155, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:translation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 10.5587, 0, -5.10309 ) ]
+}
+
 [sub_resource type="ProceduralSky" id=3]
 sky_top_color = Color( 0, 0.14902, 0.27451, 1 )
 sky_horizon_color = Color( 0.164706, 0.231373, 0.286275, 1 )
@@ -131,6 +232,30 @@ tracks/2/keys = {
 "update": 0,
 "values": [ 2.803, 87.832, 5.0 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("../../EnemyShip/Blast:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../../EnemyShip/Blast:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
 
 [sub_resource type="Animation" id=14]
 length = 0.001
@@ -169,6 +294,30 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 2.803 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../../EnemyShip/Blast:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../../EnemyShip/Blast:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -209,6 +358,146 @@ size = Vector2( 10, 5 )
 flags_transparent = true
 params_cull_mode = 2
 albedo_texture = ExtResource( 5 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 0, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 128, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 256, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 384, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 0, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 128, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=21]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 256, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=22]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 384, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=23]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 0, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=24]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 128, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=25]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 256, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=26]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 384, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=27]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 0, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=28]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 128, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=29]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 256, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=30]
+flags = 23
+atlas = ExtResource( 10 )
+region = Rect2( 384, 384, 128, 128 )
+
+[sub_resource type="SpriteFrames" id=31]
+animations = [ {
+"frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
+"loop": false,
+"name": "default",
+"speed": 32.0
+} ]
+
+[sub_resource type="Animation" id=38]
+resource_name = "Destroy"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -30, 0.741, 22 ), Vector3( -30, -6.21706, 22 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5, 2.7, 4.3, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 11.246 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, -21.645 ), Vector3( 0, 0, 82.951 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Blast:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Blast:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.1, 1.1, 2.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 0, 0 ]
+}
 
 [sub_resource type="Animation" id=7]
 resource_name = "Idle"
@@ -265,6 +554,201 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Blast:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Blast:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="CylinderMesh" id=33]
+top_radius = 0.0
+bottom_radius = 0.0
+height = 50.0
+
+[sub_resource type="Shader" id=34]
+code = "/*
+	動的電撃シェーダー by あるる（きのもと 結衣）
+	Procedural Electric Current Shader by Yui Kinomoto @arlez80
+
+	MIT License
+*/
+shader_type spatial;
+render_mode unshaded, blend_add;
+
+uniform vec4 light_color : hint_color = vec4( 0.32, 0.5, 0.82, 0.5 );
+uniform vec4 arc_color : hint_color = vec4( 0.46, 0.68, 1.0, 1.0 );
+
+uniform vec2 seed = vec2( 0.0, 0.0 );
+uniform float speed = 5.1;
+uniform float random_scale = 4.6;
+uniform float electro_scale = 11.459;
+
+vec2 random( vec2 pos )
+{ 
+	return fract(
+		sin(
+			vec2(
+				dot(pos, vec2(12.9898,78.233))
+			,	dot(pos, vec2(-148.998,-65.233))
+			)
+		) * 43758.5453
+	);
+}
+
+float value_noise( vec2 pos )
+{
+	vec2 p = floor( pos );
+	vec2 f = fract( pos );
+
+	float v00 = random( p + vec2( 0.0, 0.0 ) ).x;
+	float v10 = random( p + vec2( 1.0, 0.0 ) ).x;
+	float v01 = random( p + vec2( 0.0, 1.0 ) ).x;
+	float v11 = random( p + vec2( 1.0, 1.0 ) ).x;
+
+	vec2 u = f * f * ( 3.0 - 2.0 * f );
+
+	return mix( mix( v00, v10, u.x ), mix( v01, v11, u.x ), u.y );
+}
+
+float noise_tex( vec2 p )
+{
+	return (
+		value_noise( p * 0.984864 ) * 0.5
+	+	value_noise( p * 2.543 ) * 0.25
+	+	value_noise( p * 9.543543 ) * 0.125
+	+	value_noise( p * 21.65436 ) * 0.0625
+	+	value_noise( p * 42.0 ) * 0.03125
+	+	value_noise( p * 87.135148 ) * 0.015625
+	+	value_noise( p * 340.66534654 ) * 0.0078125
+	);
+}
+
+void fragment( )
+{
+	vec2 uv = seed + vec2( UV.x + cos( TIME * 1321.21 + UV.y * 348.513 ) * 0.004, UV.y + sin( TIME * 421.21 + UV.x * 314.513 ) * 0.0016 );
+	float f = abs( cos( TIME * speed + noise_tex( uv * random_scale ) * electro_scale ) );
+
+	ALBEDO = mix( light_color, arc_color, 1.0 - clamp( ( f - 0.08 ) * 20.0, 0.0, 1.0 ) ).rgb;
+	ALPHA = 1.0 - clamp( ( f - 0.3 ) * 3.0, 0.0, 1.0 );
+}"
+
+[sub_resource type="ShaderMaterial" id=35]
+shader = SubResource( 34 )
+shader_param/light_color = Color( 0.32, 0.5, 0.82, 0.5 )
+shader_param/arc_color = Color( 0.46, 0.68, 1, 1 )
+shader_param/seed = Vector2( 0, 0 )
+shader_param/speed = 5.1
+shader_param/random_scale = 4.6
+shader_param/electro_scale = 5.0
+
+[sub_resource type="Animation" id=36]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh:bottom_radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:mesh:top_radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Water:material/0:shader_param/sampler_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.2, 0.2 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../Water:translation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.49538, -2.2779, 0 ) ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "Splash"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh:bottom_radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 2.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:mesh:top_radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 2.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Water:translation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.49538, -2.2779, 0 ), Vector3( -2.495, -2, 0 ), Vector3( -2.495, -2.278, 0 ) ]
+}
 
 [node name="ShipScene" type="Spatial"]
 script = ExtResource( 9 )
@@ -316,9 +800,9 @@ mesh = ExtResource( 3 )
 material/0 = ExtResource( 2 )
 
 [node name="Water" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.10169, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.49538, -2.2779, 0 )
 mesh = SubResource( 2 )
-material/0 = ExtResource( 8 )
+material/0 = SubResource( 32 )
 
 [node name="Player" type="Spatial" parent="."]
 transform = Transform( -0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, -0.906308, 10.5587, 0, -5.10309 )
@@ -343,6 +827,12 @@ local_coords = false
 draw_order = 2
 process_material = ExtResource( 7 )
 draw_pass_1 = ExtResource( 4 )
+
+[node name="PlayerHurtAnim" type="AnimationPlayer" parent="Player"]
+unique_name_in_owner = true
+anims/Die = SubResource( 39 )
+anims/Hurt = SubResource( 40 )
+anims/RESET = SubResource( 41 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 4 )
@@ -383,7 +873,25 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.208, 0.741066, 4.97102 )
 mesh = SubResource( 5 )
 material/0 = SubResource( 6 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyShip"]
+[node name="Blast" type="AnimatedSprite3D" parent="EnemyShip"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 7.2286, 0, -5.93806 )
+frames = SubResource( 31 )
+playing = true
+
+[node name="EnemyAnim" type="AnimationPlayer" parent="EnemyShip"]
+unique_name_in_owner = true
 autoplay = "Idle"
+anims/Destroy = SubResource( 38 )
 anims/Idle = SubResource( 7 )
 anims/RESET = SubResource( 8 )
+
+[node name="WaterBlast" type="MeshInstance" parent="."]
+unique_name_in_owner = true
+transform = Transform( -0.727665, 0, -0.685933, 0, 1, 0, 0.685933, 0, -0.727665, 15.2558, 2.91186, 0 )
+mesh = SubResource( 33 )
+material/0 = SubResource( 35 )
+
+[node name="BlastPlayer" type="AnimationPlayer" parent="WaterBlast"]
+unique_name_in_owner = true
+anims/RESET = SubResource( 36 )
+anims/Splash = SubResource( 37 )

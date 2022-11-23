@@ -65,6 +65,11 @@ _global_script_classes=[ {
 "path": "res://MorseParser.gd"
 }, {
 "base": "Spatial",
+"class": "ShipScene",
+"language": "GDScript",
+"path": "res://Scenes/Ship/ShipScene.gd"
+}, {
+"base": "Spatial",
 "class": "Troop",
 "language": "GDScript",
 "path": "res://Scenes/Bunker/Troop.gd"
@@ -86,6 +91,7 @@ _global_script_class_icons={
 "MessagesGame": "",
 "MorseChat": "",
 "MorseParser": "",
+"ShipScene": "",
 "Troop": "",
 "TurnArea": ""
 }

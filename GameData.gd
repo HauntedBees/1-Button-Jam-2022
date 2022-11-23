@@ -15,3 +15,5 @@ var milestones := []
 
 # Boat Attack
 #  SOS_IGNORED
+#  SOS_DEFEAT
+#  SOS_VICTORY

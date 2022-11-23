@@ -10,7 +10,7 @@ var _current_message := ""
 var _current_letters := 0
 var _quick_advance_open := false
 
-var _current_idx := "LV1_MISSION1"#"START"
+var _current_idx := "TEST"#"LV1_MISSION1"#"START"
 var _current_input := ""
 var _waiting := false
 
@@ -55,9 +55,7 @@ func _on_letter_sent(s: String) -> void:
 			MessageResponse.TYPE.SWITCH_SCENE:
 				emit_signal("add_space")
 				GameData.last_state = _current_idx
-				match res.val:
-					"DOCK":
-						emit_signal("choice_made", "DOCK")
+				emit_signal("choice_made", res.val)
 
 func _on_timer() -> void:
 	if _current_message == "":

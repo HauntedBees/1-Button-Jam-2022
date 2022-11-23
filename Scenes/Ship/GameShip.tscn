@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Assets/Desk/tv.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/Lineup/Lineup.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Lineup/GameDock.gd" type="Script" id=3]
-[ext_resource path="res://Theme.tres" type="Theme" id=4]
-[ext_resource path="res://Assets/Desk/Paper2.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/Ship/ShipScene.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Desk/tv.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Ship/Grid.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Ship/GridOurs.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/Ship/GameShip.gd" type="Script" id=5]
 
-[sub_resource type="Shader" id=3]
+[sub_resource type="Shader" id=1]
 code = "/*
 Shader from Godot Shaders - the free shader library.
 godotshaders.com/shader/VHS-and-CRT-monitor-effect
@@ -238,7 +238,7 @@ void fragment()
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 3 )
+shader = SubResource( 1 )
 shader_param/overlay = true
 shader_param/scanlines_opacity = 0.4
 shader_param/scanlines_width = 0.25
@@ -261,11 +261,12 @@ shader_param/clip_warp = false
 shader_param/vignette_intensity = 0.4
 shader_param/vignette_opacity = 0.5
 
-[node name="GameDock" type="Control"]
+[node name="GameShip" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -380.0
-script = ExtResource( 3 )
+rect_pivot_offset = Vector2( -188, -45 )
+script = ExtResource( 5 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -284,10 +285,8 @@ size = Vector2( 480, 350 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Lineup" parent="ViewportContainer/Viewport" instance=ExtResource( 2 )]
+[node name="ShipScene" parent="ViewportContainer/Viewport" instance=ExtResource( 1 )]
 unique_name_in_owner = true
-position = Vector2( 320, 150 )
-scale = Vector2( 0.8, 0.8 )
 
 [node name="CRT" type="ColorRect" parent="ViewportContainer"]
 material = SubResource( 2 )
@@ -297,30 +296,50 @@ margin_bottom = 320.0
 [node name="Monitor" type="Sprite" parent="."]
 position = Vector2( 636.135, 209.75 )
 scale = Vector2( 0.267614, 0.256799 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 
-[node name="Photo1" type="Node2D" parent="."]
-position = Vector2( 759, 570 )
+[node name="TargetGrid" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_rotation = -2.0
 
-[node name="Photo2" type="Node2D" parent="."]
-position = Vector2( 178, 198 )
-rotation = -0.120428
-
-[node name="Photo3" type="Node2D" parent="."]
-position = Vector2( 501, 560 )
-rotation = 0.109956
-
-[node name="Paper2" type="Sprite" parent="."]
-position = Vector2( 622.57, 407.664 )
+[node name="Grid" type="Sprite" parent="TargetGrid"]
+position = Vector2( 189.726, 211.75 )
 rotation = 0.0349066
-scale = Vector2( 0.338839, 0.0789474 )
-texture = ExtResource( 5 )
+scale = Vector2( 0.636, 0.636 )
+texture = ExtResource( 3 )
 
-[node name="Label" type="Label" parent="."]
-margin_left = 392.0
-margin_top = 381.0
-margin_right = 840.0
-margin_bottom = 414.0
-rect_rotation = 2.0
-theme = ExtResource( 4 )
-text = "Type 5 to submit your answer."
+[node name="TargetInfo" type="Control" parent="TargetGrid"]
+unique_name_in_owner = true
+margin_left = 113.299
+margin_top = 108.02
+margin_right = 153.299
+margin_bottom = 147.02
+
+[node name="OurGrid" type="Control" parent="."]
+margin_left = -23.0
+margin_top = 15.0
+margin_right = 17.0
+margin_bottom = 55.0
+rect_rotation = 4.0
+
+[node name="GridOurs" type="Sprite" parent="OurGrid"]
+position = Vector2( 777.191, 506.018 )
+rotation = 0.0349066
+scale = Vector2( 0.636, 0.636 )
+texture = ExtResource( 4 )
+
+[node name="OurInfo" type="Control" parent="OurGrid"]
+unique_name_in_owner = true
+margin_left = 688.185
+margin_top = 423.025
+margin_right = 728.185
+margin_bottom = 463.025
+
+[node name="EnemyTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="EnemyTimer" to="." method="_on_EnemyTimer_timeout"]
