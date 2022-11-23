@@ -8,6 +8,7 @@ const EPSILON := 0.1
 const TURN_TIME := 0.5
 const ALIGN_TIME := 0.2
 
+onready var _troop_anim: AnimatedSprite3D = $PlayerBody
 onready var _collider: Area = $Body/TroopCollider
 onready var _tween: Tween = $Tween
 
@@ -27,6 +28,16 @@ func _physics_process(delta: float) -> void:
 		STATE.STOPPED, STATE.CONFUSED:
 			if next_instruction != "":
 				_handle_input()
+
+func _set_state(state) -> void:
+	if _curr_state == state:
+		return
+	match state:
+		STATE.WALKING:
+			_troop_anim.play("Run")
+		STATE.STOPPED, STATE.CONFUSED:
+			_troop_anim.play("Look")
+	_curr_state = state
 
 func reverse() -> void:
 	_turn(2)
@@ -57,7 +68,7 @@ func _on_collider_entered(area: Area) -> void:
 			_tween.start()
 			_turn(turn_dir)
 		else:
-			_curr_state = STATE.WALKING
+			_set_state(STATE.WALKING)
 	else:
 		_tween.interpolate_property(self, "global_transform:origin", global_transform.origin, area_pos, ALIGN_TIME)
 		_tween.start()
@@ -85,7 +96,7 @@ func _on_collider_entered(area: Area) -> void:
 				_can_go_left = true
 				_can_go_right = true
 		if next_instruction == "":
-			_curr_state = STATE.STOPPED
+			_set_state(STATE.STOPPED)
 		else:
 			_handle_input()
 
@@ -107,20 +118,20 @@ func _handle_input() -> void:
 			if _can_go_left:
 				_turn(1)
 			else:
-				_curr_state = STATE.CONFUSED
+				_set_state(STATE.CONFUSED)
 		"R":
 			if _can_go_right:
 				_turn(-1)
 			else:
-				_curr_state = STATE.CONFUSED
+				_set_state(STATE.CONFUSED)
 		"F":
 			if _can_go_forward:
 				next_instruction = ""
-				_curr_state = STATE.WALKING
+				_set_state(STATE.WALKING)
 			else:
-				_curr_state = STATE.CONFUSED
+				_set_state(STATE.CONFUSED)
 		_:
-			_curr_state = STATE.CONFUSED
+			_set_state(STATE.CONFUSED)
 
 func set_initial_rotation(angle: float) -> void:
 	print(int(floor(angle / 90.0)))
@@ -128,7 +139,7 @@ func set_initial_rotation(angle: float) -> void:
 
 func _turn(rotation_dir: int, force := false) -> void:
 	if rotation_dir == 0:
-		_curr_state = STATE.WALKING
+		_set_state(STATE.WALKING)
 		return
 	next_instruction = ""
 	var turn_radians := TURN_RADS * rotation_dir
@@ -136,10 +147,10 @@ func _turn(rotation_dir: int, force := false) -> void:
 	var new_dir := Vector3(0, rotation.y + turn_radians, 0)
 	if force:
 		rotation = new_dir
-		_curr_state = STATE.WALKING
+		_set_state(STATE.WALKING)
 	else:
 		_tween.interpolate_property(self, "rotation", rotation, new_dir, TURN_TIME)
-		_curr_state = STATE.TURNING
+		_set_state(STATE.TURNING)
 		_tween.start()
 		yield(_tween, "tween_completed")
-		_curr_state = STATE.WALKING
+		_set_state(STATE.WALKING)

@@ -6,6 +6,9 @@ const EPSILON := 0.1
 onready var bunker = $"%Bunker"
 onready var player_cursor: Sprite = $"%PlayerCursor"
 
+func _ready() -> void:
+	input_matters = true
+
 func additional_setup(i: int) -> void:
 	bunker.set_troop_pos(i - 1)
 

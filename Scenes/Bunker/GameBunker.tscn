@@ -283,16 +283,57 @@ scale = Vector2( 0.286212, 0.286213 )
 texture = ExtResource( 2 )
 
 [node name="Map1" type="Sprite" parent="Paper1"]
-modulate = Color( 1, 1, 1, 0.717647 )
+modulate = Color( 1, 1, 1, 0.964706 )
 position = Vector2( -17.4692, -20.9634 )
 scale = Vector2( 5.25666, 5.25666 )
 texture = ExtResource( 1 )
+
+[node name="Labels" type="Control" parent="Paper1"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_scale = Vector2( 3.497, 3.497 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ExitLabel" type="Label" parent="Paper1/Labels"]
+margin_left = -42.962
+margin_top = 121.892
+margin_right = -2.96204
+margin_bottom = 154.892
+theme = ExtResource( 7 )
+text = "x"
+align = 1
+valign = 1
+
+[node name="ExitLabel2" type="Label" parent="Paper1/Labels"]
+margin_left = 122.891
+margin_top = 32.9707
+margin_right = 162.891
+margin_bottom = 65.9708
+theme = ExtResource( 7 )
+text = "x"
+align = 1
+valign = 1
+
+[node name="ExitLabel3" type="Label" parent="Paper1/Labels"]
+margin_left = 123.891
+margin_top = -95.9149
+margin_right = 163.891
+margin_bottom = -62.9149
+theme = ExtResource( 7 )
+text = "x"
+align = 1
+valign = 1
 
 [node name="CursorHolder" type="Control" parent="Paper1"]
 margin_left = -510.0
 margin_top = -520.0
 margin_right = 480.0
 margin_bottom = 480.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="PlayerCursor" type="Sprite" parent="Paper1/CursorHolder"]
 unique_name_in_owner = true
@@ -343,13 +384,11 @@ R = Turn Right
 F = Go Forward
 U = Reverse
 S = Stop/Hide
-G = Go
-[/center]"
+G = Go/Faster[/center]"
 text = "L = Turn Left
 R = Turn Right
 F = Go Forward
 U = Reverse
 S = Stop/Hide
-G = Go
-"
+G = Go/Faster"
 scroll_active = false
