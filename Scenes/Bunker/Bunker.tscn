@@ -783,4 +783,12 @@ shape = SubResource( 7 )
 [node name="Camera" type="Camera" parent="Troop"]
 transform = Transform( 1, 0, 0, 0, 0.878409, 0.47791, 0, -0.47791, 0.878409, 0, 2, 2 )
 
+[node name="StartingPoints" type="Spatial" parent="."]
+
+[node name="Spot1" type="Spatial" parent="StartingPoints"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -16, 0.75, -16 )
+
+[node name="Spot2" type="Spatial" parent="StartingPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.75, 45 )
+
 [connection signal="area_entered" from="Troop/Body/TroopCollider" to="Troop" method="_on_collider_entered"]

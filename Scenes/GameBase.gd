@@ -8,3 +8,6 @@ var input_matters := false
 
 func receive_choice(s: String) -> void:
 	return
+
+func additional_setup(i: int) -> void:
+	return

@@ -24,13 +24,15 @@ var current_message := ""
 func _ready() -> void:
 	_initialize_game()
 
-func _initialize_game() -> void:
+func _initialize_game(addtl_info := 0) -> void:
 	if current_game:
 		game_holder.remove_child(current_game)
 		current_game.queue_free()
 	var key_str: String = GAME.keys()[current_mode]
 	current_game = GAMES[key_str].instance()
 	game_holder.add_child(current_game)
+	if addtl_info > 0:
+		current_game.additional_setup(addtl_info)
 	parser.connect("send_letter", current_game, "_on_letter_sent")
 	current_game.connect("add_space", self, "_on_add_space")
 	current_game.connect("choice_made", self, "_on_choice_made")
@@ -39,10 +41,14 @@ func _on_choice_made(choice: String) -> void:
 	_on_add_space()
 	match current_mode:
 		GAME.MESSAGES:
-			match choice:
-				"DOCK": current_mode = GAME.DOCK
-				"SHIP": current_mode = GAME.SHIP
-			_initialize_game()
+			if choice.find("ESCAPE") == 0:
+				current_mode = GAME.BUNKER
+				_initialize_game(int(choice.replace("ESCAPE", "")))
+			else:
+				match choice:
+					"DOCK": current_mode = GAME.DOCK
+					"SHIP": current_mode = GAME.SHIP
+				_initialize_game()
 		GAME.SHIP:
 			current_mode = GAME.MESSAGES
 			_initialize_game()

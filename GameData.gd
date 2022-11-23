@@ -17,3 +17,6 @@ var milestones := []
 #  SOS_IGNORED
 #  SOS_DEFEAT
 #  SOS_VICTORY
+
+# Escape Mission
+#  ESCAPE_IGNORED

@@ -10,7 +10,7 @@ var _current_message := ""
 var _current_letters := 0
 var _quick_advance_open := false
 
-var _current_idx := "TEST"#"LV1_MISSION1"#"START"
+var _current_idx := "LV1_MISSION3"#"LV1_MISSION1"#"START"
 var _current_input := ""
 var _waiting := false
 

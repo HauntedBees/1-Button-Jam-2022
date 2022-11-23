@@ -12,6 +12,16 @@ const CHAR_INFO := {
 }
 
 var messages := {
+	"TEST": MessageData.new("A", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
+	]),
+	"TEST_FAIL": MessageData.new("LOSE", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
+	]),
+	"TEST_SUCCESS": MessageData.new("WIN", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
+	]),
+	
 	"START": MessageData.new("Okay, I think the coast is clear. We need to send a message out and see if we can get a response. Send out a \"CQ 5\" and we'll get this show on the road.", [
 		InputData.new("CQ", 1.0, "CIPHER_TEST", "START_FAIL")
 	]),
@@ -59,22 +69,32 @@ var messages := {
 		InputData.new("WAITING", 0.4, "LV1_WAITINGRESPONSE", "LV1_NEXTFAIL")
 	]),
 	"LV1_WAITINGRESPONSE": MessageData.new("Uh-oh, we've got an SOS. \"SOS -- ERCYL JVGU EBTRE.\" I think that's ROT13 encoded. Decode it and reply back!", [
-		InputData.new("ROGER", 0.5, "LV1_SOS", "LV1_SOSFAIL"),
-		InputData.new("EBTRE", 0.5, "LV1_SOS", "LV1_SOSFAIL")
+		InputData.new("ROGER", 0.5, "LV1_MISSION2", "LV1_SOSFAIL"),
+		InputData.new("EBTRE", 0.5, "LV1_MISSION2", "LV1_SOSFAIL")
 	], "SOS_IGNORED"),
 	"LV1_SOSFAIL": MessageData.new("Hmm... They aren't responding back. You must not have replied right. Hopefully someone else will be able to help them.", [
-		InputData.new("", 0.0, "SOMETHING_GOES_HERE") # TODO
+		InputData.new("", 0.0, "LV1_NEW_SOS")
 	]),
-	"LV1_SOS": MessageData.new("Oh good, they're responding. This is a long one; let me decode it. .... .... .... .... Their ship is under attack and their cannon operator is incapacitated! They need someone to help direct their shots. I guess we'll have to help them out! You'll just need to type out grid coordinates and they'll fire there! Let's do this!", [
+	"LV1_MISSION2": MessageData.new("Oh good, they're responding. This is a long one; let me decode it. .... .... .... .... Their ship is under attack and their cannon operator is incapacitated! They need someone to help direct their shots. I guess we'll have to help them out! You'll just need to type out grid coordinates and they'll fire there! Let's do this!", [
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
 	]),
-	"TEST": MessageData.new("A", [
-		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
+	"LV1_MISSION2_FAIL": MessageData.new("Connection gone... I think we lost them... .... .... .... .... .... .... We don't have time to mourn them now. The best way to honor their deaths is to win this war. Jinori, Hiabind, Touinar... rest in peace.", [
+		InputData.new("", 0.0, "LV1_NEW_SOS")
 	]),
-	"TEST_FAIL": MessageData.new("LOSE", [
-		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
+	"LV1_MISSION2_SUCCESS": MessageData.new("We did it! You did it! We sank their battleship! Officer Jinori sends his regards, and his boatmates Hiabind and Touinar thank you as well!", [
+		InputData.new("", 0.0, "LV1_NEW_SOS")
 	]),
-	"TEST_SUCCESS": MessageData.new("WIN", [
-		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
+	"LV1_NEW_SOS": MessageData.new("Oh, we're getting another encoded SOS. Send out an encoded \"STATUS\" to get more information from them!", [
+		InputData.new("FGNGHF", 0.5, "LV1_NEW_SOS2", "LV1_NEW_SOS_FAIL"),
+		InputData.new("STATUS", 0.5, "LV1_NEW_SOS2_UNENCODED", "LV1_NEW_SOS_FAIL")
+	], "ESCAPE_IGNORED"),
+	"LV1_NEW_SOS_FAIL": MessageData.new("What are you doing?! They're not going to respond to nonsense messages like that... let's hope someone else helps them...", [
+		InputData.new("", 0.0, "LV1_NEW_SOS")
+	]),
+	"LV1_NEW_SOS2_UNENCODED": MessageData.new("Oh no, you sent that \"STATUS\" message unencoded... hopefully nobody is listening in. Let's see if they respond...", [
+		InputData.new("", 0.0, "LV1_MISSION3")
+	]),
+	"LV1_MISSION3": MessageData.new("A", [#"They're responding. Let me decode this... Lieutenant Kongueo snuck into an enemy base to steal some intel, and now needs help getting out. Navigate by telling him how to get out and when to avoid enemies by sending him messages!", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "ESCAPE/1" })
 	])
 }

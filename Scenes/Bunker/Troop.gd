@@ -31,6 +31,9 @@ func _physics_process(delta: float) -> void:
 func reverse() -> void:
 	_turn(2)
 
+func get_direction() -> Vector3:
+	return _direction
+
 # -x = west, +x = east, -z = north, +z = south
 func _on_collider_entered(area: Area) -> void:
 	var area_pos := area.global_transform.origin
@@ -119,7 +122,11 @@ func _handle_input() -> void:
 		_:
 			_curr_state = STATE.CONFUSED
 
-func _turn(rotation_dir: int) -> void:
+func set_initial_rotation(angle: float) -> void:
+	print(int(floor(angle / 90.0)))
+	_turn(int(floor(angle / 90.0)), true)
+
+func _turn(rotation_dir: int, force := false) -> void:
 	if rotation_dir == 0:
 		_curr_state = STATE.WALKING
 		return
@@ -127,8 +134,12 @@ func _turn(rotation_dir: int) -> void:
 	var turn_radians := TURN_RADS * rotation_dir
 	_direction = _direction.rotated(Vector3.UP, turn_radians)
 	var new_dir := Vector3(0, rotation.y + turn_radians, 0)
-	_tween.interpolate_property(self, "rotation", rotation, new_dir, TURN_TIME)
-	_curr_state = STATE.TURNING
-	_tween.start()
-	yield(_tween, "tween_completed")
-	_curr_state = STATE.WALKING
+	if force:
+		rotation = new_dir
+		_curr_state = STATE.WALKING
+	else:
+		_tween.interpolate_property(self, "rotation", rotation, new_dir, TURN_TIME)
+		_curr_state = STATE.TURNING
+		_tween.start()
+		yield(_tween, "tween_completed")
+		_curr_state = STATE.WALKING

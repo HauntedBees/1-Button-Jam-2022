@@ -28,7 +28,10 @@ func evaluate(input: String) -> MessageResponse:
 				InputData.SPECIAL.DIFFICULTY_BRANCH:
 					return MessageResponse.new(MessageResponse.TYPE.DONE, id.special_info[GameData.difficulty])
 				InputData.SPECIAL.SWITCH_MISSION:
-					return MessageResponse.new(MessageResponse.TYPE.SWITCH_SCENE, id.special_info["type"])
+					if id.special_info.has("subtype"):
+						return MessageResponse.new(MessageResponse.TYPE.SWITCH_SCENE, id.special_info["type"])
+					else:
+						return MessageResponse.new(MessageResponse.TYPE.SWITCH_SCENE, id.special_info["type"])
 				InputData.SPECIAL.START_TROOPS:
 					GameData.active_troops = true
 					return MessageResponse.new(MessageResponse.TYPE.DONE, id.success_next)
