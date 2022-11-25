@@ -6,7 +6,6 @@ const BULLETHOLE_SCENE: PackedScene = preload("res://Scenes/Bunker/Bullethole.ts
 signal troop_died()
 var _troop_dead := false
 var _shoot_chance := 0.01
-var health := 5
 
 onready var bullet_hud: Control = $Bullets
 onready var die_anim: AnimationPlayer = $"%DieAnim"
@@ -15,10 +14,6 @@ onready var starting_points := [
 	$StartingPoints/Spot1,
 	$StartingPoints/Spot2
 ]
-
-func _ready() -> void:
-	randomize()
-	health = 6 + GameData.difficulty
 
 func get_troop_info() -> Dictionary:
 	return {
@@ -59,8 +54,6 @@ func _on_EnemyTroop_shoot() -> void:
 		bullet_hud.add_child(shot)
 		bullet_hud.move_child(shot, 0)
 		shot.position = Vector2(randi() % int(bullet_hud.rect_size.x), randi() % int(bullet_hud.rect_size.y))
-		health -= 1
-		if health <= 0:
-			troop.die()
+		troop.take_hit()
 	else:
 		_shoot_chance += randf() * 0.05

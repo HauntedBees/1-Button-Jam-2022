@@ -60,6 +60,13 @@ func _process(delta: float) -> void:
 func _is_looking_at_player() -> bool:
 	return _get_relative_dir() == "F"
 
+func is_alive() -> bool:
+	return _curr_state != STATE.DEAD
+
+func get_shot() -> void:
+	sprite.animation = "Die"
+	_curr_state = STATE.DEAD
+
 # -x = west, +x = east, -z = north, +z = south
 # this is absolutely the wrong way to do this but I forgot math and this jam is due in 25 hours so
 func _get_relative_dir() -> String:

@@ -29,19 +29,51 @@ var _last_position := Vector3.ZERO
 var _at_turn := false
 var _targets := []
 
+var health := 5
+var hit_chance := 0.5
+var shoot_time := 0.0
+var is_shooting := false
+
+func _ready() -> void:
+	randomize()
+	health = 6 + GameData.difficulty # 1 to 5
+	hit_chance = 0.7 - GameData.difficulty * 0.1
+
+func take_hit() -> void:
+	health -= 1
+	if health <= 0:
+		_set_state(STATE.DEAD)
+
 func is_safe() -> bool:
 	return _curr_state == STATE.COVER
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	match _curr_state:
-		STATE.WALKING:
-			global_transform.origin += _direction * move_speed * delta
-		STATE.STOPPED:
-			if next_instruction != "":
+		STATE.STOPPED, STATE.KNEEL, STATE.COVER:
+			if !is_shooting && next_instruction != "":
 				_handle_input()
+			if _curr_state == STATE.STOPPED || is_shooting:
+				return
+			shoot_time -= delta
+			if shoot_time <= 0.0 && _targets.size() > 0:
+				is_shooting = true
+				shoot_time += 0.2 + randf()
+				if _curr_state == STATE.KNEEL:
+					_troop_anim.play("SquatShoot")
+				else:
+					_troop_anim.play("CoverShoot")
+				yield(get_tree().create_timer(0.25), "timeout")
+				is_shooting = false
+				for t in _targets:
+					if randf() <= hit_chance:
+						var e := t as EnemyTroop
+						e.get_shot()
+						if !e.is_alive():
+							_targets.erase(e)
 
-func die() -> void:
-	_set_state(STATE.DEAD)
+func _physics_process(delta: float) -> void:
+	if _curr_state == STATE.WALKING:
+		global_transform.origin += _direction * move_speed * delta
 
 func _set_state(state) -> void:
 	if _curr_state == state:
@@ -140,7 +172,6 @@ func _handle_turn(ta: TurnArea, area_pos: Vector3) -> void:
 		_handle_input()
 
 func slow_down() -> void:
-	move_speed = 0
 	if _curr_safety_area != null:
 		_last_position = global_transform.origin
 		_set_state(STATE.COVER)
@@ -233,12 +264,10 @@ func _turn(rotation_dir: int, force := false) -> void:
 
 func _on_ShootRangeArea_area_entered(area: Area) -> void:
 	var parent := area.get_parent()
-	if parent is EnemyTroop:
+	if parent is EnemyTroop && (parent as EnemyTroop).is_alive():
 		_targets.append(parent)
-		print("GOT")
 
 func _on_ShootRangeArea_area_exited(area: Area) -> void:
 	var parent := area.get_parent()
 	if parent is EnemyTroop:
 		_targets.erase(parent)
-		print("UNGOT")
