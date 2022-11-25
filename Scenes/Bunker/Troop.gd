@@ -35,6 +35,9 @@ func _physics_process(delta: float) -> void:
 			if next_instruction != "":
 				_handle_input()
 
+func die() -> void:
+	_set_state(STATE.DEAD)
+
 func _set_state(state) -> void:
 	if _curr_state == state:
 		return
@@ -57,7 +60,8 @@ func _set_state(state) -> void:
 	_curr_state = state
 
 func reverse() -> void:
-	_turn(2)
+	if move_speed > 0:
+		_turn(2)
 
 func get_direction() -> Vector3:
 	return _direction
@@ -81,7 +85,7 @@ func _on_collider_exited(area: Area) -> void:
 
 func _handle_autoturn(ata: AutoTurnArea, area_pos: Vector3) -> void:
 	var turn_dir := 0
-	match _get_direction_string():
+	match get_direction_string():
 		"N":
 			turn_dir = ata.from_south_dir
 		"S":
@@ -102,7 +106,7 @@ func _handle_autoturn(ata: AutoTurnArea, area_pos: Vector3) -> void:
 func _handle_turn(ta: TurnArea, area_pos: Vector3) -> void:
 	_tween.interpolate_property(self, "global_transform:origin", global_transform.origin, area_pos, ALIGN_TIME)
 	_tween.start()
-	match _get_direction_string():
+	match get_direction_string():
 		"N":
 			_can_go_forward = ta.north
 			_can_go_left = ta.west
@@ -161,7 +165,7 @@ func _maybe_resume() -> void:
 	else:
 		_set_state(STATE.WALKING)
 
-func _get_direction_string() -> String:
+func get_direction_string() -> String:
 	if _direction.z < -EPSILON:
 		return "N"
 	elif _direction.z > EPSILON:
@@ -175,8 +179,6 @@ func _get_direction_string() -> String:
 
 func _handle_input() -> void:
 	match next_instruction:
-		"U":
-			reverse()
 		"L":
 			if _can_go_left:
 				_turn(1)
@@ -204,6 +206,8 @@ func set_initial_rotation(angle: float) -> void:
 	_turn(int(floor(angle / 90.0)), true)
 
 func _turn(rotation_dir: int, force := false) -> void:
+	if _curr_state == STATE.TURNING:
+		return
 	_at_turn = false
 	if rotation_dir == 0:
 		_set_state(STATE.WALKING)

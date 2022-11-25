@@ -4,6 +4,7 @@
 [ext_resource path="res://Assets/DirtyBrick_S.jpg" type="Texture" id=2]
 
 [resource]
+albedo_color = Color( 1, 1, 1, 0.027451 )
 albedo_texture = ExtResource( 2 )
 normal_enabled = true
 normal_scale = 1.0

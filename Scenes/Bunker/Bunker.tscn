@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://Assets/Map1.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Materials/BunkerWall.tres" type="Material" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Assets/Bunker/PlayerRun.png" type="Texture" id=9]
 [ext_resource path="res://Scenes/Bunker/FailZone.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Bunker/CoverArea.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Bunker/EnemyTroop.tscn" type="PackedScene" id=12]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 100, 100 )
@@ -242,6 +243,37 @@ animations = [ {
 "name": "Squat",
 "speed": 5.0
 } ]
+
+[sub_resource type="Animation" id=43]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.345098, 0.0156863, 0.0156863, 0 ) ]
+}
+
+[sub_resource type="Animation" id=44]
+resource_name = "YouHaveDied"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.345098, 0.0156863, 0.0156863, 0 ), Color( 0.345098, 0.0156863, 0.0156863, 1 ) ]
+}
 
 [node name="Bunker" type="Spatial"]
 script = ExtResource( 4 )
@@ -990,7 +1022,6 @@ skeleton = NodePath("../..")
 
 [node name="TroopCollider" type="Area" parent="Troop/Body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
-monitorable = false
 
 [node name="CollisionShape" type="CollisionShape" parent="Troop/Body/TroopCollider"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
@@ -1003,6 +1034,7 @@ transform = Transform( 1, 0, 0, 0, 0.878409, 0.47791, 0, -0.47791, 0.878409, 0, 
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.532433, 0.350983 )
 frames = SubResource( 32 )
 animation = "Run"
+frame = 4
 playing = true
 
 [node name="StartingPoints" type="Spatial" parent="."]
@@ -1055,6 +1087,29 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.2904
 distance = 2.0
 offset = -2.0
 
+[node name="Enemies" type="Spatial" parent="."]
+
+[node name="EnemyTroop" parent="Enemies" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5199, 1.28757, -5.9855 )
+turn_directions = [ -1 ]
+player_path = NodePath("../../Troop")
+custom_autoturns = true
+
+[node name="Bullets" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="Bullets"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.345098, 0.0156863, 0.0156863, 0 )
+
+[node name="DieAnim" type="AnimationPlayer" parent="Bullets"]
+unique_name_in_owner = true
+anims/RESET = SubResource( 43 )
+anims/YouHaveDied = SubResource( 44 )
+
 [connection signal="died" from="Troop" to="." method="_on_Troop_died"]
 [connection signal="area_entered" from="Troop/Body/TroopCollider" to="Troop" method="_on_collider_entered"]
 [connection signal="area_exited" from="Troop/Body/TroopCollider" to="Troop" method="_on_collider_exited"]
+[connection signal="shoot" from="Enemies/EnemyTroop" to="." method="_on_EnemyTroop_shoot"]
