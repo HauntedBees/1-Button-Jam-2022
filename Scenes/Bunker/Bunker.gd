@@ -50,10 +50,9 @@ func _on_Troop_died() -> void:
 	emit_signal("troop_died")
 
 func _on_EnemyTroop_shoot() -> void:
-	if _troop_dead:
+	if _troop_dead || troop.is_safe():
 		return
-	print("pew")
-	if randf() < _shoot_chance:
+	elif randf() < _shoot_chance:
 		_shoot_chance -= 0.25
 		var shot: AnimatedSprite = BULLETHOLE_SCENE.instance()
 		shot.frame = randi() % 6

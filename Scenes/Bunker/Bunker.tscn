@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://Assets/Map1.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Materials/BunkerWall.tres" type="Material" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Scenes/Bunker/FailZone.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Bunker/CoverArea.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/Bunker/EnemyTroop.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Assets/Bunker/Huh.png" type="Texture" id=13]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 100, 100 )
@@ -243,6 +244,47 @@ animations = [ {
 "name": "Squat",
 "speed": 5.0
 } ]
+
+[sub_resource type="BoxShape" id=45]
+extents = Vector3( 1, 1, 8 )
+
+[sub_resource type="CubeMesh" id=46]
+size = Vector3( 2, 2, 0.5 )
+
+[sub_resource type="SpatialMaterial" id=47]
+flags_transparent = true
+albedo_color = Color( 0.764706, 0.329412, 0.329412, 0.352941 )
+
+[sub_resource type="Animation" id=48]
+resource_name = "Huh"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.6, 1.1, 1.6, 2.1, 2.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, true, false ]
+}
+
+[sub_resource type="Animation" id=49]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=43]
 length = 0.001
@@ -938,6 +980,7 @@ from_south_dir = -1
 [node name="AutoTurnArea14" parent="TurnPoints" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.5, 0, -6 )
 from_east_dir = 1
+from_south_dir = -1
 
 [node name="AutoTurnArea15" parent="TurnPoints" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.5, 0, 1.5 )
@@ -1034,8 +1077,30 @@ transform = Transform( 1, 0, 0, 0, 0.878409, 0.47791, 0, -0.47791, 0.878409, 0, 
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.532433, 0.350983 )
 frames = SubResource( 32 )
 animation = "Run"
-frame = 4
+frame = 1
 playing = true
+
+[node name="ShootRangeArea" type="Area" parent="Troop"]
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="Troop/ShootRangeArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6 )
+shape = SubResource( 45 )
+
+[node name="Pointer" type="MeshInstance" parent="Troop/ShootRangeArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.7105 )
+layers = 2
+mesh = SubResource( 46 )
+material/0 = SubResource( 47 )
+
+[node name="Huh" type="Sprite3D" parent="Troop"]
+transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 2, 0, 1.774, 0 )
+visible = false
+texture = ExtResource( 13 )
+
+[node name="HuhAnim" type="AnimationPlayer" parent="Troop/Huh"]
+anims/Huh = SubResource( 48 )
+anims/RESET = SubResource( 49 )
 
 [node name="StartingPoints" type="Spatial" parent="."]
 
@@ -1112,4 +1177,6 @@ anims/YouHaveDied = SubResource( 44 )
 [connection signal="died" from="Troop" to="." method="_on_Troop_died"]
 [connection signal="area_entered" from="Troop/Body/TroopCollider" to="Troop" method="_on_collider_entered"]
 [connection signal="area_exited" from="Troop/Body/TroopCollider" to="Troop" method="_on_collider_exited"]
+[connection signal="area_entered" from="Troop/ShootRangeArea" to="Troop" method="_on_ShootRangeArea_area_entered"]
+[connection signal="area_exited" from="Troop/ShootRangeArea" to="Troop" method="_on_ShootRangeArea_area_exited"]
 [connection signal="shoot" from="Enemies/EnemyTroop" to="." method="_on_EnemyTroop_shoot"]

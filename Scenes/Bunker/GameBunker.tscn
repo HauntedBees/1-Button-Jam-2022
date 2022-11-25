@@ -383,13 +383,13 @@ bbcode_text = "[center]L = Turn Left
 R = Turn Right
 F = Go Forward
 U = Reverse
-S = Stop/Hide
+S = Stop/Shoot
 G = Go/Faster[/center]"
 text = "L = Turn Left
 R = Turn Right
 F = Go Forward
 U = Reverse
-S = Stop/Hide
+S = Stop/Shoot
 G = Go/Faster"
 scroll_active = false
 

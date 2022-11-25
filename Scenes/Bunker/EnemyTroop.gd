@@ -17,7 +17,7 @@ onready var sprite: AnimatedSprite3D = $Sprite
 onready var fov_collider: CollisionShape = $FOV/CollisionShape
 onready var fov_mesh: MeshInstance = $FOV/MeshInstance
 
-var _player_mesh: Troop
+var _player_mesh#: Troop # love me some got dang cyclical references
 var _turn_idx := 0
 var _curr_state = STATE.WALKING
 var _player_in_view := false
@@ -63,7 +63,7 @@ func _is_looking_at_player() -> bool:
 # -x = west, +x = east, -z = north, +z = south
 # this is absolutely the wrong way to do this but I forgot math and this jam is due in 25 hours so
 func _get_relative_dir() -> String:
-	var pl_dir := _player_mesh.get_direction_string()
+	var pl_dir: String = _player_mesh.get_direction_string()
 	var me_dir := _get_direction_string()
 	if pl_dir == "N":
 		match me_dir:

@@ -148,6 +148,7 @@ billboard = 2
 shaded = true
 frames = SubResource( 5 )
 animation = "Front"
+frame = 2
 playing = true
 
 [node name="FOV" type="Area" parent="."]
@@ -194,7 +195,6 @@ mesh = SubResource( 15 )
 material/0 = SubResource( 16 )
 
 [node name="Core" type="Area" parent="."]
-monitorable = false
 
 [node name="CollisionShape" type="CollisionShape" parent="Core"]
 shape = SubResource( 17 )

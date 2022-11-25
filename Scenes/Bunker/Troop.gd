@@ -10,6 +10,7 @@ const EPSILON := 0.1
 const TURN_TIME := 0.5
 const ALIGN_TIME := 0.2
 
+onready var _huh_anim: AnimationPlayer = $Huh/HuhAnim
 onready var _troop_anim: AnimatedSprite3D = $PlayerBody
 onready var _collider: Area = $Body/TroopCollider
 onready var _tween: Tween = $Tween
@@ -26,6 +27,10 @@ var _can_go_forward := false
 var _curr_safety_area: CoverArea = null
 var _last_position := Vector3.ZERO
 var _at_turn := false
+var _targets := []
+
+func is_safe() -> bool:
+	return _curr_state == STATE.COVER
 
 func _physics_process(delta: float) -> void:
 	match _curr_state:
@@ -191,15 +196,15 @@ func _handle_input() -> void:
 				_signal_confusion()
 		"F":
 			if _can_go_forward:
-				next_instruction = ""
 				_set_state(STATE.WALKING)
 			else:
 				_signal_confusion()
 		_:
 			_signal_confusion()
+	next_instruction = ""
 
 func _signal_confusion() -> void:
-	pass
+	_huh_anim.play("Huh")
 
 func set_initial_rotation(angle: float) -> void:
 	print(int(floor(angle / 90.0)))
@@ -225,3 +230,15 @@ func _turn(rotation_dir: int, force := false) -> void:
 		_tween.start()
 		yield(_tween, "tween_completed")
 		_set_state(STATE.WALKING)
+
+func _on_ShootRangeArea_area_entered(area: Area) -> void:
+	var parent := area.get_parent()
+	if parent is EnemyTroop:
+		_targets.append(parent)
+		print("GOT")
+
+func _on_ShootRangeArea_area_exited(area: Area) -> void:
+	var parent := area.get_parent()
+	if parent is EnemyTroop:
+		_targets.erase(parent)
+		print("UNGOT")
