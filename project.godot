@@ -24,6 +24,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Bunker/Bunker.gd"
 }, {
+"base": "Area",
+"class": "CoverArea",
+"language": "GDScript",
+"path": "res://Scenes/Bunker/CoverArea.gd"
+}, {
+"base": "Area",
+"class": "FailZone",
+"language": "GDScript",
+"path": "res://Scenes/Bunker/FailZone.gd"
+}, {
 "base": "Control",
 "class": "GameBase",
 "language": "GDScript",
@@ -83,6 +93,8 @@ _global_script_class_icons={
 "AutoTurnArea": "",
 "Buble": "",
 "Bunker": "",
+"CoverArea": "",
+"FailZone": "",
 "GameBase": "",
 "InputData": "",
 "Lineup": "",

@@ -31,3 +31,7 @@ func _process(_delta: float) -> void:
 		player_cursor.rotation_degrees = 0.0
 	elif dir.z < -EPSILON:
 		player_cursor.rotation_degrees = 180.0
+
+func _on_Bunker_troop_died() -> void:
+	input_matters = false
+	print("YYYYOUUU'RE FUKT!")

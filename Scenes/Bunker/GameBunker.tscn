@@ -392,3 +392,5 @@ U = Reverse
 S = Stop/Hide
 G = Go/Faster"
 scroll_active = false
+
+[connection signal="troop_died" from="ViewportContainer/Viewport/Bunker" to="." method="_on_Bunker_troop_died"]

@@ -1,6 +1,9 @@
 class_name Bunker
 extends Spatial
 
+signal troop_died()
+var _troop_dead := false
+
 onready var troop: Troop = $"%Troop"
 onready var starting_points := [
 	$StartingPoints/Spot1,
@@ -19,18 +22,16 @@ func set_troop_pos(idx: int) -> void:
 	troop.set_initial_rotation(starting_point.rotation_degrees.y)
 
 func get_letter(letter: String) -> void:
+	if _troop_dead:
+		return
 	match letter:
-		"U":
-			troop.reverse()
 		"G":
-			if troop.move_speed == 0:
-				troop.move_speed = 3
-			else:
-				troop.move_speed = 6
+			troop.speed_up()
 		"S":
-			if troop.move_speed == 6:
-				troop.move_speed = 3
-			else:
-				troop.move_speed = 0
+			troop.slow_down()
 		_:
 			troop.next_instruction = letter
+
+func _on_Troop_died() -> void:
+	_troop_dead = true
+	emit_signal("troop_died")

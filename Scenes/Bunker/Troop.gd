@@ -1,7 +1,9 @@
 class_name Troop
 extends Spatial
 
-enum STATE { WALKING, STOPPED, TURNING, CONFUSED }
+signal died()
+
+enum STATE { WALKING, STOPPED, TURNING, DEAD, COVER, KNEEL }
 
 const TURN_RADS := PI / 2
 const EPSILON := 0.1
@@ -21,22 +23,37 @@ var _can_go_left := false
 var _can_go_right := false
 var _can_go_forward := false
 
+var _curr_safety_area: CoverArea = null
+var _last_position := Vector3.ZERO
+var _at_turn := false
+
 func _physics_process(delta: float) -> void:
 	match _curr_state:
 		STATE.WALKING:
 			global_transform.origin += _direction * move_speed * delta
-		STATE.STOPPED, STATE.CONFUSED:
+		STATE.STOPPED:
 			if next_instruction != "":
 				_handle_input()
 
 func _set_state(state) -> void:
 	if _curr_state == state:
 		return
+	var primary := true
 	match state:
 		STATE.WALKING:
 			_troop_anim.play("Run")
-		STATE.STOPPED, STATE.CONFUSED:
+		STATE.STOPPED:
 			_troop_anim.play("Look")
+		STATE.DEAD:
+			_troop_anim.play("Fail")
+			move_speed = 0.0
+			emit_signal("died")
+		STATE.COVER:
+			primary = false
+			_troop_anim.play("Cover")
+		STATE.KNEEL:
+			primary = false
+			_troop_anim.play("Squat")
 	_curr_state = state
 
 func reverse() -> void:
@@ -50,55 +67,99 @@ func _on_collider_entered(area: Area) -> void:
 	var area_pos := area.global_transform.origin
 	area_pos.y = global_transform.origin.y
 	if area is AutoTurnArea:
-		var ata := area as AutoTurnArea
-		var turn_dir := 0
-		match _get_direction_string():
-			"N":
-				turn_dir = ata.from_south_dir
-			"S":
-				turn_dir = ata.from_north_dir
-			"W":
-				turn_dir = ata.from_east_dir
-			"E":
-				turn_dir = ata.from_west_dir
-			_:
-				print("well this certainly shouldn't happen! ha ha!")
-		if turn_dir != 0:
-			_tween.interpolate_property(self, "global_transform:origin", global_transform.origin, area_pos, ALIGN_TIME)
-			_tween.start()
-			_turn(turn_dir)
-		else:
-			_set_state(STATE.WALKING)
-	else:
+		_handle_autoturn(area, area_pos)
+	elif area is TurnArea:
+		_handle_turn(area, area_pos)
+	elif area is FailZone:
+		_set_state(STATE.DEAD)
+	elif area is CoverArea:
+		_curr_safety_area = area
+
+func _on_collider_exited(area: Area) -> void:
+	if area is CoverArea:
+		_curr_safety_area = null
+
+func _handle_autoturn(ata: AutoTurnArea, area_pos: Vector3) -> void:
+	var turn_dir := 0
+	match _get_direction_string():
+		"N":
+			turn_dir = ata.from_south_dir
+		"S":
+			turn_dir = ata.from_north_dir
+		"W":
+			turn_dir = ata.from_east_dir
+		"E":
+			turn_dir = ata.from_west_dir
+		_:
+			print("well this certainly shouldn't happen! ha ha!")
+	if turn_dir != 0:
 		_tween.interpolate_property(self, "global_transform:origin", global_transform.origin, area_pos, ALIGN_TIME)
 		_tween.start()
-		var ta := area as TurnArea
-		match _get_direction_string():
-			"N":
-				_can_go_forward = ta.north
-				_can_go_left = ta.west
-				_can_go_right = ta.east
-			"S":
-				_can_go_forward = ta.south
-				_can_go_left = ta.east
-				_can_go_right = ta.west
-			"W":
-				_can_go_forward = ta.west
-				_can_go_left = ta.south
-				_can_go_right = ta.north
-			"E":
-				_can_go_forward = ta.east
-				_can_go_left = ta.north
-				_can_go_right = ta.south
-			_:
-				print("uhhh fuckin arbies")
-				_can_go_forward = true
-				_can_go_left = true
-				_can_go_right = true
-		if next_instruction == "":
-			_set_state(STATE.STOPPED)
-		else:
-			_handle_input()
+		_turn(turn_dir)
+	else:
+		_set_state(STATE.WALKING)
+
+func _handle_turn(ta: TurnArea, area_pos: Vector3) -> void:
+	_tween.interpolate_property(self, "global_transform:origin", global_transform.origin, area_pos, ALIGN_TIME)
+	_tween.start()
+	match _get_direction_string():
+		"N":
+			_can_go_forward = ta.north
+			_can_go_left = ta.west
+			_can_go_right = ta.east
+		"S":
+			_can_go_forward = ta.south
+			_can_go_left = ta.east
+			_can_go_right = ta.west
+		"W":
+			_can_go_forward = ta.west
+			_can_go_left = ta.south
+			_can_go_right = ta.north
+		"E":
+			_can_go_forward = ta.east
+			_can_go_left = ta.north
+			_can_go_right = ta.south
+		_:
+			print("uhhh fuckin arbies")
+			_can_go_forward = true
+			_can_go_left = true
+			_can_go_right = true
+	if next_instruction == "":
+		_set_state(STATE.STOPPED)
+		_at_turn = true
+	else:
+		_handle_input()
+
+func slow_down() -> void:
+	move_speed = 0
+	if _curr_safety_area != null:
+		_last_position = global_transform.origin
+		_set_state(STATE.COVER)
+		var next_pos := _curr_safety_area.get_closest_safety_rod_position(global_transform.origin, _direction)
+		next_pos.y = global_transform.origin.y
+		_tween.interpolate_property(self, "translation", global_transform.origin, next_pos, TURN_TIME)
+		_tween.start()
+	else:
+		_set_state(STATE.KNEEL)
+
+func speed_up() -> void:
+	if _curr_state == STATE.COVER:
+		_tween.interpolate_property(self, "translation", global_transform.origin, _last_position, TURN_TIME)
+		_tween.start()
+		_maybe_resume()
+	elif _curr_state == STATE.KNEEL:
+		_maybe_resume()
+	elif move_speed == 0:
+		move_speed = 3
+	else:
+		move_speed = 6
+
+func _maybe_resume() -> void:
+	move_speed = 3
+	if _at_turn:
+		_set_state(STATE.STOPPED)
+	else:
+		_set_state(STATE.WALKING)
 
 func _get_direction_string() -> String:
 	if _direction.z < -EPSILON:
@@ -114,30 +175,36 @@ func _get_direction_string() -> String:
 
 func _handle_input() -> void:
 	match next_instruction:
+		"U":
+			reverse()
 		"L":
 			if _can_go_left:
 				_turn(1)
 			else:
-				_set_state(STATE.CONFUSED)
+				_signal_confusion()
 		"R":
 			if _can_go_right:
 				_turn(-1)
 			else:
-				_set_state(STATE.CONFUSED)
+				_signal_confusion()
 		"F":
 			if _can_go_forward:
 				next_instruction = ""
 				_set_state(STATE.WALKING)
 			else:
-				_set_state(STATE.CONFUSED)
+				_signal_confusion()
 		_:
-			_set_state(STATE.CONFUSED)
+			_signal_confusion()
+
+func _signal_confusion() -> void:
+	pass
 
 func set_initial_rotation(angle: float) -> void:
 	print(int(floor(angle / 90.0)))
 	_turn(int(floor(angle / 90.0)), true)
 
 func _turn(rotation_dir: int, force := false) -> void:
+	_at_turn = false
 	if rotation_dir == 0:
 		_set_state(STATE.WALKING)
 		return
