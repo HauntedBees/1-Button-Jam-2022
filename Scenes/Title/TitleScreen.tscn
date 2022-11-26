@@ -12,7 +12,7 @@ size = Vector2( 3, 2 )
 subdivide_width = 8
 subdivide_depth = 8
 
-[sub_resource type="Shader" id=2]
+[sub_resource type="Shader" id=5]
 code = "shader_type spatial;
 
 uniform float speed = 2.0;
@@ -39,7 +39,7 @@ void vertex(){
 }"
 
 [sub_resource type="ShaderMaterial" id=3]
-shader = SubResource( 2 )
+shader = SubResource( 5 )
 shader_param/speed = 1.0
 shader_param/frequency_y = 5.0
 shader_param/frequency_x = 5.0

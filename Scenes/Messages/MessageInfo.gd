@@ -94,13 +94,19 @@ var messages := {
 	"LV1_NEW_SOS2_UNENCODED": MessageData.new("Oh no, you sent that \"STATUS\" message unencoded... hopefully nobody is listening in. Let's see if they respond...", [
 		InputData.new("", 0.0, "LV1_MISSION3")
 	]),
-	"LV1_MISSION3": MessageData.new("A", [#"They're responding. Let me decode this... Lieutenant Kongueo snuck into an enemy base to steal some intel, and now needs help getting out. Navigate by telling him how to get out and when to avoid enemies by sending him messages!", [
+	"LV1_MISSION3": MessageData.new("They're responding. Let me decode this... Kongueo snuck into an enemy base to steal some intel, and now needs help getting out. Navigate by telling him how to get out and when to avoid enemies by sending him messages!", [
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "ESCAPE/1" })
 	]),
-	"LV1_MISSION3_SUCCESS": MessageData.new("GADZOOKS!", [
-		InputData.new("", 0.0, "LV1_MISSION3")
+	"LV1_MISSION3_SUCCESS": MessageData.new("You did it! Kongueo got out with the intel! Let's wait a minute and see what he reports when he gets back to his base! .... .... .... This is big! This could turn the tide in our favor!", [
+		InputData.new("", 0.0, "END")
 	]),
-	"LV1_MISSION3_FAIL": MessageData.new("You fucked it!", [
-		InputData.new("", 0.0, "LV1_MISSION3")
+	"LV1_MISSION3_FAIL": MessageData.new("...Rest in Peace, Jast Kongueo. You died for a noble cause. Morse \"F\" to pay respects.", [
+		InputData.new("F", 1.0, "END", "RESPECT_WRONG")
+	]),
+	"RESPECT_WRONG": MessageData.new("You can't even pay respects to our friend properly? You know, I'm starting to suspect that you might be a spy intentionally sabotaging our operations...", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "END" })
+	]),
+	"END": MessageData.new("Well, we've done all we can for now. Let's sit tight until the next mission. Good work today, Hails.", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "END" })
 	])
 }

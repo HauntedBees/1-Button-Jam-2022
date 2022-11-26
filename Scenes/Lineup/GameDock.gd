@@ -35,6 +35,7 @@ func _ready() -> void:
 func _on_letter_sent(letter: String) -> void:
 	if letter == "5":
 		var guess := ""
+		GameData.max_typing_score += 1.0
 		for i in _current_lineup:
 			var name: String = (i as String).to_upper()
 			var similarity := _current_guess.similarity(name)

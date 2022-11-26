@@ -63,8 +63,11 @@ func _process(delta: float) -> void:
 				shoot_time += 0.2 + randf()
 				if _curr_state == STATE.KNEEL:
 					_troop_anim.play("SquatShoot")
-				else:
+				elif _curr_state == STATE.COVER:
 					_troop_anim.play("CoverShoot")
+				else:
+					is_shooting = false
+					return
 				_troop_anim.frame = 0
 				yield(get_tree().create_timer(0.25), "timeout")
 				is_shooting = false
@@ -73,6 +76,7 @@ func _process(delta: float) -> void:
 						var e := t as EnemyTroop
 						e.get_shot()
 						if !e.is_alive():
+							GameData.story_score += 25
 							_targets.erase(e)
 
 func _physics_process(delta: float) -> void:
@@ -121,6 +125,7 @@ func _on_collider_entered(area: Area) -> void:
 	elif area is CoverArea:
 		_curr_safety_area = area
 	elif area is EscapeArea:
+		GameData.story_score += 100
 		emit_signal("won")
 
 func _on_collider_exited(area: Area) -> void:

@@ -5,9 +5,10 @@ const GAMES := {
 	"DOCK": preload("res://Scenes/Lineup/GameDock.tscn"),
 	"MESSAGES": preload("res://Scenes/Messages/Messages.tscn"),
 	"SHIP": preload("res://Scenes/Ship/GameShip.tscn"),
-	"TITLE": preload("res://Scenes/Title/TitleScreen.tscn")
+	"TITLE": preload("res://Scenes/Title/TitleScreen.tscn"),
+	"END": preload("res://Scenes/Title/GameOver.tscn")
 }
-enum GAME { BUNKER, MESSAGES, DOCK, SHIP, TITLE }
+enum GAME { BUNKER, MESSAGES, DOCK, SHIP, TITLE, END }
 
 const LABEL_FORMAT_STRING := "[right]%s[/right]"
 const INVALID_FORMAT_STRING := "[color=#666666]%s[/color]"
@@ -19,7 +20,7 @@ onready var parser: MorseParser = $MorseParser
 onready var game_holder: Control = $"%GameHolder"
 onready var current_game: GameBase = $Table/GameHolder/Messages
 
-var current_mode = GAME.MESSAGES#GAME.TITLE#
+var current_mode = GAME.END#GAME.MESSAGES#GAME.TITLE#
 var current_message := ""
 
 func _ready() -> void:
@@ -45,6 +46,9 @@ func _initialize_game(addtl_info := 0) -> void:
 func _on_choice_made(choice: String) -> void:
 	_on_add_space()
 	match current_mode:
+		GAME.END:
+			current_mode = GAME.TITLE
+			_initialize_game()
 		GAME.TITLE:
 			current_mode = GAME.MESSAGES
 			_initialize_game()
@@ -57,6 +61,7 @@ func _on_choice_made(choice: String) -> void:
 				match choice:
 					"DOCK": current_mode = GAME.DOCK
 					"SHIP": current_mode = GAME.SHIP
+					"END": current_mode = GAME.END
 				_initialize_game()
 		GAME.BUNKER:
 			current_mode = GAME.MESSAGES

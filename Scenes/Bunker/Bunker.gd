@@ -95,6 +95,7 @@ func _on_Troop_won() -> void:
 			alive_troops += 1
 	die_anim.play("Win")
 	if alive_troops == 0:
+		GameData.story_score += 500
 		GameData.milestones.append("ESCAPE_OVERKILL")
 	else:
 		GameData.milestones.append("ESCAPE_SURVIVED")

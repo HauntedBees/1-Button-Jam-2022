@@ -19,6 +19,7 @@ func evaluate(input: String) -> MessageResponse:
 		if input.length() < id.input.length():
 			continue
 		var similarity := input.similarity(id.input)
+		GameData.max_typing_score += 1.0
 		if similarity >= id.min_score:
 			GameData.typing_score += similarity
 			GameData.story_score += 10
