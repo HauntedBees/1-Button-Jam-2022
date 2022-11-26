@@ -39,3 +39,6 @@ https://freesound.org/people/baefild/sounds/91293/
 https://freesound.org/people/sandyrb/sounds/95078/
 https://freesound.org/people/TB0Y298/sounds/212689/
 https://freesound.org/people/BloodPixelHero/sounds/572936/
+
+https://www.fontspace.com/morse-tech-font-f18078
+https://fontlibrary.org/en/font/anarchy-sans

@@ -138,6 +138,7 @@ config/name="OneButtonJam"
 run/main_scene="res://Testbench.tscn"
 boot_splash/image="res://SplashScreen.png"
 config/icon="res://icon.png"
+config/windows_native_icon="res://Builds/icon.ico"
 
 [autoload]
 

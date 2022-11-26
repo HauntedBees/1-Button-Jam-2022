@@ -97,7 +97,7 @@ var messages := {
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "DOCK" })
 	]),
 	"LV1_MISSION1_FAIL": MessageData.new("Well, that doesn't help us... I guess whoever that was will get away scot-free.", [
-		InputData.new("", 0.0, "LV1_UH_OH")
+		InputData.new("", 0.0, "LV1_NEXT")
 	]),
 	"LV1_MISSION1_SUCCESS": MessageData.new("%s? %s %s? Wow... I never would have expected %s to be a spy... Well, it looks like we'll put a stop to that now, at least.", [
 		InputData.new("", 0.0, "LV1_NEXT")
