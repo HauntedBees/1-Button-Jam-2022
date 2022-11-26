@@ -25,7 +25,10 @@ func evaluate(input: String) -> MessageResponse:
 				InputData.SPECIAL.NONE:
 					return MessageResponse.new(MessageResponse.TYPE.DONE, id.success_next)
 				InputData.SPECIAL.DIFFICULTY_BRANCH:
-					return MessageResponse.new(MessageResponse.TYPE.DONE, id.special_info[GameData.difficulty])
+					if id.special_info.has(GameData.difficulty):
+						return MessageResponse.new(MessageResponse.TYPE.DONE, id.special_info[GameData.difficulty])
+					else:
+						return MessageResponse.new(MessageResponse.TYPE.DONE, id.special_info[1])
 				InputData.SPECIAL.SWITCH_MISSION:
 					if id.special_info.has("subtype"):
 						return MessageResponse.new(MessageResponse.TYPE.SWITCH_SCENE, id.special_info["type"])

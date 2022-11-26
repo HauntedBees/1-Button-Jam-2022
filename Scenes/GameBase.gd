@@ -11,3 +11,6 @@ func receive_choice(s: String) -> void:
 
 func additional_setup(i: int) -> void:
 	return
+
+func get_some_random_data() -> String:
+	return ""

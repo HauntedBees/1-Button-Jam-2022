@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://MorseParser.gd" type="Script" id=1]
 [ext_resource path="res://Testbench.gd" type="Script" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://Assets/Bunker/Fascist.png" type="Texture" id=14]
 [ext_resource path="res://Soundbank.gd" type="Script" id=15]
 [ext_resource path="res://Assets/Sound/Morse.ogg" type="AudioStream" id=16]
+[ext_resource path="res://Assets/Main/Pezan.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Main/PezanMouth.png" type="Texture" id=18]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 23
@@ -43,6 +45,62 @@ animations = [ {
 "loop": true,
 "name": "default",
 "speed": 5.0
+} ]
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 17 )
+region = Rect2( 0, 0, 248, 300 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 17 )
+region = Rect2( 248, 0, 248, 300 )
+
+[sub_resource type="SpriteFrames" id=8]
+animations = [ {
+"frames": [ SubResource( 6 ), SubResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 0, 44, 21 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 21, 44, 21 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 44, 0, 44, 21 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 21, 44, 21 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 44, 21, 44, 21 )
+
+[sub_resource type="SpriteFrames" id=14]
+animations = [ {
+"frames": [ SubResource( 9 ) ],
+"loop": true,
+"name": "closed",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
+"loop": true,
+"name": "open",
+"speed": 10.0
 } ]
 
 [node name="Testbench" type="Control"]
@@ -127,9 +185,23 @@ visible = false
 position = Vector2( 154.625, 585.845 )
 scale = Vector2( 0.587931, 0.587931 )
 frames = SubResource( 5 )
-frame = 1
+frame = 3
 playing = true
 flip_h = true
+
+[node name="Pezan" type="AnimatedSprite" parent="Room"]
+unique_name_in_owner = true
+position = Vector2( 96, 637 )
+scale = Vector2( 0.918347, 0.918347 )
+frames = SubResource( 8 )
+playing = true
+
+[node name="PezanMouth" type="AnimatedSprite" parent="Room"]
+unique_name_in_owner = true
+position = Vector2( 136, 578 )
+frames = SubResource( 14 )
+animation = "closed"
+playing = true
 
 [node name="Table" type="Control" parent="."]
 anchor_left = 1.0

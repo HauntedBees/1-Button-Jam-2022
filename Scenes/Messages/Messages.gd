@@ -13,15 +13,15 @@ var _quick_advance_open := false
 var _current_idx := "START"
 var _current_input := ""
 var _waiting := false
-
-func _ready() -> void:
-	_start_message()
+var _last_letter := ""
 
 func set_state(state: String, args: Array = []) -> void:
 	_current_idx = state
 	_start_message(args)
 
 func _start_message(args: Array = []) -> void:
+	if _message_stack != "":
+		_message_stack += "\n"
 	if args.size() > 0:
 		add_message(MessageInfo.messages[_current_idx].message % args)
 	else:
@@ -66,7 +66,8 @@ func _on_timer(not_again := false) -> void:
 		return
 	_current_letters += 1
 	if _current_letters >= _current_message.length(): # end of message
-		_message_stack += "%s\n" % _current_message
+		_message_stack += _current_message
+		_last_letter = "."
 		_current_message = ""
 		speech.bbcode_text = _message_stack
 		input_matters = true
@@ -79,11 +80,16 @@ func _on_timer(not_again := false) -> void:
 		var word := _current_message.split(" ")[0]
 		_current_message = _current_message.substr(_current_letters + 1)
 		_message_stack += word + " "
+		_last_letter = _current_message[-1]
 		_current_letters = 0
 		speech.bbcode_text = _message_stack
 	else: # middle of word
 		var msg := _current_message.substr(0, _current_letters)
+		_last_letter = msg[-1]
 		var remaining_len := " ".repeat((_current_message.replace(msg, "").split(" ")[0] as String).length())
 		speech.bbcode_text = "%s%s%s" % [_message_stack, msg, remaining_len]
 	if GameData.fast_forward && !not_again:
 		_on_timer(true)
+
+func get_some_random_data() -> String:
+	return _last_letter

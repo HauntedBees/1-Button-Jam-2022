@@ -17,13 +17,15 @@ onready var player: Sprite = $"%Player"
 onready var arm: Sprite = $"%PlayerArm"
 onready var label: RichTextLabel = $"%PlayerType"
 
+onready var pezan: AnimatedSprite = $"%Pezan"
+onready var pezan_mouth: AnimatedSprite = $"%PezanMouth"
 onready var last_soldier: AnimatedSprite = $"%SoldierLast"
 onready var parser: MorseParser = $MorseParser
 onready var game_holder: Control = $"%GameHolder"
 onready var current_game: GameBase = $Table/GameHolder/Messages
 onready var soldiers = $Room/Background/SoldierArea
 
-var current_mode = GAME.SHIP#GAME.TITLE#GAME.END#GAME.MESSAGES#GAME.TITLE#
+var current_mode = GAME.TITLE#GAME.TITLE#GAME.END#GAME.MESSAGES#GAME.TITLE#
 var current_message := ""
 var fucking_dead := false
 
@@ -129,7 +131,19 @@ func _on_SoldierArea_caught() -> void:
 	yield(get_tree().create_timer(2.0), "timeout")
 	last_soldier.visible = false
 	player.visible = false
+	pezan.visible = false
+	pezan_mouth.visible = false
 	arm.visible = false
 	fucking_dead = false
 	current_mode = GAME.END
 	_initialize_game()
+
+func _process(_delta: float) -> void:
+	if current_mode == GAME.MESSAGES:
+		var last_character := current_game.get_some_random_data()
+		if last_character == ".":
+			pezan_mouth.animation = "closed"
+		elif last_character != " ":
+			pezan_mouth.animation = "open"
+	else:
+		pezan_mouth.animation = "closed"
