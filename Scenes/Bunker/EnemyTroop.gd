@@ -112,10 +112,14 @@ func _get_direction_string() -> String:
 		return "?"
 
 func _physics_process(delta: float) -> void:
+	if _curr_state == STATE.DEAD:
+		return
 	if _curr_state == STATE.WALKING:
 		global_transform.origin += direction * 3.0 * delta
 
 func _on_Core_area_entered(area: Area) -> void:
+	if _curr_state == STATE.DEAD:
+		return
 	var area_pos := area.global_transform.origin
 	area_pos.y = global_transform.origin.y
 	if area is AutoTurnArea:
@@ -149,6 +153,8 @@ func _handle_turn(ta: TurnArea, area_pos: Vector3) -> void:
 		_turn_idx = 0
 
 func _turn(rotation_dir: int) -> void:
+	if _curr_state == STATE.DEAD:
+		return
 	var turn_radians := TURN_RADS * rotation_dir
 	direction = direction.rotated(Vector3.UP, turn_radians)
 
@@ -156,10 +162,14 @@ func _is_player(area: Area) -> bool:
 	return area.get_parent().get_parent() == _player_mesh
 
 func _on_FOV_area_entered(area: Area) -> void:
+	if _curr_state == STATE.DEAD:
+		return
 	if _is_player(area):
 		_player_in_view = true
 
 func _on_FOV_area_exited(area: Area) -> void:
+	if _curr_state == STATE.DEAD:
+		return
 	if _is_player(area):
 		_player_in_view = false
 

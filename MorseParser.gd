@@ -84,6 +84,7 @@ func _input(event: InputEvent) -> void:
 			var next := _current_stack + "."
 			emit_signal("current_val", next)
 			emit_signal("current_val_string", _current_selection(next))
+			get_tree().call_group("sound", "start_morse")
 	elif _current_input == "":
 		return
 	else:
@@ -99,6 +100,7 @@ func _input(event: InputEvent) -> void:
 		_event_time = 0.0
 		emit_signal("new_part", _current_selection(_current_stack))
 		emit_signal("release")
+		get_tree().call_group("sound", "stop_morse")
 
 func _process(delta: float) -> void:
 	_event_time += delta

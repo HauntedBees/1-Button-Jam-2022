@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://MorseParser.gd" type="Script" id=1]
 [ext_resource path="res://Testbench.gd" type="Script" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://Scenes/Main/Buble.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Assets/Main/PrintInfo.png" type="Texture" id=13]
 [ext_resource path="res://Assets/Bunker/Fascist.png" type="Texture" id=14]
+[ext_resource path="res://Soundbank.gd" type="Script" id=15]
+[ext_resource path="res://Assets/Sound/Morse.ogg" type="AudioStream" id=16]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 23
@@ -125,7 +127,7 @@ visible = false
 position = Vector2( 154.625, 585.845 )
 scale = Vector2( 0.587931, 0.587931 )
 frames = SubResource( 5 )
-frame = 2
+frame = 1
 playing = true
 flip_h = true
 
@@ -187,6 +189,22 @@ margin_left = 262.0
 margin_top = 442.0
 margin_right = 322.0
 margin_bottom = 488.0
+
+[node name="Soundbank" type="Spatial" parent="." groups=["sound"]]
+script = ExtResource( 15 )
+
+[node name="MorseStreamPlayer" type="AudioStreamPlayer" parent="Soundbank"]
+stream = ExtResource( 16 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Soundbank"]
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="Soundbank"]
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="Soundbank"]
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="Soundbank"]
+
+[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="Soundbank"]
 
 [connection signal="current_val" from="MorseParser" to="Table/MorseChart" method="show_part"]
 [connection signal="current_val_string" from="MorseParser" to="Buble" method="_on_MorseParser_current_val_string"]

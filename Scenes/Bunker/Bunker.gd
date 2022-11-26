@@ -71,6 +71,7 @@ func _on_Troop_died() -> void:
 	emit_signal("troop_died")
 
 func _on_EnemyTroop_shoot() -> void:
+	get_tree().call_group("sound", "play_sound", "gun")
 	if _troop_dead || troop.is_safe():
 		return
 	elif randf() < _shoot_chance:

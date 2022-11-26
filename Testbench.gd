@@ -23,7 +23,7 @@ onready var game_holder: Control = $"%GameHolder"
 onready var current_game: GameBase = $Table/GameHolder/Messages
 onready var soldiers = $Room/Background/SoldierArea
 
-var current_mode = GAME.TITLE#GAME.END#GAME.MESSAGES#GAME.TITLE#
+var current_mode = GAME.SHIP#GAME.TITLE#GAME.END#GAME.MESSAGES#GAME.TITLE#
 var current_message := ""
 var fucking_dead := false
 

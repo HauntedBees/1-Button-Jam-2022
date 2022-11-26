@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Cannonfire.ogg-45af641038c307abb916cfa7dfe70415.oggstr"
+
+[deps]
+
+source_file="res://Assets/Sound/Cannonfire.ogg"
+dest_files=[ "res://.import/Cannonfire.ogg-45af641038c307abb916cfa7dfe70415.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

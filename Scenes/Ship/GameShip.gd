@@ -60,14 +60,17 @@ func _guess(s: String) -> void:
 	emit_signal("add_space")
 	if c.x < 0 || c.y < 0 || _already_guessed.find(c) >= 0:
 		return
+	get_tree().call_group("sound", "play_sound", "cannon")
 	_already_guessed.append(c)
 	var marker: AnimatedSprite = HIT_MARKER.instance()
 	if _target_coords.find(c) < 0:
 		marker.animation = "Miss"
+		get_tree().call_group("sound", "play_sound", "splash")
 		marker.frame = randi() % 10
 		ship_scene.fire_player_cannon(false)
 	else:
 		marker.animation = "Hit"
+		get_tree().call_group("sound", "play_sound", "smash")
 		marker.frame = randi() % 5
 		_target_coords.erase(c)
 		ship_scene.fire_player_cannon(true)
@@ -89,11 +92,14 @@ func _on_EnemyTimer_timeout() -> void:
 	var pos: Vector2 = _enemy_options[idx]
 	_enemy_options.remove(idx)
 	var marker: AnimatedSprite = HIT_MARKER.instance()
+	get_tree().call_group("sound", "play_sound", "cannon")
 	if _player_coords.find(pos) < 0:
 		marker.animation = "Miss"
+		get_tree().call_group("sound", "play_sound", "splash")
 		marker.frame = randi() % 10
 		ship_scene.fire_enemy_cannon(false)
 	else:
+		get_tree().call_group("sound", "play_sound", "smash")
 		marker.animation = "Hit"
 		marker.frame = randi() % 5
 		ship_scene.fire_enemy_cannon(true)

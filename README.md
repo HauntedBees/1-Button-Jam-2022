@@ -29,3 +29,10 @@ The [donjon Random Dungeon Generator](https://donjon.bin.sh/d20/dungeon/) was us
 Pretty much the entirety of the battleship game is thanks to [Godot Realistic Water](https://github.com/godot-extended-libraries/godot-realistic-water) by Achim "AiYori" Menzel and K.S. Ernest, which is licensed under the [MIT License](https://github.com/godot-extended-libraries/godot-realistic-water/blob/master/LICENSE.md).
 
 [Cabin](https://fontlibrary.org/en/font/cabin) by [Pablo Impallari](http://www.impallari.com/) is licensed under the [SIL Open Font License](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL).
+
+## Sounds (clean this up later)
+[Gunshots](https://freesound.org/people/Kleeb/sounds/180961/) by [Kleeb](https://freesound.org/people/Kleeb/).
+[Morse SOS](https://freesound.org/people/Izkhanilov/sounds/54847/) by [Izkhanilov](https://freesound.org/people/Izkhanilov/).
+https://freesound.org/people/baefild/sounds/91293/
+https://freesound.org/people/sandyrb/sounds/95078/
+https://freesound.org/people/TB0Y298/sounds/212689/

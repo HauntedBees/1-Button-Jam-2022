@@ -60,6 +60,7 @@ func _process(delta: float) -> void:
 			shoot_time -= delta
 			if shoot_time <= 0.0 && _targets.size() > 0:
 				is_shooting = true
+				get_tree().call_group("sound", "play_sound", "gun")
 				shoot_time += 0.2 + randf()
 				if _curr_state == STATE.KNEEL:
 					_troop_anim.play("SquatShoot")

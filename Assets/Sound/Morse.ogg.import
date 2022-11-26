@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Morse.ogg-0d1997a3dd5f4d9b4570750807a7ed7b.oggstr"
+
+[deps]
+
+source_file="res://Assets/Sound/Morse.ogg"
+dest_files=[ "res://.import/Morse.ogg-0d1997a3dd5f4d9b4570750807a7ed7b.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
