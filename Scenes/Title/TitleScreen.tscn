@@ -113,11 +113,10 @@ scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 4 )
 
 [node name="InfoText" type="RichTextLabel" parent="."]
-visible = false
 margin_left = 501.0
 margin_top = 23.0
 margin_right = 904.0
-margin_bottom = 696.0
+margin_bottom = 707.0
 theme = ExtResource( 2 )
 bbcode_enabled = true
 bbcode_text = "Press/hold any button or key to send morse code.
@@ -128,7 +127,9 @@ Type [color=#AA0000]S[/color] or [color=#AA0000]O[/color] to start the [color=#A
 
 Type [color=#AA0000]C[/color] to view the [color=#AA0000]Credits[/color].
 
-Type [color=#AA0000]UPGAMERS[/color] to access the Level Select."
+Type [color=#AA0000]UPGAMERS[/color] to access the Level Select.
+
+Type [color=#AA0000]FF[/color] to toggle faster text in-game."
 text = "Press/hold any button or key to send morse code.
 
 Type any number between 1and 5 to start a new game at that difficulty level (1 is easiest, 5 is hardest).
@@ -137,10 +138,13 @@ Type S or O to start the Morse Timing Setup.
 
 Type C to view the Credits.
 
-Type UPGAMERS to access the Level Select."
+Type UPGAMERS to access the Level Select.
+
+Type FF to toggle faster text in-game."
 scroll_active = false
 
 [node name="SettingsText" type="RichTextLabel" parent="."]
+visible = false
 margin_left = 502.0
 margin_top = 23.0
 margin_right = 905.0

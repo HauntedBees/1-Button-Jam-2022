@@ -10,7 +10,7 @@ var _current_message := ""
 var _current_letters := 0
 var _quick_advance_open := false
 
-var _current_idx := "LV1_MISSION3"#"LV1_MISSION1"#"START"
+var _current_idx := "START"#"LV1_MISSION3"#"LV1_MISSION1"#"START"
 var _current_input := ""
 var _waiting := false
 
@@ -38,7 +38,8 @@ func _on_letter_sent(s: String) -> void:
 	if _waiting:
 		return
 	if s != "5":
-		_current_input += s
+		if s != "?":
+			_current_input += s
 	else:
 		if _quick_advance_open:
 			_quick_advance_open = false
@@ -57,7 +58,7 @@ func _on_letter_sent(s: String) -> void:
 				GameData.last_state = _current_idx
 				emit_signal("choice_made", res.val)
 
-func _on_timer() -> void:
+func _on_timer(not_again := false) -> void:
 	if _current_message == "":
 		return
 	_current_letters += 1
@@ -81,3 +82,5 @@ func _on_timer() -> void:
 		var msg := _current_message.substr(0, _current_letters)
 		var remaining_len := " ".repeat((_current_message.replace(msg, "").split(" ")[0] as String).length())
 		speech.bbcode_text = "%s%s%s" % [_message_stack, msg, remaining_len]
+	if GameData.fast_forward && !not_again:
+		_on_timer(true)

@@ -16,8 +16,6 @@ func evaluate(input: String) -> MessageResponse:
 	var fail := ""
 	for c in choices:
 		var id := c as InputData
-		if input.length() < id.input.length():
-			continue
 		var similarity := input.similarity(id.input)
 		GameData.max_typing_score += 1.0
 		if similarity >= id.min_score:

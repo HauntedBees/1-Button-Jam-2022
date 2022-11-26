@@ -36,7 +36,7 @@ func _on_letter_sent(s: String) -> void:
 			_:
 				_current_input = ""
 				emit_signal("add_space")
-	else:
+	elif state == 0:
 		match _current_input:
 			"1", "2", "3", "4", "5":
 				GameData.difficulty = int(_current_input)
@@ -46,8 +46,11 @@ func _on_letter_sent(s: String) -> void:
 			"S", "O":
 				_switch_state(2)
 				_set_settings_state(0)
-			"U", "UP", "UPG", "UPGA", "UPGAM", "UPGAME", "UPGAMER":
+			"U", "UP", "UPG", "UPGA", "UPGAM", "UPGAME", "UPGAMER", "F":
 				return
+			"FF":
+				_current_input = ""
+				GameData.fast_forward = !GameData.fast_forward
 			"UPGAMERS":
 				pass
 			_:
