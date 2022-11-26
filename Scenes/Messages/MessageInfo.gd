@@ -93,7 +93,7 @@ var messages := {
 		})
 	]),
 	
-	"LV1_MISSION1": MessageData.new(".... .... .... They suspect someone in the northern bloc is a spy; somebody is sneaking out towards the docks at night to talk to police officers. We have access to a camera near those docks. Let's keep an eye on them; let's switch to the dock camera and try to figure out who it is. Pay attention to their movements and body shape to figure out who it is, then type their name!", [
+	"LV1_MISSION1": MessageData.new(".... .... .... They suspect someone in the northern bloc is a spy; somebody is sneaking out towards the docks at night to talk to police officers. We have access to a camera near those docks. Let's keep an eye on them; let's switch to the dock camera and keep an eye out for anyone. Pay attention to their movements and body shape to figure out who it is, then type their name!", [
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "DOCK" })
 	]),
 	"LV1_MISSION1_FAIL": MessageData.new("Well, that doesn't help us... I guess whoever that was will get away scot-free.", [
@@ -103,11 +103,11 @@ var messages := {
 		InputData.new("", 0.0, "LV1_NEXT")
 	]),
 	
-	"LV2_MISSION1": MessageData.new(".... .... .... They suspect someone in the northern bloc is a spy; somebody is sneaking out towards the docks at night to talk to police officers. We have access to a camera near those docks. Let's keep an eye on them; let's switch to the dock camera and try to figure out who it is. Pay attention to their movements and body shape to figure out who it is, then type their name!", [
+	"LV2_MISSION1": MessageData.new(".... .... .... They suspect someone in the northern bloc is a spy; somebody is sneaking out towards the docks at night to talk to police officers. We have access to a camera near those docks. Let's keep an eye on them; let's switch to the dock camera and keep an eye out for anyone. Pay attention to their movements and body shape to figure out who it is, then type their name!", [
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "DOCK" })
 	]),
 	"LV2_MISSION1_FAIL": MessageData.new("Well, that doesn't help us... I guess whoever that was will get away scot-free.", [
-		InputData.new("", 0.0, "LV2_UH_OH")
+		InputData.new("", 0.0, "LV2_UH_OH", "", InputData.SPECIAL.START_TROOPS)
 	]),
 	"LV2_MISSION1_SUCCESS": MessageData.new("%s? %s %s? Wow... I never would have expected %s to be a spy... Well, it looks like we'll put a stop to that now, at least.", [
 		InputData.new("", 0.0, "LV2_UH_OH", "", InputData.SPECIAL.START_TROOPS)
