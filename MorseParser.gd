@@ -70,16 +70,20 @@ func _input(event: InputEvent) -> void:
 	if GameData.PRESS_INPUT != "" && _get_input_string(event) != GameData.PRESS_INPUT:
 		return
 	if event.is_pressed():
-		# another input is aleady pressed, ignore this
-		if _current_input != "":
-			return
-		_event_time = 0.0
-		_current_input = _get_input_key(event)
-		emit_signal("press")
-		emit_signal("press_key", _get_input_string(event))
-		var next := _current_stack + "."
-		emit_signal("current_val", next)
-		emit_signal("current_val_string", _current_selection(next))
+		if GameData.debug_mode && event is InputEventKey:
+			var key := char((event as InputEventKey).scancode)
+			emit_signal("send_letter", key)
+		else:
+			# another input is aleady pressed, ignore this
+			if _current_input != "":
+				return
+			_event_time = 0.0
+			_current_input = _get_input_key(event)
+			emit_signal("press")
+			emit_signal("press_key", _get_input_string(event))
+			var next := _current_stack + "."
+			emit_signal("current_val", next)
+			emit_signal("current_val_string", _current_selection(next))
 	elif _current_input == "":
 		return
 	else:

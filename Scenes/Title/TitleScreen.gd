@@ -46,11 +46,16 @@ func _on_letter_sent(s: String) -> void:
 			"S", "O":
 				_switch_state(2)
 				_set_settings_state(0)
-			"U", "UP", "UPG", "UPGA", "UPGAM", "UPGAME", "UPGAMER", "F":
+			"U", "UP", "UPG", "UPGA", "UPGAM", "UPGAME", "UPGAMER", "F", "D", "DE", "DEB", "DEBU":
 				return
+			"DEBUG":
+				_current_input = ""
+				GameData.debug_mode = !GameData.debug_mode
+				emit_signal("add_space")
 			"FF":
 				_current_input = ""
 				GameData.fast_forward = !GameData.fast_forward
+				emit_signal("add_space")
 			"UPGAMERS":
 				pass
 			_:

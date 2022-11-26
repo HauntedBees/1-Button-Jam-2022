@@ -1,7 +1,7 @@
 class_name MessageResponse
 extends Node
 
-enum TYPE { DONE, SWITCH_SCENE }
+enum TYPE { DONE, SWITCH_SCENE, DONE_ALSO_ADD_SOLDIERS }
 
 var type: int
 var val: String

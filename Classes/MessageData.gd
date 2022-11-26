@@ -32,9 +32,7 @@ func evaluate(input: String) -> MessageResponse:
 					else:
 						return MessageResponse.new(MessageResponse.TYPE.SWITCH_SCENE, id.special_info["type"])
 				InputData.SPECIAL.START_TROOPS:
-					GameData.active_troops = true
-					get_tree().call_group("troops", "reset_troops")
-					return MessageResponse.new(MessageResponse.TYPE.DONE, id.success_next)
+					return MessageResponse.new(MessageResponse.TYPE.DONE_ALSO_ADD_SOLDIERS, id.success_next)
 		else:
 			fail = id.fail_next
 	if fail_story != "":

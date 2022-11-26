@@ -85,11 +85,11 @@ var messages := {
 		InputData.new("", 0.0, "LV1_NEW_SOS")
 	]),
 	"LV1_NEW_SOS": MessageData.new("Oh, we're getting another encoded SOS. Send out an encoded \"STATUS\" to get more information from them!", [
-		InputData.new("FGNGHF", 0.5, "LV1_NEW_SOS2", "LV1_NEW_SOS_FAIL"),
+		InputData.new("FGNGHF", 0.5, "LV1_MISSION3", "LV1_NEW_SOS_FAIL"),
 		InputData.new("STATUS", 0.5, "LV1_NEW_SOS2_UNENCODED", "LV1_NEW_SOS_FAIL")
 	], "ESCAPE_IGNORED"),
 	"LV1_NEW_SOS_FAIL": MessageData.new("What are you doing?! They're not going to respond to nonsense messages like that... let's hope someone else helps them...", [
-		InputData.new("", 0.0, "LV1_NEW_SOS")
+		InputData.new("", 0.0, "END")
 	]),
 	"LV1_NEW_SOS2_UNENCODED": MessageData.new("Oh no, you sent that \"STATUS\" message unencoded... hopefully nobody is listening in. Let's see if they respond...", [
 		InputData.new("", 0.0, "LV1_MISSION3")

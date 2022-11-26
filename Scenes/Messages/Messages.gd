@@ -10,7 +10,7 @@ var _current_message := ""
 var _current_letters := 0
 var _quick_advance_open := false
 
-var _current_idx := "START"#"LV1_MISSION3"#"LV1_MISSION1"#"START"
+var _current_idx := "START"
 var _current_input := ""
 var _waiting := false
 
@@ -47,7 +47,10 @@ func _on_letter_sent(s: String) -> void:
 		var mi: MessageData = MessageInfo.messages[_current_idx]
 		var res: MessageResponse = mi.evaluate(_current_input)
 		match res.type:
-			MessageResponse.TYPE.DONE:
+			MessageResponse.TYPE.DONE, MessageResponse.TYPE.DONE_ALSO_ADD_SOLDIERS:
+				if res.type == MessageResponse.TYPE.DONE_ALSO_ADD_SOLDIERS:
+					GameData.active_troops = true
+					get_tree().call_group("troops", "reset_troops")
 				emit_signal("add_space")
 				if GameData.active_troops:
 					get_tree().call_group("troops", "_start_troops")

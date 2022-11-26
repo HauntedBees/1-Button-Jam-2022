@@ -7,6 +7,7 @@ var max_typing_score := 0.01
 var last_state := ""
 var active_troops := false
 var fast_forward := false
+var debug_mode := false
 
 var DOT_LENGTH := 0.1
 var DASH_LENGTH := 0.25
