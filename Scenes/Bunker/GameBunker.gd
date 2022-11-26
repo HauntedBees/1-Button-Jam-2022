@@ -50,9 +50,15 @@ func _set_cursor(cursor:Sprite, info: Dictionary) -> void:
 	elif dir.z < -EPSILON:
 		cursor.rotation_degrees = 180.0
 
-func _on_Bunker_troop_died() -> void:
-	input_matters = false
-	print("YYYYOUUU'RE FUKT!")
-
 func _on_Bunker_clear_type() -> void:
 	emit_signal("add_space")
+
+func _on_Bunker_troop_won() -> void:
+	input_matters = false
+	yield(get_tree().create_timer(2.0), "timeout")
+	emit_signal("choice_made", "won")
+
+func _on_Bunker_troop_died() -> void:
+	input_matters = false
+	yield(get_tree().create_timer(2.0), "timeout")
+	emit_signal("choice_made", "lost")

@@ -5,6 +5,8 @@ const BULLETHOLE_SCENE: PackedScene = preload("res://Scenes/Bunker/Bullethole.ts
 
 signal troop_died()
 signal clear_type()
+signal troop_won()
+
 var _troop_dead := false
 var _shoot_chance := 0.01
 
@@ -84,3 +86,16 @@ func _on_EnemyTroop_shoot() -> void:
 
 func _on_Troop_clear_type() -> void:
 	emit_signal("clear_type")
+
+func _on_Troop_won() -> void:
+	var alive_troops := 0
+	for ee in _enemies:
+		var e: EnemyTroop = ee
+		if e.is_alive():
+			alive_troops += 1
+	die_anim.play("Win")
+	if alive_troops == 0:
+		GameData.milestones.append("ESCAPE_OVERKILL")
+	else:
+		GameData.milestones.append("ESCAPE_SURVIVED")
+	emit_signal("troop_won")

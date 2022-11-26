@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Assets/Map1.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Materials/BunkerWall.tres" type="Material" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scenes/Bunker/CoverArea.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/Bunker/EnemyTroop.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Assets/Bunker/Huh.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/Bunker/EscapeArea.tscn" type="PackedScene" id=14]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 100, 100 )
@@ -91,6 +92,22 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 0.345098, 0.0156863, 0.0156863, 0 ) ]
+}
+
+[sub_resource type="Animation" id=50]
+resource_name = "Win"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=44]
@@ -860,7 +877,7 @@ from_south_dir = 2
 
 [node name="Troop" type="Spatial" parent="."]
 unique_name_in_owner = true
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.75, 45 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.75, 36 )
 script = ExtResource( 5 )
 
 [node name="Tween" type="Tween" parent="Troop"]
@@ -886,7 +903,6 @@ cull_mask = 1048573
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.532433, 0.350983 )
 frames = ExtResource( 9 )
 animation = "Run"
-frame = 3
 playing = true
 
 [node name="ShootRangeArea" type="Area" parent="Troop"]
@@ -917,7 +933,7 @@ anims/RESET = SubResource( 49 )
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -16, 0.75, -16 )
 
 [node name="Spot2" type="Spatial" parent="StartingPoints"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.75, 45 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.75, 37 )
 
 [node name="FailZones" type="Spatial" parent="."]
 
@@ -1003,10 +1019,23 @@ color = Color( 0.345098, 0.0156863, 0.0156863, 0 )
 [node name="DieAnim" type="AnimationPlayer" parent="Bullets"]
 unique_name_in_owner = true
 anims/RESET = SubResource( 43 )
+anims/Win = SubResource( 50 )
 anims/YouHaveDied = SubResource( 44 )
+
+[node name="EscapeAreas" type="Spatial" parent="."]
+
+[node name="EscapeArea" parent="EscapeAreas" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 41 )
+
+[node name="EscapeArea2" parent="EscapeAreas" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 43, 0, 20 )
+
+[node name="EscapeArea3" parent="EscapeAreas" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 43, 0, -24 )
 
 [connection signal="clear_type" from="Troop" to="." method="_on_Troop_clear_type"]
 [connection signal="died" from="Troop" to="." method="_on_Troop_died"]
+[connection signal="won" from="Troop" to="." method="_on_Troop_won"]
 [connection signal="area_entered" from="Troop/Body/TroopCollider" to="Troop" method="_on_collider_entered"]
 [connection signal="area_exited" from="Troop/Body/TroopCollider" to="Troop" method="_on_collider_exited"]
 [connection signal="area_entered" from="Troop/ShootRangeArea" to="Troop" method="_on_ShootRangeArea_area_entered"]

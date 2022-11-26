@@ -96,5 +96,11 @@ var messages := {
 	]),
 	"LV1_MISSION3": MessageData.new("A", [#"They're responding. Let me decode this... Lieutenant Kongueo snuck into an enemy base to steal some intel, and now needs help getting out. Navigate by telling him how to get out and when to avoid enemies by sending him messages!", [
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "ESCAPE/1" })
+	]),
+	"LV1_MISSION3_SUCCESS": MessageData.new("GADZOOKS!", [
+		InputData.new("", 0.0, "LV1_MISSION3")
+	]),
+	"LV1_MISSION3_FAIL": MessageData.new("You fucked it!", [
+		InputData.new("", 0.0, "LV1_MISSION3")
 	])
 }

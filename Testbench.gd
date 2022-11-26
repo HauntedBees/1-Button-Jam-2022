@@ -19,7 +19,7 @@ onready var parser: MorseParser = $MorseParser
 onready var game_holder: Control = $"%GameHolder"
 onready var current_game: GameBase = $Table/GameHolder/Messages
 
-var current_mode = GAME.TITLE#GAME.MESSAGES
+var current_mode = GAME.MESSAGES#GAME.TITLE#
 var current_message := ""
 
 func _ready() -> void:
@@ -58,6 +58,14 @@ func _on_choice_made(choice: String) -> void:
 					"DOCK": current_mode = GAME.DOCK
 					"SHIP": current_mode = GAME.SHIP
 				_initialize_game()
+		GAME.BUNKER:
+			current_mode = GAME.MESSAGES
+			_initialize_game()
+			var m := current_game as MessagesGame
+			if choice == "won":
+				m.set_state("%s_%s" % [GameData.last_state, "SUCCESS"])
+			else:
+				m.set_state("%s_%s" % [GameData.last_state, "FAIL"])
 		GAME.SHIP:
 			current_mode = GAME.MESSAGES
 			_initialize_game()

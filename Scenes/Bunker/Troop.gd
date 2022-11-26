@@ -3,6 +3,7 @@ extends Spatial
 
 signal died()
 signal clear_type()
+signal won()
 
 enum STATE { WALKING, STOPPED, TURNING, DEAD, COVER, KNEEL }
 
@@ -37,12 +38,13 @@ var is_shooting := false
 
 func _ready() -> void:
 	randomize()
-	health = 6 + GameData.difficulty # 1 to 5
+	health = 6 - GameData.difficulty
 	hit_chance = 0.7 - GameData.difficulty * 0.1
 
 func take_hit() -> void:
 	health -= 1
-	if health <= 0:
+	if health <= 0 && _curr_state != STATE.DEAD:
+		GameData.milestones.append("ESCAPE_KILLED")
 		_set_state(STATE.DEAD)
 
 func is_safe() -> bool:
@@ -105,6 +107,8 @@ func get_direction() -> Vector3:
 
 # -x = west, +x = east, -z = north, +z = south
 func _on_collider_entered(area: Area) -> void:
+	if _curr_state == STATE.DEAD:
+		return
 	var area_pos := area.global_transform.origin
 	area_pos.y = global_transform.origin.y
 	if area is AutoTurnArea:
@@ -112,9 +116,12 @@ func _on_collider_entered(area: Area) -> void:
 	elif area is TurnArea:
 		_handle_turn(area, area_pos)
 	elif area is FailZone:
+		GameData.milestones.append("ESCAPE_CORNERED")
 		_set_state(STATE.DEAD)
 	elif area is CoverArea:
 		_curr_safety_area = area
+	elif area is EscapeArea:
+		emit_signal("won")
 
 func _on_collider_exited(area: Area) -> void:
 	if area is CoverArea:
