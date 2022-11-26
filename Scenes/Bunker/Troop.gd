@@ -95,7 +95,7 @@ func _set_state(state) -> void:
 			_troop_anim.play("Look")
 		STATE.DEAD:
 			_troop_anim.play("Fail")
-			move_speed = 0.0
+			move_speed = 0
 			emit_signal("died")
 		STATE.COVER:
 			_troop_anim.play("Cover")

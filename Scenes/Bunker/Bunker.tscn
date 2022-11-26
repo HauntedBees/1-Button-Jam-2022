@@ -858,6 +858,14 @@ from_east_dir = -1
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -18 )
 from_south_dir = 1
 
+[node name="AutoTurnArea30" parent="TurnPoints" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 0, -18 )
+
+[node name="AutoTurnArea31" parent="TurnPoints" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, -10 )
+from_east_dir = -1
+from_north_dir = 1
+
 [node name="AutoTurnArea22" parent="TurnPoints" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 0, -14 )
 from_west_dir = 1
@@ -903,6 +911,7 @@ cull_mask = 1048573
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.532433, 0.350983 )
 frames = ExtResource( 9 )
 animation = "Run"
+frame = 3
 playing = true
 
 [node name="ShootRangeArea" type="Area" parent="Troop"]
@@ -993,6 +1002,13 @@ player_path = NodePath("../../Troop")
 direction = Vector3( -1, 0, 0 )
 custom_autoturns = true
 
+[node name="EnemyTroop5" parent="Enemies" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 1.288, -15.5 )
+turn_directions = [ 1, 0 ]
+player_path = NodePath("../../Troop")
+direction = Vector3( 0, 0, -1 )
+custom_autoturns = true
+
 [node name="EnemyTroop3" parent="Enemies" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.48, 1.288, 32.5 )
 turn_directions = [ 0, 2, 0, 2 ]
@@ -1002,6 +1018,7 @@ custom_autoturns = true
 
 [node name="EnemyTroop4" parent="Enemies" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -38.52, 1.288, 31.5 )
+min_difficulty = 2
 turn_directions = [ -1, 1, 1, -1, -1, 0, -1, 0, -1, -1 ]
 player_path = NodePath("../../Troop")
 direction = Vector3( 0, 0, -1 )
@@ -1042,5 +1059,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 43, 0, -24 )
 [connection signal="area_exited" from="Troop/ShootRangeArea" to="Troop" method="_on_ShootRangeArea_area_exited"]
 [connection signal="shoot" from="Enemies/EnemyTroop" to="." method="_on_EnemyTroop_shoot"]
 [connection signal="shoot" from="Enemies/EnemyTroop2" to="." method="_on_EnemyTroop_shoot"]
+[connection signal="shoot" from="Enemies/EnemyTroop5" to="." method="_on_EnemyTroop_shoot"]
 [connection signal="shoot" from="Enemies/EnemyTroop3" to="." method="_on_EnemyTroop_shoot"]
 [connection signal="shoot" from="Enemies/EnemyTroop4" to="." method="_on_EnemyTroop_shoot"]

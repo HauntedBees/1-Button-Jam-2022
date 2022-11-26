@@ -3,7 +3,7 @@ extends GameBase
 
 onready var info_text: RichTextLabel = $"%InfoText"
 
-func _on_letter_sent(s: String) -> void:
+func _on_letter_sent(_s: String) -> void:
 	emit_signal("choice_made", "")
 
 func _ready() -> void:

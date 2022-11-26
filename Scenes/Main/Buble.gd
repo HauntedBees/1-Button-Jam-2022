@@ -11,7 +11,7 @@ func _on_MorseParser_current_val_string(s: String) -> void:
 	#text.text = _current_text + s
 	text.text = s
 
-func _on_MorseParser_send_letter(s: String) -> void:
+func _on_MorseParser_send_letter(_s: String) -> void:
 	visible = false
 	#if s != "?":
 	#	_current_text += s

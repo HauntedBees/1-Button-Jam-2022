@@ -18,7 +18,7 @@ onready var sprite: AnimatedSprite3D = $Sprite
 onready var fov_collider: CollisionShape = $FOV/CollisionShape
 onready var fov_mesh: MeshInstance = $FOV/MeshInstance
 
-var _player_mesh#: Troop # love me some got dang cyclical references
+var _player_mesh: Spatial#: Troop # love me some got dang cyclical references
 var _turn_idx := 0
 var _curr_state = STATE.WALKING
 var _player_in_view := false
@@ -26,7 +26,7 @@ var _player_in_view := false
 func _ready() -> void:
 	_player_mesh = get_node(player_path)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if _curr_state == STATE.DEAD:
 		return
 	if _player_in_view:
@@ -59,7 +59,20 @@ func _process(delta: float) -> void:
 			sprite.flip_h = true
 
 func _is_looking_at_player() -> bool:
-	return _get_relative_dir() == "F"
+	var dirs := [
+		Vector3(1.0, 0.0, 0.0), 
+		Vector3(-1.0, 0.0, 0.0),
+		Vector3(0.0, 0.0, 1.0),
+		Vector3(0.0, 0.0, -1.0)
+	]
+	var min_dist := global_transform.origin.distance_to(_player_mesh.global_transform.origin)
+	var dist_dir := Vector3.ZERO
+	for d in dirs:
+		var dir_dist: float = (global_transform.origin + d).distance_to(_player_mesh.global_transform.origin)
+		if dir_dist < min_dist:
+			min_dist = dir_dist
+			dist_dir = d
+	return dist_dir.is_equal_approx(direction)
 
 func is_alive() -> bool:
 	return _curr_state != STATE.DEAD
@@ -130,7 +143,7 @@ func _on_Core_area_entered(area: Area) -> void:
 	elif area is TurnArea:
 		_handle_turn(area, area_pos)
 
-func _handle_autoturn(ata: AutoTurnArea, area_pos: Vector3) -> void:
+func _handle_autoturn(ata: AutoTurnArea, _area_pos: Vector3) -> void:
 	var turn_dir := 0
 	match _get_direction_string():
 		"N":
@@ -146,7 +159,7 @@ func _handle_autoturn(ata: AutoTurnArea, area_pos: Vector3) -> void:
 	if turn_dir != 0:
 		_turn(turn_dir)
 
-func _handle_turn(ta: TurnArea, area_pos: Vector3) -> void:
+func _handle_turn(_ta: TurnArea, _area_pos: Vector3) -> void:
 	_turn(turn_directions[_turn_idx])
 	_turn_idx += 1
 	if _turn_idx >= turn_directions.size():
