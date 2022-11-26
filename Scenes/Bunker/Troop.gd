@@ -51,7 +51,7 @@ func is_safe() -> bool:
 func _process(delta: float) -> void:
 	match _curr_state:
 		STATE.STOPPED, STATE.KNEEL, STATE.COVER:
-			if !is_shooting && next_instruction != "":
+			if !is_shooting && next_instruction && _curr_state != STATE.COVER:
 				_handle_input()
 			if _curr_state == STATE.STOPPED || is_shooting:
 				return
