@@ -1,6 +1,6 @@
 extends GameBase
 
-onready var texts := [$InfoText, $CreditsText, $SettingsText]
+onready var texts := [$InfoText, $CreditsText, $SettingsText, $UpgamerText]
 onready var settings_text: RichTextLabel = $SettingsText
 
 var _current_input := ""
@@ -13,6 +13,7 @@ var has_broken_first_hold := false
 
 func _ready() -> void:
 	input_matters = true
+	GameData.upgamers_mode = false
 	_switch_state(0)
 
 func _switch_state(i: int) -> void:
@@ -27,7 +28,7 @@ func _on_letter_sent(s: String) -> void:
 	if state == 1:
 		_switch_state(0)
 		return
-	if state == 2 && settings_state == 4:
+	elif state == 2 && settings_state == 4:
 		match _current_input:
 			"O":
 				return
@@ -36,14 +37,55 @@ func _on_letter_sent(s: String) -> void:
 			_:
 				_current_input = ""
 				emit_signal("add_space")
+	elif state == 3:
+		match _current_input:
+			"B":
+				return
+			"B1":
+				GameData.upgamers_max_score = 675
+				GameData.difficulty = 1
+				emit_signal("choice_made", "BUNKER")
+			"B2":
+				GameData.upgamers_max_score = 750
+				GameData.difficulty = 2
+				emit_signal("choice_made", "BUNKER")
+			"B3":
+				GameData.upgamers_max_score = 800
+				GameData.difficulty = 3
+				emit_signal("choice_made", "BUNKER")
+			"B4":
+				GameData.upgamers_max_score = 850
+				GameData.difficulty = 4
+				emit_signal("choice_made", "BUNKER")
+			"B5":
+				GameData.upgamers_max_score = 950
+				GameData.difficulty = 5
+				emit_signal("choice_made", "BUNKER")
+			"D":
+				GameData.upgamers_max_score = 10
+				emit_signal("choice_made", "DOCK")
+			"S":
+				GameData.upgamers_max_score = 20
+				emit_signal("choice_made", "SHIP")
+			"T":
+				GameData.difficulty = 4
+				GameData.upgamers_max_score = 120
+				emit_signal("choice_made", "TYPING")
+			"Q":
+				_switch_state(0)
+			_:
+				_current_input = ""
+				emit_signal("add_space")
 	elif state == 0:
 		match _current_input:
 			"1", "2", "3", "4", "5":
 				GameData.difficulty = int(_current_input)
-				emit_signal("choice_made", _current_input)
+				emit_signal("choice_made", "")
 			"C":
+				_current_input = ""
 				_switch_state(1)
 			"S", "O":
+				_current_input = ""
 				_switch_state(2)
 				_set_settings_state(0)
 			"U", "UP", "UPG", "UPGA", "UPGAM", "UPGAME", "UPGAMER", "F", "D", "DE", "DEB", "DEBU":
@@ -57,7 +99,8 @@ func _on_letter_sent(s: String) -> void:
 				GameData.fast_forward = !GameData.fast_forward
 				emit_signal("add_space")
 			"UPGAMERS":
-				pass
+				_current_input = ""
+				_switch_state(3)
 			_:
 				_current_input = ""
 				emit_signal("add_space")

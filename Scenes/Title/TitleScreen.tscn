@@ -113,6 +113,7 @@ scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 4 )
 
 [node name="InfoText" type="RichTextLabel" parent="."]
+visible = false
 margin_left = 501.0
 margin_top = 23.0
 margin_right = 904.0
@@ -141,6 +142,37 @@ Type C to view the Credits.
 Type UPGAMERS to access the Level Select.
 
 Type FF to toggle faster text in-game."
+scroll_active = false
+
+[node name="UpgamerText" type="RichTextLabel" parent="."]
+margin_left = 501.0
+margin_top = 23.0
+margin_right = 904.0
+margin_bottom = 707.0
+theme = ExtResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[center][color=#AA0000]Upgamers Menu[/color][/center]
+
+Morse [color=#AA0000]B[/color] followed by a number from [color=#AA0000]1[/color] to [color=#AA0000]5[/color] to play the [color=#AA0000]Camp Escape[/color] mission.
+
+Morse [color=#AA0000]D[/color] to play the [color=#AA0000]Dock Spy[/color] mission.
+
+Morse [color=#AA0000]S[/color] to play the [color=#AA0000]Naval Combat[/color] mission.
+
+Morse [color=#AA0000]T[/color] to play [color=#AA0000]Morse Time Trials[/color].
+
+Morse [color=#AA0000]Q[/color] to return to the [color=#AA0000]Main Menu[/color]."
+text = "Upgamers Menu
+
+Morse B followed by a number from 1 to 5 to play the Camp Escape mission.
+
+Morse D to play the Dock Spy mission.
+
+Morse S to play the Naval Combat mission.
+
+Morse T to play Morse Time Trials.
+
+Morse Q to return to the Main Menu."
 scroll_active = false
 
 [node name="SettingsText" type="RichTextLabel" parent="."]

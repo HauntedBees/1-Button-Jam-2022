@@ -22,6 +22,46 @@ var messages := {
 		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "SHIP" })
 	]),
 	
+	"TYPING_TRIAL": MessageData.new("I'm glad you decided to take some time to improve your morsing skills, Hails. Fast typing is the difference between winning and losing in a war like this. Remember, you'll need to type \"5\" after every prompt, and you can ignore spaces. These challenges WILL be timed; try to get as far as you can! Morse \"5\" when you're ready.", [
+		InputData.new("", 0.0, "TYPING_1")
+	]),
+	"TYPING_1": MessageData.new("To start, type our names, \"PEZAN HAILS.\"", [
+		InputData.new("PEZANHAILS", 0.75, "TYPING_2", "TYPING_FAIL")
+	]),
+	"TYPING_2": MessageData.new("Good. Now type our ROT13-encoded names, \"CRMNA UNVYF.\"", [
+		InputData.new("CRMNAUNVYF", 0.75, "TYPING_3", "TYPING_FAIL")
+	]),
+	"TYPING_3": MessageData.new("Good. Now for our motto, \"BECOME UNGOVERNABLE.\"", [
+		InputData.new("BECOMEUNGOVERNABLE", 0.66, "TYPING_4", "TYPING_FAIL")
+	]),
+	"TYPING_4": MessageData.new("Now type what we're fighting for, \"A BETTER WORLD IS POSSIBLE!!\"", [
+		InputData.new("ABETTERWORLDISPOSSIBLE", 0.66, "TYPING_5", "TYPING_FAIL")
+	]),
+	"TYPING_5": MessageData.new("Remember the old days when we were merely protesting a failing government, instead of fighting a corrupt government? Things were so much easier then... Anyway, type our battle cry from those days: RESPECT EXISTENCE OR EXPECT RESISTANCE.", [
+		InputData.new("RESPECTEXISTENCEOREXPECTRESISTANCE", 0.66, "TYPING_6", "TYPING_FAIL")
+	]),
+	"TYPING_6": MessageData.new("Wow, you can even type longer phrases like that. How about, uh... .... \"ANTIDISESTABLISHMENTARIANISM.\"", [
+		InputData.new("ANTIDISESTABLISHMENTARIANISM", 0.5, "TYPING_7", "TYPING_FAIL")
+	]),
+	"TYPING_7": MessageData.new("Ha ha, neat! I don't even remember what that word means, I just remember it was one of the longest words in the English language. How about one of the longest words in OUR language, though? Type out \"MANDITAANTRIEMENETGAR!\"", [
+		InputData.new("MANDITAANTRIEMENETGAR", 0.5, "TYPING_8", "TYPING_FAIL")
+	]),
+	"TYPING_8": MessageData.new("Manditaantriemenetgar is a type of rice porridge they used to make in the old days. I have no idea why they gave it such a long name. Let's let the world know I think that! Type \"FOODS SHOULD HAVE SHORTER NAMES.\"", [
+		InputData.new("FOODSSHOULDHAVESHORTERNAMES", 0.66, "TYPING_9", "TYPING_FAIL")
+	]),
+	"TYPING_9": MessageData.new("Alright, two more left. Let's make this one tricky. Decode this and type out the DECODED message: \"GUNAX LBH SBE CYNLVAT.\"", [
+		InputData.new("THANKYOUFORPLAYING", 0.66, "TYPING_10", "TYPING_FAIL")
+	]),
+	"TYPING_10": MessageData.new("Thank you for playing this game! Now type out the names of the three people most responsible for this game to thank them. \"CECILIA SKYLER SEAN.\"", [
+		InputData.new("CECILIASKYLERSEAN", 0.75, "TYPING_WIN", "TYPING_FAIL")
+	]),
+	"TYPING_WIN": MessageData.new("You did it! Congratulations on completing the Morse Typing Challenge. You're a Morse Master now!", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "END" })
+	]),
+	"TYPING_FAIL": MessageData.new("Oh well... better luck next time!", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "END" })
+	]),
+	
 	"START": MessageData.new("Okay, I think the coast is clear. We need to send a message out and see if we can get a response. Send out a \"CQ 5\" and we'll get this show on the road.", [
 		InputData.new("CQ", 1.0, "CIPHER_TEST", "START_FAIL")
 	]),

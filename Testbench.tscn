@@ -182,10 +182,10 @@ centered = false
 [node name="SoldierLast" type="AnimatedSprite" parent="Room"]
 unique_name_in_owner = true
 visible = false
-position = Vector2( 154.625, 585.845 )
+position = Vector2( 201, 586 )
 scale = Vector2( 0.587931, 0.587931 )
 frames = SubResource( 5 )
-frame = 1
+frame = 3
 playing = true
 flip_h = true
 
@@ -247,7 +247,7 @@ texture = ExtResource( 13 )
 unique_name_in_owner = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -370.0
+margin_left = -1056.0
 margin_top = 375.0
 margin_right = -908.0
 margin_bottom = -310.0

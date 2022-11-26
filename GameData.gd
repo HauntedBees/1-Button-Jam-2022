@@ -2,12 +2,15 @@ extends Node
 
 var difficulty := 1
 var story_score := 0.0
-var typing_score := 0.01
-var max_typing_score := 0.01
+var typing_score := 0.0
+var max_typing_score := 0.0
 var last_state := ""
 var active_troops := false
+
 var fast_forward := false
 var debug_mode := false
+var upgamers_mode := false
+var upgamers_max_score := 0
 
 var DOT_LENGTH := 0.1
 var DASH_LENGTH := 0.25

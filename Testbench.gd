@@ -53,22 +53,47 @@ func _on_choice_made(choice: String) -> void:
 	if fucking_dead:
 		return
 	_on_add_space()
+	if GameData.upgamers_mode && current_mode != GAME.END:
+		GameData.milestones = []
+		current_mode = GAME.END
+		_initialize_game()
+		return
 	match current_mode:
 		GAME.END:
 			current_mode = GAME.TITLE
 			_initialize_game()
 		GAME.TITLE:
-			current_mode = GAME.MESSAGES
 			GameData.story_score = 0
 			GameData.typing_score = 0.0
-			GameData.active_troops = GameData.difficulty >= 4
+			GameData.max_typing_score = 0.0
+			GameData.milestones = []
 			player.visible = true
 			pezan.visible = true
 			pezan_mouth.visible = true
 			arm.visible = true
-			soldiers.reset_troops()
-			_initialize_game()
-			(current_game as MessagesGame).set_state("START")
+			if choice == "":
+				current_mode = GAME.MESSAGES
+				GameData.active_troops = GameData.difficulty >= 4
+				soldiers.reset_troops()
+				_initialize_game()
+				(current_game as MessagesGame).set_state("START")
+			else:
+				GameData.upgamers_mode = true
+				GameData.active_troops = false
+				soldiers.reset_troops()
+				if choice == "BUNKER":
+					current_mode = GAME.BUNKER
+					_initialize_game()
+				elif choice == "DOCK":
+					current_mode = GAME.DOCK
+					_initialize_game()
+				elif choice == "SHIP":
+					current_mode = GAME.SHIP
+					_initialize_game()
+				elif choice == "TYPING":
+					current_mode = GAME.MESSAGES
+					_initialize_game()
+					(current_game as MessagesGame).set_state("TYPING_TRIAL")
 		GAME.MESSAGES:
 			match choice:
 				"ESCAPE": current_mode = GAME.BUNKER

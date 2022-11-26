@@ -104,7 +104,7 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	_event_time += delta
-	if _current_input == "" && _event_time > GameData.WAIT_LENGTH && _current_stack != "":
+	if !GameData.debug_mode && _current_input == "" && _event_time > GameData.WAIT_LENGTH && _current_stack != "":
 		emit_signal("send_letter", _current_selection(_current_stack))
 		_current_stack = ""
 	elif _current_input != "":

@@ -117,7 +117,8 @@ func _on_timer(not_again := false) -> void:
 func _process(delta: float) -> void:
 	if _use_clock() && is_timing:
 		clock_time_remaining -= delta
-		ticker.rotation_degrees = 360.0 * (clock_time_remaining / 120.0)
+		var rotation := 360.0 * (clock_time_remaining / 120.0)
+		ticker.rotation_degrees = min(350.0, rotation)
 		if clock_time_remaining <= 0:
 			get_tree().call_group("sound", "play_sound", "error")
 			_on_letter_sent("5")

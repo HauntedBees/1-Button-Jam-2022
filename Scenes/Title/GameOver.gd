@@ -3,8 +3,9 @@ extends GameBase
 
 onready var info_text: RichTextLabel = $"%InfoText"
 
-func _on_letter_sent(_s: String) -> void:
-	emit_signal("choice_made", "")
+func _on_letter_sent(s: String) -> void:
+	if s == "5":
+		emit_signal("choice_made", "")
 
 func _ready() -> void:
 	input_matters = true
@@ -41,7 +42,14 @@ func _ready() -> void:
 		else:
 			messages.append("Then you were killed by an enemy soldier who found you under the floorboards. Don't type so loudly next time!")
 	# Score
-	messages.append("Story Score: %s" % GameData.story_score)
-	messages.append("Typing Accuracy: %.2f%%" % (100.0 * GameData.typing_score / GameData.max_typing_score))
+	if GameData.upgamers_mode:
+		messages.append("Upgamers Score: %s" % GameData.story_score)
+		messages.append("Best Possible Score: %s" % GameData.upgamers_max_score)
+	else:
+		messages.append("Story Score: %s" % GameData.story_score)
+	if GameData.max_typing_score == 0.0:
+		messages.append("Typing Accuracy: N/A")
+	else:
+		messages.append("Typing Accuracy: %.2f%%" % (100.0 * GameData.typing_score / GameData.max_typing_score))
 	messages.append("Morse \"5\" (five dots) to return to the main menu.")
 	info_text.bbcode_text = messages.join("\n")

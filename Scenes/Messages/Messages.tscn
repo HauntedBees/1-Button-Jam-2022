@@ -180,7 +180,7 @@ scroll_active = false
 scroll_following = true
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.05
+wait_time = 0.03
 autostart = true
 
 [node name="PressAdvance" type="Control" parent="."]
