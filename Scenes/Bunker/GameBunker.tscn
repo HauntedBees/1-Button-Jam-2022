@@ -393,4 +393,5 @@ S = Stop/Shoot
 G = Go/Faster"
 scroll_active = false
 
+[connection signal="clear_type" from="ViewportContainer/Viewport/Bunker" to="." method="_on_Bunker_clear_type"]
 [connection signal="troop_died" from="ViewportContainer/Viewport/Bunker" to="." method="_on_Bunker_troop_died"]

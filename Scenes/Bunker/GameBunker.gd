@@ -35,3 +35,6 @@ func _process(_delta: float) -> void:
 func _on_Bunker_troop_died() -> void:
 	input_matters = false
 	print("YYYYOUUU'RE FUKT!")
+
+func _on_Bunker_clear_type() -> void:
+	emit_signal("add_space")

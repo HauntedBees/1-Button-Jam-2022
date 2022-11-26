@@ -2,6 +2,7 @@ class_name Troop
 extends Spatial
 
 signal died()
+signal clear_type()
 
 enum STATE { WALKING, STOPPED, TURNING, DEAD, COVER, KNEEL }
 
@@ -16,7 +17,7 @@ onready var _collider: Area = $Body/TroopCollider
 onready var _tween: Tween = $Tween
 
 var move_speed := 3
-var next_instruction = ""
+var next_instruction := ""
 
 var _curr_state = STATE.WALKING
 var _direction := Vector3(0, 0, -1)
@@ -78,7 +79,7 @@ func _physics_process(delta: float) -> void:
 func _set_state(state) -> void:
 	if _curr_state == state:
 		return
-	var primary := true
+	_troop_anim.flip_h = false
 	match state:
 		STATE.WALKING:
 			_troop_anim.play("Run")
@@ -89,10 +90,8 @@ func _set_state(state) -> void:
 			move_speed = 0.0
 			emit_signal("died")
 		STATE.COVER:
-			primary = false
 			_troop_anim.play("Cover")
 		STATE.KNEEL:
-			primary = false
 			_troop_anim.play("Squat")
 	_curr_state = state
 
@@ -175,12 +174,23 @@ func slow_down() -> void:
 	if _curr_safety_area != null:
 		_last_position = global_transform.origin
 		_set_state(STATE.COVER)
+		_troop_anim.flip_h = _flip_for_safety_area()
 		var next_pos := _curr_safety_area.get_closest_safety_rod_position(global_transform.origin, _direction)
 		next_pos.y = global_transform.origin.y
 		_tween.interpolate_property(self, "translation", global_transform.origin, next_pos, TURN_TIME)
 		_tween.start()
 	else:
 		_set_state(STATE.KNEEL)
+
+func _flip_for_safety_area() -> bool:
+	if _curr_safety_area == null:
+		return false
+	match get_direction_string():
+		"N": return _curr_safety_area.global_transform.origin.x < _last_position.x
+		"E": return _curr_safety_area.global_transform.origin.z > _last_position.z
+		"W": return _curr_safety_area.global_transform.origin.z < _last_position.z
+		"S": return _curr_safety_area.global_transform.origin.x > _last_position.x
+	return false
 
 func speed_up() -> void:
 	if _curr_state == STATE.COVER:
@@ -233,6 +243,7 @@ func _handle_input() -> void:
 		_:
 			_signal_confusion()
 	next_instruction = ""
+	emit_signal("clear_type")
 
 func _signal_confusion() -> void:
 	_huh_anim.play("Huh")

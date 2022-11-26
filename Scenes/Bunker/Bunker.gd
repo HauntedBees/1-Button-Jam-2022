@@ -4,6 +4,7 @@ extends Spatial
 const BULLETHOLE_SCENE: PackedScene = preload("res://Scenes/Bunker/Bullethole.tscn")
 
 signal troop_died()
+signal clear_type()
 var _troop_dead := false
 var _shoot_chance := 0.01
 
@@ -32,10 +33,13 @@ func get_letter(letter: String) -> void:
 	match letter:
 		"U":
 			troop.reverse()
+			emit_signal("clear_type")
 		"G":
 			troop.speed_up()
+			emit_signal("clear_type")
 		"S":
 			troop.slow_down()
+			emit_signal("clear_type")
 		_:
 			troop.next_instruction = letter
 
@@ -57,3 +61,6 @@ func _on_EnemyTroop_shoot() -> void:
 		troop.take_hit()
 	else:
 		_shoot_chance += randf() * 0.05
+
+func _on_Troop_clear_type() -> void:
+	emit_signal("clear_type")
