@@ -187,10 +187,10 @@ func _flip_for_safety_area() -> bool:
 	if _curr_safety_area == null:
 		return false
 	match get_direction_string():
-		"N": return _curr_safety_area.global_transform.origin.x < _last_position.x
+		"N": return _curr_safety_area.global_transform.origin.x > _last_position.x
 		"E": return _curr_safety_area.global_transform.origin.z > _last_position.z
 		"W": return _curr_safety_area.global_transform.origin.z < _last_position.z
-		"S": return _curr_safety_area.global_transform.origin.x > _last_position.x
+		"S": return _curr_safety_area.global_transform.origin.x < _last_position.x
 	return false
 
 func speed_up() -> void:

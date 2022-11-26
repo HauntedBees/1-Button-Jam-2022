@@ -38,7 +38,7 @@ mid_height = 0.75
 radius = 0.75
 
 [sub_resource type="BoxShape" id=45]
-extents = Vector3( 1, 1, 8 )
+extents = Vector3( 4, 1, 8 )
 
 [sub_resource type="CubeMesh" id=46]
 size = Vector3( 2, 2, 0.5 )
@@ -750,6 +750,22 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 14 )
 from_east_dir = 1
 from_south_dir = -1
 
+[node name="AutoTurnArea26" parent="TurnPoints" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, -7.5 )
+from_south_dir = 2
+
+[node name="AutoTurnArea27" parent="TurnPoints" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -7.5 )
+from_south_dir = 2
+
+[node name="AutoTurnArea28" parent="TurnPoints" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -2.5 )
+from_south_dir = 2
+
+[node name="AutoTurnArea29" parent="TurnPoints" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, -2.5 )
+from_south_dir = 2
+
 [node name="AutoTurnArea9" parent="TurnPoints" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 14 )
 from_west_dir = -1
@@ -870,7 +886,7 @@ cull_mask = 1048573
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.532433, 0.350983 )
 frames = ExtResource( 9 )
 animation = "Run"
-frame = 4
+frame = 3
 playing = true
 
 [node name="ShootRangeArea" type="Area" parent="Troop"]
@@ -953,6 +969,20 @@ turn_directions = [ -1 ]
 player_path = NodePath("../../Troop")
 custom_autoturns = true
 
+[node name="EnemyTroop2" parent="Enemies" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.48, 1.288, -2.5 )
+turn_directions = [ -1 ]
+player_path = NodePath("../../Troop")
+direction = Vector3( -1, 0, 0 )
+custom_autoturns = true
+
+[node name="EnemyTroop3" parent="Enemies" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.48, 1.288, 32.5 )
+turn_directions = [ 0, 2, 0, 2 ]
+player_path = NodePath("../../Troop")
+direction = Vector3( -1, 0, 0 )
+custom_autoturns = true
+
 [node name="Bullets" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -974,3 +1004,5 @@ anims/YouHaveDied = SubResource( 44 )
 [connection signal="area_entered" from="Troop/ShootRangeArea" to="Troop" method="_on_ShootRangeArea_area_entered"]
 [connection signal="area_exited" from="Troop/ShootRangeArea" to="Troop" method="_on_ShootRangeArea_area_exited"]
 [connection signal="shoot" from="Enemies/EnemyTroop" to="." method="_on_EnemyTroop_shoot"]
+[connection signal="shoot" from="Enemies/EnemyTroop2" to="." method="_on_EnemyTroop_shoot"]
+[connection signal="shoot" from="Enemies/EnemyTroop3" to="." method="_on_EnemyTroop_shoot"]

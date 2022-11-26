@@ -34,7 +34,7 @@ func _process(_delta: float) -> void:
 	for i in enemy_cursors.size():
 		_set_cursor(enemy_cursors[i], enemies[i])
 		if enemies[i]["dead"]:
-			(enemy_cursors[i] as Sprite).modulate = Color.darkgray
+			(enemy_cursors[i] as Sprite).modulate = Color(0.3, 0.3, 0.3)
 	
 func _set_cursor(cursor:Sprite, info: Dictionary) -> void:
 	var pos: Vector3 = info["pos"]

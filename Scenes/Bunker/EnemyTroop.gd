@@ -51,11 +51,11 @@ func _process(delta: float) -> void:
 		"W":
 			if sprite.animation != "Side":
 				sprite.animation = "Side"
-				sprite.flip_h = false
+			sprite.flip_h = false
 		"E":
 			if sprite.animation != "Side":
 				sprite.animation = "Side"
-				sprite.flip_h = true
+			sprite.flip_h = true
 
 func _is_looking_at_player() -> bool:
 	return _get_relative_dir() == "F"
@@ -150,7 +150,6 @@ func _handle_turn(ta: TurnArea, area_pos: Vector3) -> void:
 func _turn(rotation_dir: int) -> void:
 	var turn_radians := TURN_RADS * rotation_dir
 	direction = direction.rotated(Vector3.UP, turn_radians)
-	var new_dir := Vector3(0, rotation.y + turn_radians, 0)
 
 func _is_player(area: Area) -> bool:
 	return area.get_parent().get_parent() == _player_mesh
