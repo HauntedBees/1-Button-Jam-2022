@@ -59,6 +59,7 @@ func _on_choice_made(choice: String) -> void:
 			_initialize_game()
 		GAME.TITLE:
 			current_mode = GAME.MESSAGES
+			GameData.active_troops = GameData.difficulty >= 4
 			soldiers.reset_troops()
 			_initialize_game()
 			(current_game as MessagesGame).set_state("START")

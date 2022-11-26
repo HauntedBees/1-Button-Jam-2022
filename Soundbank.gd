@@ -5,7 +5,8 @@ const SOUNDS := {
 	"gun": preload("res://Assets/Sound/Gunshot.ogg"),
 	"cannon": preload("res://Assets/Sound/Cannonfire.ogg"),
 	"smash": preload("res://Assets/Sound/Crash.ogg"),
-	"splash": preload("res://Assets/Sound/Splash.ogg")
+	"splash": preload("res://Assets/Sound/Splash.ogg"),
+	"error": preload("res://Assets/Sound/TimeUp.ogg")
 }
 
 onready var banks := [$AudioStreamPlayer, $AudioStreamPlayer2, $AudioStreamPlayer3, $AudioStreamPlayer4, $AudioStreamPlayer5]

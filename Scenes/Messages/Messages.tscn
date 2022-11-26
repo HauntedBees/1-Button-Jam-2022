@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Theme.tres" type="Theme" id=1]
 [ext_resource path="res://Assets/Desk/Paper2.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Main/BubleLeft.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Messages/Messages.gd" type="Script" id=4]
 [ext_resource path="res://SpeechTheme.tres" type="Theme" id=5]
+[ext_resource path="res://Assets/Desk/Ticker.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Desk/PocketWatch.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=3]
 resource_name = "MoveIn"
@@ -49,6 +51,53 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 40.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "FadeIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "FadeOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 
 [node name="Messages" type="Control"]
@@ -161,5 +210,25 @@ unique_name_in_owner = true
 anims/MoveIn = SubResource( 3 )
 anims/MoveOut = SubResource( 1 )
 anims/RESET = SubResource( 2 )
+
+[node name="Clock" type="Sprite" parent="."]
+unique_name_in_owner = true
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 822, 418 )
+scale = Vector2( 0.240881, 0.240881 )
+texture = ExtResource( 7 )
+
+[node name="Ticker" type="Sprite" parent="Clock"]
+unique_name_in_owner = true
+position = Vector2( -24.9085, 12.4544 )
+scale = Vector2( 1.42254, 1.42254 )
+texture = ExtResource( 6 )
+offset = Vector2( 0, -40 )
+
+[node name="ClockAnim" type="AnimationPlayer" parent="Clock"]
+unique_name_in_owner = true
+anims/FadeIn = SubResource( 4 )
+anims/FadeOut = SubResource( 5 )
+anims/RESET = SubResource( 6 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer"]

@@ -46,7 +46,10 @@ var messages := {
 	"GREETED": MessageData.new("Okay, let's see what they say... .... .... .... .... .... .... Looks like we're talking to Jorent, Bezatong, and Bangord. Let's get a status message from them, send \"STATUS 5.\"", [
 		InputData.new("STATUS", 0.0, "", "", InputData.SPECIAL.DIFFICULTY_BRANCH, {
 			1: "LV1_MISSION1",
-			2: "LV2_MISSION1"
+			2: "LV2_MISSION1",
+			3: "LV2_MISSION1",
+			4: "LV1_MISSION1", # these difficulties start off with troops
+			5: "LV1_MISSION1"
 		})
 	]),
 	
@@ -57,11 +60,22 @@ var messages := {
 		InputData.new("", 0.0, "LV1_UH_OH")
 	]),
 	"LV1_MISSION1_SUCCESS": MessageData.new("%s? %s %s? Wow... I never would have expected %s to be a spy... Well, it looks like we'll put a stop to that now, at least.", [
-		InputData.new("", 0.0, "LV1_UH_OH", "", InputData.SPECIAL.START_TROOPS)
-	]),
-	"LV1_UH_OH": MessageData.new("Uh-oh! I think someone is upstairs. We'll need to be very quiet now... be careful when typing, pause often if you can to not attract their attention...", [
 		InputData.new("", 0.0, "LV1_NEXT")
 	]),
+	
+	"LV2_MISSION1": MessageData.new(".... .... .... They suspect someone in the northern bloc is a spy; somebody is sneaking out towards the docks at night to talk to police officers. We have access to a camera near those docks. Let's keep an eye on them; let's switch to the dock camera and try to figure out who it is. Pay attention to their movements and body shape to figure out who it is, then type their name!", [
+		InputData.new("", 0.0, "", "", InputData.SPECIAL.SWITCH_MISSION, { "type": "DOCK" })
+	]),
+	"LV2_MISSION1_FAIL": MessageData.new("Well, that doesn't help us... I guess whoever that was will get away scot-free.", [
+		InputData.new("", 0.0, "LV2_UH_OH")
+	]),
+	"LV2_MISSION1_SUCCESS": MessageData.new("%s? %s %s? Wow... I never would have expected %s to be a spy... Well, it looks like we'll put a stop to that now, at least.", [
+		InputData.new("", 0.0, "LV2_UH_OH", "", InputData.SPECIAL.START_TROOPS)
+	]),
+	"LV2_UH_OH": MessageData.new("Uh-oh! I think someone is upstairs. We'll need to be very quiet now... be careful when typing, pause often if you can to not attract their attention...", [
+		InputData.new("", 0.0, "LV1_NEXT")
+	]),
+		
 	"LV1_NEXT": MessageData.new("We need to find out how else we can help. Send out a \"WAITING5\" and let's see what we get in response.", [
 		InputData.new("WAITING", 0.6, "LV1_WAITINGRESPONSE", "LV1_NEXTFAIL")
 	]),

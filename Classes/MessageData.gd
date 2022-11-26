@@ -12,6 +12,9 @@ func _init(m: String, c: Array, fs := "") -> void:
 func is_quick_advance() -> bool:
 	return choices.size() == 1 && (choices[0] as InputData).input == ""
 
+func word_length() -> int:
+	return (choices[0] as InputData).input.length()
+
 func evaluate(input: String) -> MessageResponse:
 	var fail := ""
 	for c in choices:
