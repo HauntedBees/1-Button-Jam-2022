@@ -11,16 +11,32 @@ var _shoot_chance := 0.01
 onready var bullet_hud: Control = $Bullets
 onready var die_anim: AnimationPlayer = $"%DieAnim"
 onready var troop: Troop = $"%Troop"
+onready var enemy_container: Spatial = $Enemies
 onready var starting_points := [
 	$StartingPoints/Spot1,
 	$StartingPoints/Spot2
 ]
+var _enemies := []
+func _ready() -> void:
+	for e in enemy_container.get_children():
+		_enemies.append(e)
 
 func get_troop_info() -> Dictionary:
 	return {
 		"pos": troop.global_transform.origin,
 		"dir": troop.get_direction()
 	}
+
+func get_enemy_info() -> Array:
+	var es := []
+	for ee in _enemies:
+		var e: EnemyTroop = ee
+		es.append({
+			"pos": e.global_transform.origin,
+			"dir": e.direction,
+			"dead": !e.is_alive()
+		})
+	return es
 
 func set_troop_pos(idx: int) -> void:
 	var starting_point: Spatial = starting_points[idx]

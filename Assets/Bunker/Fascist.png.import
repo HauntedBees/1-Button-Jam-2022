@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/EnemyRun.png-d6c293e6ea6887a3b42795a7f321c470.s3tc.stex"
-path.etc2="res://.import/EnemyRun.png-d6c293e6ea6887a3b42795a7f321c470.etc2.stex"
+path.s3tc="res://.import/Fascist.png-20e1849342c38c033a081a292c398c71.s3tc.stex"
+path.etc2="res://.import/Fascist.png-20e1849342c38c033a081a292c398c71.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Bunker/EnemyRun.png"
-dest_files=[ "res://.import/EnemyRun.png-d6c293e6ea6887a3b42795a7f321c470.s3tc.stex", "res://.import/EnemyRun.png-d6c293e6ea6887a3b42795a7f321c470.etc2.stex" ]
+source_file="res://Assets/Bunker/Fascist.png"
+dest_files=[ "res://.import/Fascist.png-20e1849342c38c033a081a292c398c71.s3tc.stex", "res://.import/Fascist.png-20e1849342c38c033a081a292c398c71.etc2.stex" ]
 
 [params]
 

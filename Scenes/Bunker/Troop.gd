@@ -63,6 +63,7 @@ func _process(delta: float) -> void:
 					_troop_anim.play("SquatShoot")
 				else:
 					_troop_anim.play("CoverShoot")
+				_troop_anim.frame = 0
 				yield(get_tree().create_timer(0.25), "timeout")
 				is_shooting = false
 				for t in _targets:
