@@ -39,7 +39,7 @@ var is_shooting := false
 func _ready() -> void:
 	randomize()
 	health = 6 - GameData.difficulty
-	hit_chance = 0.7 - GameData.difficulty * 0.1
+	hit_chance = 0.7 - GameData.difficulty * 0.075
 
 func take_hit() -> void:
 	health -= 1

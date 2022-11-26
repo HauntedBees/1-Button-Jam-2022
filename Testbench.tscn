@@ -185,7 +185,7 @@ visible = false
 position = Vector2( 154.625, 585.845 )
 scale = Vector2( 0.587931, 0.587931 )
 frames = SubResource( 5 )
-frame = 2
+frame = 1
 playing = true
 flip_h = true
 
@@ -194,7 +194,6 @@ unique_name_in_owner = true
 position = Vector2( 96, 637 )
 scale = Vector2( 0.918347, 0.918347 )
 frames = SubResource( 8 )
-frame = 1
 playing = true
 
 [node name="PezanMouth" type="AnimatedSprite" parent="Room"]

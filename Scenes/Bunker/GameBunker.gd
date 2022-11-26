@@ -19,9 +19,7 @@ func _ready() -> void:
 		cursor_holder.add_child(s)
 		_set_cursor(s, e)
 		enemy_cursors.append(s)
-
-func additional_setup(i: int) -> void:
-	bunker.set_troop_pos(i - 1)
+	bunker.set_troop_pos(GameData.difficulty - 1)
 
 func _on_letter_sent(s: String) -> void:
 	bunker.get_letter(s)

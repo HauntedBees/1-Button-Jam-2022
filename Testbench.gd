@@ -25,7 +25,7 @@ onready var game_holder: Control = $"%GameHolder"
 onready var current_game: GameBase = $Table/GameHolder/Messages
 onready var soldiers = $Room/Background/SoldierArea
 
-var current_mode = GAME.TITLE#GAME.TITLE#GAME.END#GAME.MESSAGES#GAME.TITLE#
+var current_mode = GAME.TITLE
 var current_message := ""
 var fucking_dead := false
 
@@ -59,20 +59,23 @@ func _on_choice_made(choice: String) -> void:
 			_initialize_game()
 		GAME.TITLE:
 			current_mode = GAME.MESSAGES
+			GameData.story_score = 0
+			GameData.typing_score = 0.0
 			GameData.active_troops = GameData.difficulty >= 4
+			player.visible = true
+			pezan.visible = true
+			pezan_mouth.visible = true
+			arm.visible = true
 			soldiers.reset_troops()
 			_initialize_game()
 			(current_game as MessagesGame).set_state("START")
 		GAME.MESSAGES:
-			if choice.find("ESCAPE") == 0:
-				current_mode = GAME.BUNKER
-				_initialize_game(int(choice.replace("ESCAPE", "")))
-			else:
-				match choice:
-					"DOCK": current_mode = GAME.DOCK
-					"SHIP": current_mode = GAME.SHIP
-					"END": current_mode = GAME.END
-				_initialize_game()
+			match choice:
+				"ESCAPE": current_mode = GAME.BUNKER
+				"DOCK": current_mode = GAME.DOCK
+				"SHIP": current_mode = GAME.SHIP
+				"END": current_mode = GAME.END
+			_initialize_game()
 		GAME.BUNKER:
 			current_mode = GAME.MESSAGES
 			_initialize_game()

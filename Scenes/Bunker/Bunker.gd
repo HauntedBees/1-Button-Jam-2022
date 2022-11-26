@@ -15,8 +15,11 @@ onready var die_anim: AnimationPlayer = $"%DieAnim"
 onready var troop: Troop = $"%Troop"
 onready var enemy_container: Spatial = $Enemies
 onready var starting_points := [
-	$StartingPoints/Spot1,
-	$StartingPoints/Spot2
+	$StartingPoints/Spot1and2,
+	$StartingPoints/Spot1and2,
+	$StartingPoints/Spot3,
+	$StartingPoints/Spot4,
+	$StartingPoints/Spot5
 ]
 var _enemies := []
 func _ready() -> void:
