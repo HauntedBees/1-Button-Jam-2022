@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/Title/Flag.png" type="Texture" id=1]
 [ext_resource path="res://Theme.tres" type="Theme" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Assets/Desk/Paper1.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Title/TitleScreen.gd" type="Script" id=5]
 [ext_resource path="res://Assets/Desk/Paper2.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Logo.png" type="Texture" id=7]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 3, 2 )
@@ -92,6 +93,7 @@ directional_shadow_mode = 0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
 
 [node name="Title" type="RichTextLabel" parent="."]
+visible = false
 margin_left = -13.0
 margin_top = 11.0
 margin_right = 493.0
@@ -106,17 +108,16 @@ text = "Morse Morse
 Revolution"
 scroll_active = false
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 848, 342 )
+[node name="Logo2" type="Sprite" parent="."]
+position = Vector2( 849.784, 342 )
 rotation = -3.14159
-scale = Vector2( 0.7, 0.7 )
+scale = Vector2( 0.696951, 0.7 )
 texture = ExtResource( 4 )
 
 [node name="InfoText" type="RichTextLabel" parent="."]
-visible = false
-margin_left = 501.0
+margin_left = 496.0
 margin_top = 23.0
-margin_right = 904.0
+margin_right = 899.0
 margin_bottom = 707.0
 theme = ExtResource( 2 )
 bbcode_enabled = true
@@ -145,6 +146,7 @@ Type FF to toggle faster text in-game."
 scroll_active = false
 
 [node name="UpgamerText" type="RichTextLabel" parent="."]
+visible = false
 margin_left = 501.0
 margin_top = 23.0
 margin_right = 904.0
@@ -224,18 +226,23 @@ anchor_bottom = 1.0
 color = Color( 0.294118, 0.945098, 0, 0.458824 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 123, 318 )
+position = Vector2( 123, 176 )
 scale = Vector2( 0.306931, 0.259625 )
 texture = ExtResource( 6 )
 offset = Vector2( 345.355, -367.477 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_left = 25.0
-margin_top = 171.0
+margin_left = 25.0001
+margin_top = 29.0
 margin_right = 459.0
-margin_bottom = 274.0
+margin_bottom = 132.0
 theme = ExtResource( 2 )
 bbcode_enabled = true
 bbcode_text = "A game by [url=https://hauntedbees.com]Haunted Bees Productions[/url] for the [url=https://itch.io/jam/1-button-jam-2022]2022 1-Button Game Jam[/url]."
 text = "A game by Haunted Bees Productions for the 2022 1-Button Game Jam."
 scroll_active = false
+
+[node name="Logo" type="Sprite" parent="."]
+position = Vector2( 234, 293 )
+scale = Vector2( 0.531513, 0.531513 )
+texture = ExtResource( 7 )

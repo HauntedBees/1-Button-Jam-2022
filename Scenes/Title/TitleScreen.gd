@@ -72,6 +72,7 @@ func _on_letter_sent(s: String) -> void:
 				GameData.upgamers_max_score = 120
 				emit_signal("choice_made", "TYPING")
 			"Q":
+				_current_input = ""
 				_switch_state(0)
 			_:
 				_current_input = ""

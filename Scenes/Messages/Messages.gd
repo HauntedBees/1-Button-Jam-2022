@@ -94,9 +94,9 @@ func _on_timer(not_again := false) -> void:
 			clock_anim.play("FadeIn")
 			var wlen: int = MessageInfo.messages[_current_idx].word_length()
 			match GameData.difficulty:
-				3: clock_time_remaining = 15.0 * wlen
-				4: clock_time_remaining = 10.0 * wlen
-				5: clock_time_remaining = 5.0 * wlen
+				3: clock_time_remaining = 20.0 * wlen
+				4: clock_time_remaining = 15.0 * wlen
+				5: clock_time_remaining = 10.0 * wlen
 			ticker.rotation_degrees = 360.0 * (clock_time_remaining / 120.0)
 			is_timing = true
 	elif _current_message[_current_letters] == " ": # end of word
