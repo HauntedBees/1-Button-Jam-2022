@@ -886,7 +886,7 @@ cull_mask = 1048573
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.532433, 0.350983 )
 frames = ExtResource( 9 )
 animation = "Run"
-frame = 1
+frame = 3
 playing = true
 
 [node name="ShootRangeArea" type="Area" parent="Troop"]
@@ -965,6 +965,7 @@ offset = -2.0
 
 [node name="EnemyTroop" parent="Enemies" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5199, 1.28757, -5.9855 )
+min_difficulty = 2
 turn_directions = [ -1 ]
 player_path = NodePath("../../Troop")
 custom_autoturns = true

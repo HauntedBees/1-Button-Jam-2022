@@ -4,9 +4,10 @@ const GAMES := {
 	"BUNKER": preload("res://Scenes/Bunker/GameBunker.tscn"),
 	"DOCK": preload("res://Scenes/Lineup/GameDock.tscn"),
 	"MESSAGES": preload("res://Scenes/Messages/Messages.tscn"),
-	"SHIP": preload("res://Scenes/Ship/GameShip.tscn")
+	"SHIP": preload("res://Scenes/Ship/GameShip.tscn"),
+	"TITLE": preload("res://Scenes/Title/TitleScreen.tscn")
 }
-enum GAME { BUNKER, MESSAGES, DOCK, SHIP }
+enum GAME { BUNKER, MESSAGES, DOCK, SHIP, TITLE }
 
 const LABEL_FORMAT_STRING := "[right]%s[/right]"
 const INVALID_FORMAT_STRING := "[color=#666666]%s[/color]"
@@ -18,7 +19,7 @@ onready var parser: MorseParser = $MorseParser
 onready var game_holder: Control = $"%GameHolder"
 onready var current_game: GameBase = $Table/GameHolder/Messages
 
-var current_mode = GAME.MESSAGES
+var current_mode = GAME.TITLE#GAME.MESSAGES
 var current_message := ""
 
 func _ready() -> void:
@@ -36,10 +37,18 @@ func _initialize_game(addtl_info := 0) -> void:
 	parser.connect("send_letter", current_game, "_on_letter_sent")
 	current_game.connect("add_space", self, "_on_add_space")
 	current_game.connect("choice_made", self, "_on_choice_made")
+	if current_mode == GAME.TITLE:
+		parser.connect("press", current_game, "_on_press")
+		parser.connect("press_key", current_game, "_on_press_key")
+		parser.connect("release", current_game, "_on_release")
 
 func _on_choice_made(choice: String) -> void:
 	_on_add_space()
 	match current_mode:
+		GAME.TITLE:
+			current_mode = GAME.MESSAGES
+			_initialize_game()
+			(current_game as MessagesGame).set_state("START")
 		GAME.MESSAGES:
 			if choice.find("ESCAPE") == 0:
 				current_mode = GAME.BUNKER

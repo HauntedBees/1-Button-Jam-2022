@@ -4,6 +4,7 @@ extends Node
 signal new_part(s)
 signal send_letter(s)
 signal press()
+signal press_key(s)
 signal hold(delta)
 signal release()
 
@@ -49,16 +50,24 @@ const MORSE := {
 	"-----": "0",
 }
 
-export(float) var pause_threshold := 0.75 # how long until a silence is interpreted as a space
-export(float) var dash_threshold := 0.25 # how long until a press changes from a dot to a dash
-
 var _current_stack := "" # current ordering of dots and dashes
 var _current_input := "" # the key or button currently being pressed, if any
 var _event_time := 0.0 # how long the current input has been held down, or how long nothing has been held for
 
+func _get_input_string(event: InputEvent) -> String:
+	if event is InputEventKey:
+		return "Key_%s" % (event as InputEventKey).scancode
+	elif event is InputEventJoypadButton:
+		return "Button_%s" % (event as InputEventJoypadButton).button_index
+	elif event is InputEventMouseButton:
+		return "Mouse_%s" % (event as InputEventMouseButton).button_index
+	return ""
+
 func _input(event: InputEvent) -> void:
 	# mouse, keyboard, and gamepad only
 	if !(event is InputEventMouseButton || event is InputEventKey || event is InputEventJoypadButton):
+		return
+	if GameData.PRESS_INPUT != "" && _get_input_string(event) != GameData.PRESS_INPUT:
 		return
 	if event.is_pressed():
 		# another input is aleady pressed, ignore this
@@ -67,6 +76,7 @@ func _input(event: InputEvent) -> void:
 		_event_time = 0.0
 		_current_input = _get_input_key(event)
 		emit_signal("press")
+		emit_signal("press_key", _get_input_string(event))
 		var next := _current_stack + "."
 		emit_signal("current_val", next)
 		emit_signal("current_val_string", _current_selection(next))
@@ -77,7 +87,7 @@ func _input(event: InputEvent) -> void:
 		# releasing some secondary input, ignore this
 		if _current_input != key:
 			return
-		if _event_time >= dash_threshold:
+		if _event_time >= GameData.DASH_LENGTH:
 			_current_stack += "-"
 		else:
 			_current_stack += "."
@@ -88,12 +98,12 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	_event_time += delta
-	if _current_input == "" && _event_time > pause_threshold && _current_stack != "":
+	if _current_input == "" && _event_time > GameData.WAIT_LENGTH && _current_stack != "":
 		emit_signal("send_letter", _current_selection(_current_stack))
 		_current_stack = ""
 	elif _current_input != "":
 		var next := _current_stack
-		if _event_time > dash_threshold:
+		if _event_time > GameData.DASH_LENGTH:
 			next += "-"
 		else:
 			next += "."

@@ -4,6 +4,7 @@ extends Spatial
 signal shoot()
 enum STATE { WALKING, DEAD, SIGHTED }
 
+export(int) var min_difficulty := 1
 export(Array, int) var turn_directions := [] #-1 left #1 right 0 straight
 export(NodePath) var player_path: NodePath
 export(Vector3) var direction := Vector3(1, 0, 0)

@@ -8,6 +8,11 @@ var active_troops := true
 
 var milestones := []
 
+var DOT_LENGTH := 0.1
+var DASH_LENGTH := 0.25
+var WAIT_LENGTH := 0.5
+var PRESS_INPUT := ""
+
 # Dock
 #  FOUND_SPY
 #  INNOCENT_KILL

@@ -19,7 +19,11 @@ onready var starting_points := [
 var _enemies := []
 func _ready() -> void:
 	for e in enemy_container.get_children():
-		_enemies.append(e)
+		if GameData.difficulty < (e as EnemyTroop).min_difficulty:
+			enemy_container.remove_child(e)
+			e.queue_free()
+		else:
+			_enemies.append(e)
 
 func get_troop_info() -> Dictionary:
 	return {
