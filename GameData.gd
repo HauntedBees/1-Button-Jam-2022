@@ -5,14 +5,14 @@ var story_score := 0.0
 var typing_score := 0.01
 var max_typing_score := 0.01
 var last_state := ""
-var active_troops := true
+var active_troops := false
 
 var DOT_LENGTH := 0.1
 var DASH_LENGTH := 0.25
 var WAIT_LENGTH := 0.5
 var PRESS_INPUT := ""
 
-var milestones := ["INNOCENT_KILL", "SOS_IGNORED", "ESCAPE_OVERKILL", "MAIN_DIED"]
+var milestones := []#["INNOCENT_KILL", "SOS_IGNORED", "ESCAPE_OVERKILL", "MAIN_DIED"]
 
 # Dock
 #  FOUND_SPY

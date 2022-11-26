@@ -13,15 +13,19 @@ enum GAME { BUNKER, MESSAGES, DOCK, SHIP, TITLE, END }
 const LABEL_FORMAT_STRING := "[right]%s[/right]"
 const INVALID_FORMAT_STRING := "[color=#666666]%s[/color]"
 
+onready var player: Sprite = $"%Player"
 onready var arm: Sprite = $"%PlayerArm"
 onready var label: RichTextLabel = $"%PlayerType"
 
+onready var last_soldier: AnimatedSprite = $"%SoldierLast"
 onready var parser: MorseParser = $MorseParser
 onready var game_holder: Control = $"%GameHolder"
 onready var current_game: GameBase = $Table/GameHolder/Messages
+onready var soldiers = $Room/Background/SoldierArea
 
-var current_mode = GAME.END#GAME.MESSAGES#GAME.TITLE#
+var current_mode = GAME.TITLE#GAME.END#GAME.MESSAGES#GAME.TITLE#
 var current_message := ""
+var fucking_dead := false
 
 func _ready() -> void:
 	_initialize_game()
@@ -44,6 +48,8 @@ func _initialize_game(addtl_info := 0) -> void:
 		parser.connect("release", current_game, "_on_release")
 
 func _on_choice_made(choice: String) -> void:
+	if fucking_dead:
+		return
 	_on_add_space()
 	match current_mode:
 		GAME.END:
@@ -51,6 +57,7 @@ func _on_choice_made(choice: String) -> void:
 			_initialize_game()
 		GAME.TITLE:
 			current_mode = GAME.MESSAGES
+			soldiers.reset_troops()
 			_initialize_game()
 			(current_game as MessagesGame).set_state("START")
 		GAME.MESSAGES:
@@ -112,3 +119,17 @@ func _on_Node_press() -> void:
 
 func _on_Node_release() -> void:
 	arm.rotation_degrees = 0
+
+func _on_SoldierArea_caught() -> void:
+	last_soldier.visible = true
+	# TODO: make your friend shit his drawers
+	current_game.input_matters = false
+	GameData.milestones.append("MAIN_DIED")
+	fucking_dead = true
+	yield(get_tree().create_timer(2.0), "timeout")
+	last_soldier.visible = false
+	player.visible = false
+	arm.visible = false
+	fucking_dead = false
+	current_mode = GAME.END
+	_initialize_game()

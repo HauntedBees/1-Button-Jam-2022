@@ -1,4 +1,7 @@
+class_name SoldierArea
 extends Sprite
+
+signal caught()
 
 enum SOLDIER_STATE { PASSIVE, AWARE, PEEKING, FOUND }
 
@@ -18,12 +21,21 @@ func _ready() -> void:
 	randomize()
 	_start_troops()
 
-func _start_troops():
+func reset_troops() -> void:
+	_sound_amount = 0.0
+	_last_sound_time = 0.0
+	_peek_sound_count = 0.0
+	_shift_time = 0.0
+	_start_troops()
+
+func _start_troops() -> void:
 	_shift_time = 10.0 + randf() * 20.0
 	look_soldier.visible = false
 	for i in soldiers:
 		i.visible = false
 	_current_soldier = randi() % soldiers.size()
+	if !GameData.active_troops:
+		return
 	_get_soldier().visible = true
 
 func _on_MorseParser_press() -> void:
@@ -53,7 +65,10 @@ func _process(delta: float) -> void:
 		_sound_amount = max(0, _sound_amount - delta)
 	
 	if _soldier_state == SOLDIER_STATE.PEEKING && _peek_sound_count > 3:
-		print("YOU GOT FUCKED")
+		GameData.active_troops = false
+		look_soldier.visible = false
+		emit_signal("caught")
+		return
 	if _sound_amount > _get_max_sound():
 		if _soldier_state != SOLDIER_STATE.PEEKING:
 			_soldier_state = SOLDIER_STATE.PEEKING

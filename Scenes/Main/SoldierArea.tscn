@@ -212,5 +212,4 @@ position = Vector2( -29.3227, 218.29 )
 scale = Vector2( 1.4582, 1.4582 )
 frames = SubResource( 25 )
 animation = "Passive"
-frame = 1
 playing = true

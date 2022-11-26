@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://MorseParser.gd" type="Script" id=1]
 [ext_resource path="res://Testbench.gd" type="Script" id=2]
@@ -13,6 +13,35 @@
 [ext_resource path="res://Assets/Desk/wood-rotten.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/Main/Buble.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Assets/Main/PrintInfo.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Bunker/Fascist.png" type="Texture" id=14]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 23
+atlas = ExtResource( 14 )
+region = Rect2( 290, 0, 145, 260 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 23
+atlas = ExtResource( 14 )
+region = Rect2( 290, 260, 145, 260 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 23
+atlas = ExtResource( 14 )
+region = Rect2( 290, 520, 145, 260 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 23
+atlas = ExtResource( 14 )
+region = Rect2( 290, 780, 145, 260 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Testbench" type="Control"]
 anchor_right = 1.0
@@ -80,6 +109,7 @@ margin_bottom = 400.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Player" type="Sprite" parent="Room"]
+unique_name_in_owner = true
 position = Vector2( 300, 628 )
 texture = ExtResource( 3 )
 
@@ -88,6 +118,15 @@ unique_name_in_owner = true
 position = Vector2( 239, 611 )
 texture = ExtResource( 4 )
 centered = false
+
+[node name="SoldierLast" type="AnimatedSprite" parent="Room"]
+unique_name_in_owner = true
+visible = false
+position = Vector2( 154.625, 585.845 )
+scale = Vector2( 0.587931, 0.587931 )
+frames = SubResource( 5 )
+playing = true
+flip_h = true
 
 [node name="Table" type="Control" parent="."]
 anchor_left = 1.0
@@ -158,3 +197,4 @@ margin_bottom = 488.0
 [connection signal="send_letter" from="MorseParser" to="." method="_on_Node_send_letter"]
 [connection signal="send_letter" from="MorseParser" to="Table/MorseChart" method="hide_all"]
 [connection signal="send_letter" from="MorseParser" to="Buble" method="_on_MorseParser_send_letter"]
+[connection signal="caught" from="Room/Background/SoldierArea" to="." method="_on_SoldierArea_caught"]

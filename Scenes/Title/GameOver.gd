@@ -36,7 +36,10 @@ func _ready() -> void:
 		messages.append("You guided your friend Jast Kongueo out of an enemy camp and helped him kill every last fascist in there. No survivors means they'll never know what happened, but among your circles, you and Kongueo are now legends.")
 	# General
 	if GameData.milestones.has("MAIN_DIED"):
-		messages.append("Then you were killed by an enemy soldier who found you under the floorboards. Don't type so loudly next time!")
+		if GameData.milestones.size() == 1:
+			messages = ["You were killed pretty much immediately by an enemy soldier who found you under the floorboards. Keep an eye on the soldier when you're typing and make sure to pause when he's getting suspicious! Or start on a lower difficulty next time."]
+		else:
+			messages.append("Then you were killed by an enemy soldier who found you under the floorboards. Don't type so loudly next time!")
 	# Score
 	messages.append("Story Score: %s" % GameData.story_score)
 	messages.append("Typing Accuracy: %.2f%%" % (100.0 * GameData.typing_score / GameData.max_typing_score))
